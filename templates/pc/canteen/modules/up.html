@@ -1,0 +1,82 @@
+
+        <form display= "none" class= "form-horizontal" role= "form" enctype= "multipart/form-data" method= "post" action="/up">
+            <div class= "form-group">
+                <div class= "col-sm-7">
+                    <input type="hidden" class= "form-control" name= "day"  value= "">
+                </div>
+            </div>
+            <div class= "form-group ">
+                <div class= "col-sm-7 ">
+                    <input type="hidden" class= "form-control" name= "_xsrf"  value="">
+                </div>
+            </div>
+            <div class= "form-group ">
+                <label for= "dish_name" class= "col-sm-3 control-label ">菜名</label>
+                <div class= "col-sm-7 ">
+                    <input type="text" class="form-control" name="dish_name" placeholder="请输入名字 ">
+
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "material" class= "col-sm-3 control-label ">食材</label>
+                <div class= "col-sm-7">
+                    <input type= "text" class= "form-control" name= "dish_material" placeholder="请输入食材 ">
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "unit" class= "col-sm-3 control-label ">单位</label>
+                <div class= "col-sm-7">
+                <select name="dish_unit">
+                    <option value ="份">份</option>
+                    <option value ="斤">斤</option>
+                    <option value ="两">两</option>
+                    <option value ="只">只</option>
+                    <option value ="个">个</option>
+                    <option value ="碗">碗</option>
+                </select>
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "price" class= "col-sm-3 control-label ">价格</label>
+                <div class= "col-sm-7">
+                    <input type= "number" class= "form-control" name= "dish_price" placeholder="请输入价格 ">
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "picture" class= "col-sm-3 control-label ">图片</label>
+                <div class= "col-sm-7 ">
+                    <input type="file" onchange="showPreview(this)"  name="file" />
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for="choice" class= "col-sm-3 control-label">是否可预订</label>
+                <div  class= "col-sm-7 ">
+                    <label class="radio-inline ">
+                        <input type="radio" name="dish_order" id="optionsRadios3" value="0" checked>可以预订
+                    </label>
+                    <label class="radio-inline ">
+                        <input type="radio" name="dish_order" id="optionsRadios4" value="0" value="option2">不可以预订
+                    </label>
+                </div>
+            </div>
+
+            <div class= "form-group">
+                <label for="food" class= "col-sm-3 control-label">餐食</label>
+                <div  class= "col-sm-7 ">
+                    <label class="radio-inline">
+                        <input type="radio" name="dish_order" value="16" checked>早餐
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="dish_order"  value="256" value="option2">午餐
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="dish_order"  value="4096" value="option3">晚餐
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10 ">
+                    <input type="submit" class= "btn btn-default ">
+                </div>
+            </div>
+        </form>

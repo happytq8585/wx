@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/{{device}}/bootstrap.css">
+    <link rel="stylesheet" href="css/{{device}}/default.css">
+    <link rel="stylesheet" href="css/{{device}}/Employeelists.css">
+
+    <script src="js/{{device}}/jquery-1.12.1.js"></script>
+    <script src="js/{{device}}/bootstrap.min.js"></script>
+    <script src="js/{{device}}/default.js"></script>
+    <script src="js/{{device}}/Employeelists.js"></script>
+</head>
+<body>
+{% include "../navhead.html" %}
+<div class="Employeelists">
+    <h4>员工列表</h4>
+    <div class="EmployeelistsBox">
+        <button class="btn btn-default addEmployeelist" onclick="openedit(this, 0)" type="submit">添加用户</button>
+        <table id="table" class="table1"  cellspacing="0">
+            <tr>
+                <th>用户名</th>
+                <th>昵称</th>
+                <th>办公电话</th>
+                <th>移动电话</th>
+                <th>密码</th>
+                <th>角色</th>
+                <th>操作</th>
+            </tr>
+            {% for e in users %}
+            <tr>
+                <td>{{e['real_name']}}</td>
+                <td>{{e['nick_name']}}</td>
+                <td>{{e['office_phone']}}</td>
+                <td>{{e['mobile_phone']}}</td>
+                <td>{{e['password']}}</td>
+                <td>{{e['role']}}</td>
+                <td>
+                    <button onclick="openedit(this, {{e['id']}})">修改</button>
+                    <button onclick="ondelete(this, {{e['id']}})">删除</button>
+                </td>
+            </tr>
+            {% end %}
+        </table>
+    </div>
+</div>
+<div class="Sure">
+    <div class="SureBox">
+        <p> 确认删除该用户？ </p>
+        <div>
+            <span class="SureBtn" onclick="suredelete()" >确定</span>
+            <span class="SureBtn" onclick="surecancel()" >取消</span>
+        </div>
+
+    </div>
+</div>
+
+<div class="Edituser">
+    <div class="EdituserBox">
+        <div class="EdituserBoxTop">
+            <span>编辑用户</span>
+            <img onclick="closeedit()" src="img/close.png" alt="">
+        </div>
+        <form display= "none" class= "form-horizontal" role= "form" enctype= "multipart/form-data" method= "post" action="/personal?action=adduser">
+            <div class= "form-group " hidden="hidden">
+                <label for= "user_id" class= "col-sm-3 control-label ">userid</label>
+                <div class= "col-sm-8 ">
+                    <input type="text" class="form-control" name="user_id" value="">
+                </div>
+            </div>
+            <div class= "form-group " hidden="hidden">
+                <label for= "xsrf" class= "col-sm-3 control-label ">xsrf</label>
+                <div class= "col-sm-8 ">
+                    <input type="text" class="form-control" name="_xsrf" value="">
+                </div>
+            </div>
+            <div class= "form-group ">
+                <label for= "real_name" class= "col-sm-3 control-label ">用户名</label>
+                <div class= "col-sm-8 ">
+                    <input type= "text " class= "form-control " name= "real_name">
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "nick_name" class= "col-sm-3 control-label ">昵称</label>
+                <div class= "col-sm-8">
+                    <input type= "text" class= "form-control" name= "nick_name">
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "office_phone" class= "col-sm-3 control-label ">办公电话</label>
+                <div class= "col-sm-8">
+                    <input type= "number" class= "form-control" name= "office_phone" >
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "mobile_phone" class= "col-sm-3 control-label ">移动电话</label>
+                <div class= "col-sm-8">
+                    <input type="number" class="form-control" name="mobile_phone">
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "password" class= "col-sm-3 control-label ">密码</label>
+                <div class= "col-sm-8">
+                    <input type= "text" class= "form-control" name= "password">
+                </div>
+            </div>
+            <div class= "form-group">
+                <label for= "role" class= "col-sm-3 control-label ">角色</label>
+                <div class= "col-sm-8">
+                    <select name='role'>
+                        <option value="{{head['conf'].canteen_admin_role}}">餐厅管理员</option>
+                        <option value="{{head['conf'].common_member_role}}">行员</option>
+                        <option value="{{head['conf'].other_role}}">其他</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="text-align: center">
+                    <input type="submit" class= "btn btn-default ">
+                    <input type="button" onclick="closeedit()" class= "btn btn-default " value="取消">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

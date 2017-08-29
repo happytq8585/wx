@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/{{device}}/bootstrap.css">
+    <link rel="stylesheet" href="css/{{device}}/default.css">
+    <link rel="stylesheet" href="css/{{device}}/canteen.css">
+    <link rel="stylesheet" href="css/{{device}}/calendar.css">
+    <link rel="stylesheet" href="css/{{device}}/shijian.css">
+</head>
+
+<body>
+{% include "../navhead.html" %}
+<div class="BigBox Canteen">
+    <h3> </h3>
+    <div class="canteenLeft left">
+    </div>
+    <div class="canteenRight right">
+        <div id="calendar" class="calendar"></div>
+    </div>
+    <div class="clear"></div>
+    {% if role == conf.canteen_admin_role %}
+    <div class="uplistBox">
+        {% include "modules/up.html" %}
+        <div class="upimg">
+            <img id="portrait" src="img/noimg.jpg" alt="">
+        </div>
+    </div>
+    {% end %}
+</div>
+
+{% include "../order_canteen.html" %}
+</body>
+<script src="js/{{device}}/jquery-1.12.1.js"></script>
+<script src="js/{{device}}/bootstrap.min.js"></script>
+<script src="js/{{device}}/calendar.js"></script>
+<script src="js/{{device}}/canteen.js"></script>
+<script src="js/{{device}}/default.js"></script>
+<script src="js/{{device}}/jquer_shijian.js"></script>
+</html>

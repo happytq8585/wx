@@ -1,0 +1,76 @@
+.canteenList{
+    width:80%;
+    margin:20px auto;
+}
+.canteenListTop img{
+    width:300px;
+    height:auto;
+    margin-right:20px;
+}
+.canteenmenuBtn{
+    width:120px;
+    height:30px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    border-radius:6px;
+    background: #FF6715;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    margin-top:30px;
+}
+.canteenListfraction{
+    font-size: 30px;
+    color: #FF6715;
+}
+.canteenListTop .left p{
+    line-height: 42px;
+}
+.canteenListCenter{
+    width:100%;
+    margin:50px auto;
+}
+.canteenListCenter textarea{
+    resize: none;
+    width:50%;
+    height: 150px;
+}
+.UpdataBtn{
+    width:120px;
+    height:30px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    border-radius:6px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    margin-top:20px;
+    border:1px solid #d6d6d6;
+}
+.UpdataBtn:hover{
+    background: #FF6715;
+    color: #fff;
+}
+.canteenListEva{
+    padding:20px 10px;
+    border-bottom:1px solid #d6d6d6;
+}
+.canteenListEvausername{
+    width:80px;
+    text-align: center;
+}
+.canteenListEvausername img{
+    width:20px;
+}
+.canteenListEvausername p{
+    margin-top:8px;
+}
+.canteenListEvauserword p{
+    line-height: 30px;
+}
+.canteenCenterStart{
+    margin-bottom:10px;
+    display: flex;
+}
+

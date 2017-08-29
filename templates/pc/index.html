@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/{{device}}/default.css">
+    <link rel="stylesheet" href="css/{{device}}/index.css">
+</head>
+<body>
+    <div class="logBox">
+        <!--<img class="logBack" src="img/back.jpg" alt="">-->
+        <form hidden="hidden">
+        {% raw xsrf_form_html() %}
+        </form>
+        <div class="logCenter">
+            <p> {{name}} </p>
+            <div class="loginput">
+                <p>
+                    <img src="img/username.png" alt="">
+                    <input class="logname" type="text">
+                </p>
+                <p>
+                    <img src="img/password.png" alt="">
+                    <input class="logpass" type="password">
+                    <span class="errorword">用户名，密码不能为空</span>
+                </p>
+                <div class="logBtn">立即登录</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/{{device}}/public.js"></script>
+<script src="js/{{device}}/jquery-1.12.1.js"></script>
+<script src="js/{{device}}/index.js"></script>
+</html>

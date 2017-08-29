@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/{{device}}/bootstrap.css">
+    <link rel="stylesheet" href="css/{{device}}/default.css">
+    <link rel="stylesheet" href="css/{{device}}/canteen.css">
+    <link rel="stylesheet" href="css/{{device}}/calendar.css">
+    <link rel="stylesheet" href="css/{{device}}/AdminCanteen.css">
+</head>
+
+<body>
+{% include "navhead.html" %}
+<div class="BigBox Canteen">
+
+    <div class="canteenLeft left">
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">订单详情</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">订单统计</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+{% if len(orders) %}
+                    <table class="table">
+                        <!--tr 里面的 th  需要根据当天的日期来定   每天的菜品不一样   表头也不一样-->
+                        <tr>
+                            <th>图片</th>
+                            <th>菜名</th>
+                            <th>数量</th>
+                            <th>单位</th>
+                            <th>总价</th>
+                            <th>下单时间</th>
+                            <th>预计取单时间</th>
+                            <th>支付状态</th>
+                            <th>实际取单时间</th>
+                        </tr>
+        {% for o in orders %}
+                        <tr>
+                            <td>
+                                <img style="width:50px" src="{{D['%dpic'%o['dish_id']}}" alt="">
+                            </td>
+                            <td>{{D['%dname'%o['dish_id']}}</td>
+                            <td>{{o['num']}}</td>
+                            <td>{{o['unit']}}</td>
+                            <td>{{round(o['price']*o['num']/100.0, 2)}}元</td>
+                            <td>{{o['time']}}</td>
+                            <td>{{o['time1']}}</td>
+                            <td>{{o['pay_status']}}</td>
+                            <td>{{o['time3']}}</td>
+                        </tr>
+        {% end %}
+                    </table>
+{% end %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+{% if len(group) %}
+                    <table class="table">
+                        <!--tr 里面的 th  需要根据当天的日期来定   每天的菜品不一样   表头也不一样-->
+                        <tr>
+                            <th>图片</th>
+                            <th>菜名</th>
+                            <th>数量</th>
+                            <th>单位</th>
+                            <th>最早取单时间</th>
+                            <th>最晚取单时间</th>
+                        </tr>
+{% for grp in groups %}
+    {% for e in grp %}
+                        <tr>
+                            <td>
+                                <img style="width:50px" src="{{e['pic_loc']}}" alt="">
+                            </td>
+                            <td>{{e['name']}}</td>
+                            <td>{{e['num']}}</td>
+                            <td>{{e['unit']}}</td>
+                            <td>{{e['early']}}</td>
+                            <td>{{e['late']}}</td>
+                        </tr>
+    {% end %}
+{% end %}
+                    </table>
+{% end %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="canteenRight right">
+        <div id="calendar" class="calendar"></div>
+    </div>
+    <div class="clear"></div>
+
+</div>
+
+
+
+</body>
+<script src="js/{{device}}/jquery-1.12.1.js"></script>
+<script src="js/{{device}}/bootstrap.min.js"></script>
+<script src="js/{{device}}/calendar.js"></script>
+<script src="js/{{device}}/default.js"></script>
+<script>
+
+</script>
+</html>

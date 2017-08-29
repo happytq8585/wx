@@ -1,0 +1,73 @@
+
+.navbar-brand>img{
+    width:20px;
+}
+
+.canteenLeft{
+    width:65%;
+    margin-top:30px;
+}
+.canteenRight{
+    width:35%;
+}
+.canteenmenuBox{
+    width:90%;
+    height:auto;
+    padding:10px 20px;
+    border:1px solid #d6d6d6;
+    margin-top:20px;
+    position: relative;
+}
+.canteenmenuBox .canteenmenuBoximg {
+    position: absolute;
+    top:10px;
+    right:10px;
+    cursor: pointer;
+    width:10px;
+    height:10px;
+}
+.canteenmenuBox img{
+    width:200px;
+    max-height: 200px;
+}
+.canteenmenuBox>.left{
+    margin-right:10px;
+}
+.canteenmenuBox>.left > p {
+    margin-bottom:10px;
+}
+.canteenmenuName>span:nth-of-type(1){
+    font-size: 16px;
+    display: inline-block;
+    margin-right:15px;
+}
+.canteenmenuName>span:nth-of-type(2){
+    font-size: 18px;
+    color: #FF6715;
+}
+
+.canteenmenuBtn{
+    width:120px;
+    height:30px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    border-radius:6px;
+    background: #FF6715;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.form-horizontal{
+    width:60%;
+}
+.upimg img{
+    margin:30px 0 30px 30px;
+    max-width:200px;
+}
+.uplistBox{
+    width:58.5%;
+    display: flex;
+    justify-content:space-between;
+}

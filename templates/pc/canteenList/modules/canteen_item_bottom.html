@@ -1,0 +1,18 @@
+
+        <div class="canteenListBottom">
+            {% for c in comments %}
+            <div class="canteenListEva">
+                <div class="left canteenListEvausername">
+                    <img src="{{'img/username.png' if len(c.get('nick_img_url', 'img/username.png')) == 0 else c.get('nick_img_url')}}" alt="">
+                    <p>用户名: {{c['nick_name']}}</p>
+                    <p hidden="hidden"> {{c['real_name']}}</p>
+                    </div>
+                <div class="left canteenListEvauserword">
+                    <p>评分:<span> {{c['stars']}} </span></p>
+                    <p>评论日期:<span> {{c['time']}} </span></p>
+                    <p>评论：<span> {{c['content']}} </span></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            {% end %}
+        </div>
