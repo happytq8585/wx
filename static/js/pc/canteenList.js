@@ -27,6 +27,9 @@ function order_dish(obj) {
     $('.Reserve').css({display:'block'});
     var day = $('#date').attr('date');
     var price = $('.price').html();
+    var unit = price.split('/')[1];
+    unit.replace(/^\s+|\s+$/g, '');
+    $('#unit').html(unit + '数');
     $('#reservePrice').html(price);
     $('#reserveTime').html(day);
 }
@@ -70,6 +73,11 @@ $(function () {
             alert('单位不正确');
             return -1;
         }
+        var dish_time = $('#reserveTime').html();
+        if (dish_time > g_time) {
+            alert('取单时间应在菜的时间之后');
+            return -1;
+        }
         var xsrf  = get_cookie_by_name('_xsrf');
         var D = {'r_did':did, 'num':num, 'r_price': price, 'g_time': g_time, 'unit':unit, '_xsrf':xsrf};
         $.ajax({
@@ -88,8 +96,13 @@ $(function () {
 
     $('#allnum').change('on',function () {
         var price = $('#reservePrice').html().split('元')[0];
-        price = parseFloat(price);
-        $('#allPrice').html($(this).val()*price+'元');
+        price = parseFloat(price)*100;
+        var num = $(this).val();
+        num = parseInt(num);
+        var sum = num*price;
+        sum = parseFloat(sum)/100.0;
+        sum = sum.toFixed(2);
+        $('#allPrice').html(sum+'元');
     })
 
     //提交评论
@@ -125,4 +138,11 @@ $(function () {
         });
         //alert("OK");
     })
+
+    //取单时间
+    $('#input1').shijian({
+        okfun:function(sjObj){//确认时间时候执行事件
+            Reservetime = $(sjObj).val();
+        },
+    });
 })

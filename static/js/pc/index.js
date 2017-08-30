@@ -1,5 +1,10 @@
 
 $(function () {
+    $(document).keydown(function(event) {
+            if (event.keyCode == 13) {
+                $('.logBtn').trigger('click');
+            }
+    });
     //立即登录按钮事件以及判断
     $('.logBtn').click('on',function () {
         console.log($('.logname').val(),$('.logpass').val());
@@ -29,7 +34,12 @@ $(function () {
                     window.location.href =  'http://' + root + 'canteen';
                 },
                 error: function(para) {
-                    alert("login failed!");
+                    if (para.status == 400) {
+                        alert("login failed!");
+                    }
+                    else {
+                        alert("login error!");
+                    }
                 }
             });
         }

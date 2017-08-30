@@ -3,7 +3,9 @@
                     {% for dish in dinner %}
                     <div class="canteenmenuBox">
                     {% if role == conf.canteen_admin_role %}
+                         {% if T <= dish['time'] %}
                         <img src="img/close.png" onclick="delMenu(this, '{{dish['id']}}')" class="canteenmenuBoximg" alt="">
+                         {% end %}
                     {% end %}
                         <div class="left">
                             <a href="canteenItem?id={{dish['id']}}"><img src="{{dish['pic_loc']}}" alt=""></a>

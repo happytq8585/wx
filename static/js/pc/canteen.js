@@ -35,8 +35,12 @@ function close_click()
             window.location.reload();
         },
         error: function(para) {
-            alert("delete failed!");
-            window.location.reload();
+            if (para.status == 400) {
+                alert("该菜已经有人预定了,不能删除了!");
+            }
+            else {
+                alert('delete failed!');
+            }
         }
     });
 }
@@ -47,6 +51,9 @@ function order_dish(obj, did) {
     r_did = parseInt(did);
     $('.Reserve').css({display:'block'});
     var day = get_day('-');
+    var unit =  $(obj).prev().children('.canteenmenuMaterial').html().split('/')[1];
+    unit.replace(/^\s+|\s+$/g, '');
+    $('#unit').html(unit + '数');
     var price = $(obj).prev().children('.canteenmenuMaterial').html().split('元')[0];
     $('#reservePrice').html($(obj).prev().children('.canteenmenuMaterial').html());
     $('#reserveTime').html(day);
@@ -123,6 +130,11 @@ $(function () {
             alert('请选择要订的食品');
             return -1;
         }
+        var dish_time = $('#reserveTime').html();
+        if (dish_time > g_time) {
+            alert('取单时间应在菜的时间之后');
+            return -1;
+        }
         var D = {'r_did':r_did, 'num': r_num, 'r_price': r_price, 'g_time':g_time, 'unit':unit, '_xsrf':xsrf};
         $.ajax({
             url: '/order',
@@ -147,8 +159,13 @@ $(function () {
 
     $('#allnum').change('on',function () {
         var price = $('#reservePrice').html().split('元')[0];
-        price = parseFloat(price);
-        $('#allPrice').html($(this).val()*price+'元')
+        price = parseFloat(price)*100;
+        var num = $(this).val();
+        num = parseInt(num);
+        var sum = num*price;
+        sum = parseFloat(sum)/100.0;
+        sum = sum.toFixed(2);
+        $('#allPrice').html(sum+'元');
     })
 
     $('.calendar-date').find('.item').click('on',function () {
@@ -184,7 +201,12 @@ function delMenu(e, id){
             window.location.reload();
         },
         error: function(para) {
-            alert('delete failed!');
+            if (para.status == 400) {
+                alert("该菜已经有人预定了,不能删除了!");
+            }
+            else {
+                alert('delete failed!');
+            }
         }
     });
 }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/{{device}}/default.css">
     <link href="css/{{device}}/star.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/{{device}}/canteenList.css">
+    <link rel="stylesheet" href="css/{{device}}/shijian.css">
 </head>
 <body>
 {% include "../navhead.html" %}
@@ -34,8 +35,10 @@
                     <span class="price">
 {{round(dish['price']/100.0, 2)}}元/{{dish['unit']}}
                     </span>
-                </p>
+                </p>    
+                    {% if T <= dish['time'] %}
                 <div class="canteenmenuBtn">立即预定</div>
+                    {% end %}
                 {% end %}
             </div>
             <div class="clear">
@@ -43,6 +46,7 @@
         </div>
 
         <div class="canteenListCenter">
+{% if T >= dish['time'] %}
             <div class="canteenCenterStart">
                 <input style="display:none" id="rating" name="serving" value="0" type="txt">
                 <span>评价：</span>
@@ -77,6 +81,7 @@
             <div class="UpdataBtn">提交评论</div>
             {% end %}
         </div>
+{% end %}
         {% module Canteen_item_bottom_module(comments, device) %}
     </div>
 
@@ -87,4 +92,5 @@
 <script src="js/{{device}}/default.js"></script>
 <script src="js/{{device}}/star.js"></script>
 <script src="js/{{device}}/canteenList.js"></script>
+<script src="js/{{device}}/jquer_shijian.js"></script>
 </html>

@@ -331,6 +331,12 @@ def order_confirm_db(oid, t):
     S.close()
     return res
 
+def query_order_by_dish_id_db(did):
+    S = DBSession()
+    res = S.query(Order).filter(Order.dish_id == did).first()
+    S.close()
+    return False if not res else True
+
 
 
 

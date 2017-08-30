@@ -22,7 +22,7 @@ from data   import update_personal_info, query_user_by_id, query_user_all
 from data   import update_user_by_id, add_user, delete_user_by_id
 from data   import write_order, query_all_orders, query_orders_by_uid
 from data   import query_dish_by_ids, query_user_by_ids
-from data   import order_confirm
+from data   import order_confirm, query_order_by_dish_id
 from conf import conf
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -79,13 +79,15 @@ class UploadFileHandler(BaseHandler):
                 up.write(meta['body'])
             name          = self.get_argument('dish_name', '')
             pic_loc       = filename
-            time          = day 
+            t             = day 
             material      = self.get_argument('dish_material', '')
             kind          = self.get_argument('dish_order', 0)
             price         = self.get_argument('dish_price', 0)
+            if price == '':
+                price = 0
             unit          = self.get_argument('dish_unit', '')
-            write_dish(name, pic_loc, time, material, int(kind), int(price), unit)
-            print(name, pic_loc, time, material, int(kind), int(price), unit)
+            print(name, pic_loc, t, material, int(kind), int(price), unit)
+            write_dish(name, pic_loc, t, material, int(kind), int(price), unit)
             self.write('上传成功!')
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -111,7 +113,7 @@ class LoginHandler(tornado.web.RequestHandler):
         upass = self.get_argument("password")
         e     = query_user(rname, upass)#返回user表的字典
         if not e:
-            self.write("用户名或密码错误")
+            self.set_status(400)
         else:
             print(e)
             self._write_cookie(e)
@@ -126,21 +128,21 @@ class LoginHandler(tornado.web.RequestHandler):
             self.set_secure_cookie('mobile_phone', e['mobile_phone'], expires_days=None)
             self.set_secure_cookie('role', str(e['role']), expires_days=None)
 class BreakfastModule(tornado.web.UIModule):
-    def render(self, arr, device, role):
+    def render(self, arr, device, role, t):
         target = '%s/canteen/modules/breakfast.html' % device
-        return self.render_string(target, breakfast=arr, role=role, conf=conf)
+        return self.render_string(target, breakfast=arr, role=role, conf=conf, T=t)
 class LunchModule(tornado.web.UIModule):
-    def render(self, arr, device, role):
+    def render(self, arr, device, role, t):
         target = '%s/canteen/modules/lunch.html' % device
-        return self.render_string(target, lunch=arr, role=role, conf=conf)
+        return self.render_string(target, lunch=arr, role=role, conf=conf, T=t)
 class DinnerModule(tornado.web.UIModule):
-    def render(self, arr, device, role):
+    def render(self, arr, device, role, t):
         target = '%s/canteen/modules/dinner.html' % device
-        return self.render_string(target, dinner=arr, role=role, conf=conf)
+        return self.render_string(target, dinner=arr, role=role, conf=conf, T=t)
 class ReserveModule(tornado.web.UIModule):
-    def render(self, arr, device, role):
+    def render(self, arr, device, role, t):
         target = '%s/canteen/modules/reserve.html' % device
-        return self.render_string(target, reserve=arr, role=role, conf=conf)
+        return self.render_string(target, reserve=arr, role=role, conf=conf, T=t)
 class TabModule(tornado.web.UIModule):
     def render(self, arr, device, canteen, role):
         breakfast = []
@@ -159,7 +161,8 @@ class TabModule(tornado.web.UIModule):
             else:
                 pass
         target = '%s/canteen/modules/tab.html' % device
-        return self.render_string(target, canteen=canteen, breakfast=breakfast,lunch=lunch, dinner=dinner, reserve=reserve, device=device, role=role, conf=conf)
+        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        return self.render_string(target, canteen=canteen, breakfast=breakfast,lunch=lunch, dinner=dinner, reserve=reserve, device=device, role=role, conf=conf, T=t)
 
 class PublicData():
     def __init__(self, name, role):
@@ -211,8 +214,12 @@ class DeleteDishHandler(BaseHandler):
     def post(self):
         did      = int(self.get_argument('id', 0))
         if did:
-            delete_dish_by_id(did)
-            self.write('delete success')
+            ordered = query_order_by_dish_id(did)
+            if not ordered:
+                delete_dish_by_id(did)
+                self.write('delete success')
+            else:
+                self.set_status(400)
         else:
             self.write('dish id is invalid')
 
@@ -239,7 +246,8 @@ class CanteenItemHandler(BaseHandler):
             target    = '%s/canteenList/canteenList.html' % device
             head      = self._get_head_nav()
             canteen   = self._get_canteen()
-            self.render(target, head=head, canteen=canteen, device=device, comments=comments, dish=dish, user_comment=user_comment)
+            t         = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+            self.render(target, head=head, canteen=canteen, device=device, comments=comments, dish=dish, user_comment=user_comment, T=t)
     #handle comments
     def post(self):
         did           = int(self.get_argument('id', 0))
