@@ -32,54 +32,56 @@
                             <th>图片</th>
                             <th>菜名</th>
                             <th>数量</th>
-                            <th>单位</th>
                             <th>总价</th>
-                            <th>下单时间</th>
-                            <th>预计取单时间</th>
-                            <th>支付状态</th>
-                            <th>实际取单时间</th>
+                            <th>下单</th>
+                            <th>预计取单</th>
+                            <th>支付</th>
+                            <th>实际取单</th>
+                            <th>用户名</th>
+                            <th>手机</th>
+                            <th>座机</th>
                         </tr>
         {% for o in orders %}
                         <tr>
                             <td>
-                                <img style="width:50px" src="{{D['%dpic'%o['dish_id']}}" alt="">
+                                <img style="width:50px" src="{{D['%dpic'%o['dish_id']]}}" alt="">
                             </td>
-                            <td>{{D['%dname'%o['dish_id']}}</td>
-                            <td>{{o['num']}}</td>
-                            <td>{{o['unit']}}</td>
+                            <td>{{D['%dname'%o['dish_id']]}}</td>
+                            <td>{{o['num']}}{{o['unit']}}</td>
                             <td>{{round(o['price']*o['num']/100.0, 2)}}元</td>
                             <td>{{o['time']}}</td>
                             <td>{{o['time1']}}</td>
-                            <td>{{o['pay_status']}}</td>
-                            <td>{{o['time3']}}</td>
+                            <td>{{'已支付' if o['pay_status'] else '未支付'}}</td>
+                            <td>{{o['time2']}}</td>
+                            <td>{{user[o['user_id']]['real_name']}}</td>
+                            <td>{{user[o['user_id']]['mobile_phone']}}<td>
+                            <td>{{user[o['user_id']]['office_phone']}}<td>
                         </tr>
         {% end %}
                     </table>
 {% end %}
                 </div>
                 <div role="tabpanel" class="tab-pane" id="profile">
-{% if len(group) %}
+{% if len(groups) %}
                     <table class="table">
                         <!--tr 里面的 th  需要根据当天的日期来定   每天的菜品不一样   表头也不一样-->
                         <tr>
                             <th>图片</th>
                             <th>菜名</th>
                             <th>数量</th>
-                            <th>单位</th>
                             <th>最早取单时间</th>
                             <th>最晚取单时间</th>
                         </tr>
 {% for grp in groups %}
-    {% for e in grp %}
+    {% for e in groups[grp] %}
                         <tr>
                             <td>
-                                <img style="width:50px" src="{{e['pic_loc']}}" alt="">
+                                <img style="width:50px" src="{{groups[grp][e]['pic_loc']}}" alt="">
                             </td>
-                            <td>{{e['name']}}</td>
-                            <td>{{e['num']}}</td>
-                            <td>{{e['unit']}}</td>
-                            <td>{{e['early']}}</td>
-                            <td>{{e['late']}}</td>
+                            <td>{{groups[grp][e]['name']}}</td>
+                            <td>{{groups[grp][e]['num']}}{{groups[grp][e]['unit']}}</td>
+                            <td>{{groups[grp][e]['early']}}</td>
+                            <td>{{groups[grp][e]['late']}}</td>
                         </tr>
     {% end %}
 {% end %}
@@ -89,10 +91,12 @@
             </div>
         </div>
     </div>
+    <!--
     <div class="canteenRight right">
         <div id="calendar" class="calendar"></div>
     </div>
     <div class="clear"></div>
+    !-->
 
 </div>
 

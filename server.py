@@ -21,7 +21,8 @@ from data   import query_dish_by_id, write_comment, update_password
 from data   import update_personal_info, query_user_by_id, query_user_all
 from data   import update_user_by_id, add_user, delete_user_by_id
 from data   import write_order, query_all_orders, query_orders_by_uid
-from data   import query_dish_by_ids
+from data   import query_dish_by_ids, query_user_by_ids
+from data   import order_confirm
 from conf import conf
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -371,7 +372,7 @@ class OrderHandler(BaseHandler):
                 name_key= '%dname'%did
                 unit_key= '%dunit'%did
                 if not d.get(did):
-                    d[did] = {'num': i['num'], 'early': i['time1'], 'late': i['time1'], 'pic_loc': DishDic.get(pic_key, ''), 'name':DishDic.get(name_key, '')}
+                    d[did] = {'num': i['num'], 'early': i['time1'], 'late': i['time1'], 'pic_loc': DishDic.get(pic_key, ''), 'name':DishDic.get(name_key, ''), 'unit':DishDic.get(unit_key, '')}
                 else:
                     d[did]['num'] = d[did]['num'] + i['num']
                     if i['time1'] < d[did]['early']:
@@ -382,7 +383,7 @@ class OrderHandler(BaseHandler):
         return r, DishDic
     #个人订单、管理员所有订单查看
     def get(self):
-        uid          = int(self.get_role())
+        uid          = int(self.get_secure_cookie('uid'))
         role         = int(self.get_secure_cookie('role'))
         action       = self.get_argument('action', '')
         device       = self.get_secure_cookie('pc_or_mobile')
@@ -391,19 +392,19 @@ class OrderHandler(BaseHandler):
         if action == 'orderlist':
             if role == conf.canteen_admin_role:
                 res      = query_all_orders()
-                dids     = [e['id'] for e in res]
+                dids     = [e['dish_id'] for e in res]
                 dishes   = query_dish_by_ids(dids)
-                D        = {}
-                for e in dishes:
-                    D['%dpic'%e['id']] = e['pic_loc']
-                    D['%dname'%e['id']] = e['name']
 
-                grp      = self._grp_orders(res)
-                target = '%s/AdminCanteen.html' % device
-                self.render(target, device=device, head=head, orders=res, groups=grp, D=D)
+                uids     = [e['user_id'] for e in res]
+                user     = query_user_by_ids(uids)
+
+                D        = {}
+                grp, D   = self._grp_orders(res)
+                target   = '%s/AdminCanteen.html' % device
+                self.render(target, device=device, head=head, orders=res, groups=grp, D=D, user=user)
             else:
                 res      = query_orders_by_uid(uid)
-                dids     = [e['id'] for e in res]
+                dids     = [e['dish_id'] for e in res]
                 dishes   = query_dish_by_ids(dids)
                 D        = {}
                 for e in dishes:
@@ -421,6 +422,12 @@ class OrderHandler(BaseHandler):
         uid          = int(self.get_secure_cookie('uid'))
         r = write_order(uid, did, num, price, unit, get_time)
         self.write(str(r))
+class OrderConfirmHandler(BaseHandler):
+    def post(self):
+        oid          = self.get_argument('order_id', '')
+        if oid:
+            r        = order_confirm(oid)
+            self.write('ok')
 class LogoutHandler(tornado.web.RequestHandler):
     def get(self):
         self.clear_cookie("real_name");
@@ -467,6 +474,7 @@ if __name__ == "__main__":
                (r'/delete', DeleteDishHandler),
                (r'/personal', PersonalHandler),
                (r'/order', OrderHandler),
+               (r'/orderconfirm', OrderConfirmHandler),
                (r'/logout', LogoutHandler),
                (r'/meeting', ConstructHandler),
                (r'/property',ConstructHandler),

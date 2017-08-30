@@ -73,4 +73,3 @@ where
     `id` = new.dish_id;
 $
 DELIMITER ';'
-

@@ -16,7 +16,6 @@
             <label style='width:100px'></label>
             <span>菜名</span>
             <span>数量</span>
-            <span>单位</span>
             <span>单价</span>
             <span>总价</span>
             <span>下单时间</span>
@@ -25,12 +24,17 @@
             <span>确认取单</span>
         </div>
         {% for o in orders %}
-        <!--<div class="OrderListBoxCenter">-->
-            <!--<img src="img/97.jpg" alt="">-->
-            <!--<span>凉拌三丝</span>-->
-            <!--<span>10份</span>-->
-            <!--<span>2017.7.4</span>-->
-        <!--</div>-->
+        <div class="OrderListBoxCenter">
+            <img src="{{D['%dpic'%o['dish_id']]}}" alt="">
+            <span>{{D['%dname'%o['dish_id']]}}</span>
+            <span>{{o['num']}}{{o['unit']}}</span>
+            <span>{{round(o['price']/100.0, 2)}}元</span>
+            <span>{{round(o['price']*o['num']/100.0, 2)}}元</span>
+            <span>{{o['time']}}</span>
+            <span>{{o['time1']}}</span>
+            <span>{{o['time2']}}</span>
+            <span style="cursor:pointer" onclick="Confirmation(this,{{o['id']}})">确认取单</span>
+        </div>
         {% end %}
     </div>
 </div>

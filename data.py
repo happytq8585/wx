@@ -6,7 +6,7 @@ from tables   import query_dish_by_id_db, write_comment_db, update_password_db
 from tables   import update_personal_info_db, query_user_by_id_db, query_user_all_db
 from tables   import update_user_by_id_db, add_user_db, delete_user_by_id_db
 from tables   import write_order_db, query_all_orders_db, query_orders_by_uid_db
-from tables   import query_dish_by_ids_db
+from tables   import query_dish_by_ids_db, query_user_by_ids_db, order_confirm_db
 
 from conf    import conf
 def query_user(name, password):
@@ -100,4 +100,17 @@ def query_orders_by_uid(uid):
 
 def query_dish_by_ids(ids):
     r          = query_dish_by_ids_db(ids)
+    return r
+
+def query_user_by_ids(ids):
+    r          = query_user_by_ids_db(ids)
+    d          = {}
+    for e in r:
+        d[e['id']] = e
+    return d
+
+def order_confirm(oid):
+    import time
+    t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    r          = order_confirm_db(oid, t)
     return r

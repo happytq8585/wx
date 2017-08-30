@@ -111,7 +111,7 @@ class Order(Base):
         return {'id': self.id, 'user_id': self.user_id, 'dish_id': self.dish_id,
                 'num':self.num, 'price': self.price, 'unit': self.unit, 'remove': self.remove,
                 'time':str(self.time), 'time1': str(self.time1), 'time2': str(self.time2),
-                'remove':self.remove, 'pay_staus': self.pay_staus}
+                'remove':self.remove, 'pay_status': self.pay_status}
     id          = Column(Integer, primary_key=True)
     user_id     = Column(Integer)
     dish_id     = Column(Integer)
@@ -122,7 +122,7 @@ class Order(Base):
     time1       = Column(TIMESTAMP) #预计取食品的时间
     time2       = Column(TIMESTAMP) #实际取食品的时间
     remove      = Column(Integer)
-    pay_staus   = Column(Integer)
+    pay_status  = Column(Integer)
 
 class Comment(Base):
     __tablename__ = conf.t_comment
@@ -314,7 +314,28 @@ def query_orders_by_uid_db(uid):
 def query_dish_by_ids_db(ids):
     S = DBSession()
     res = S.query(Dish).filter(Dish.id.in_(ids)).all()
+    S.close()
     return [] if not res else [e.dic_return() for e in res]
+
+def query_user_by_ids_db(ids):
+    S = DBSession()
+    res = S.query(User).filter(User.id.in_(ids)).all()
+    S.close()
+    return [] if not res else [e.dic_return() for e in res]
+
+def order_confirm_db(oid, t):
+    S = DBSession()
+    D = {'remove': 1, 'time2': t}
+    res = S.query(Order).filter(Order.id == oid).update(D)
+    S.commit()
+    S.close()
+    return res
+
+
+
+
+
+
 
 
 
