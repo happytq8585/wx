@@ -40,10 +40,10 @@ create table if not exists order_info
  price   int unsigned not null, /*单价, 单位分*/
  unit    varchar(8) not null, /*单位: 斤 个 只 头 打*/
  time timestamp default CURRENT_TIMESTAMP,    /*下单的时间*/
- time1 timestamp default CURRENT_TIMESTAMP,   /*预计取食品的时间*/
- time2 timestamp default CURRENT_TIMESTAMP,   /*实际取食品的时间*/
+ time1 timestamp,   /*预计取食品的时间*/
+ time2 timestamp,   /*实际取食品的时间*/
  remove int unsigned default 0,/*0=没有删除 1=删除*/
- pay_staus int unsigned default 0 /*支付状态 0=未支付 1=支付*/
+ pay_status int unsigned default 0 /*支付状态 0=未支付 1=支付*/
 ) engine=InnoDB, charset=utf8;
 
 /*菜的评论*/

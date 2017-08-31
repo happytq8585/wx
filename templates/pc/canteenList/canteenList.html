@@ -15,7 +15,7 @@
 
         <div class="canteenListTop">
             <div class="left" date="{{dish['time']}}" id="date">
-                <img src="{{'img/username.png' if not dish['pic_loc'] else dish['pic_loc']}}" alt="" id="{{dish['id']}}">
+                <img src="{{'img/noimg.jpg' if not dish['pic_loc'] else dish['pic_loc']}}" alt="" id="{{dish['id']}}">
             </div>
             <div class="left">
                 <h4>{{dish['name']}}</h4>
@@ -47,6 +47,8 @@
 
         <div class="canteenListCenter">
 {% if T >= dish['time'] %}
+    {% if head['role'] != head['conf'].office_admin_role %}
+        {% if ordered %}
             <div class="canteenCenterStart">
                 <input style="display:none" id="rating" name="serving" value="0" type="txt">
                 <span>评价：</span>
@@ -80,7 +82,9 @@
             <textarea name="evaluate" id="evaluate" cols="30" rows="10" placeholder="最多可输入200字~" maxlength="200"></textarea>
             <div class="UpdataBtn">提交评论</div>
             {% end %}
+        {% end %}
         </div>
+    {% end %}
 {% end %}
         {% module Canteen_item_bottom_module(comments, device) %}
     </div>

@@ -3,12 +3,12 @@
                     {% for dish in reserve %}
                     <div class="canteenmenuBox">
                     {% if role == conf.canteen_admin_role %}
-                         {% if T <= dish['time'] %}
+                         {% if T <= dish['time'] + ' 17:30:00' %}
                         <img src="img/close.png" onclick="delMenu(this, '{{dish['id']}}')" class="canteenmenuBoximg" alt="">
                          {% end %}
                     {% end %}
                         <div class="left">
-                            <a href="canteenItem?id={{dish['id']}}"><img src="{{dish['pic_loc']}}" alt=""></a>
+                            <a href="/canteenItem?id={{dish['id']}}"><img src="{{'img/noimg.jpg' if len(dish['pic_loc']) == 0 else dish['pic_loc']}}" alt=""></a>
                         </div>
                         <div class="left">
                             <p class="canteenmenuName">

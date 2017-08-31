@@ -37,8 +37,20 @@
                 <td>{{e['password']}}</td>
                 <td>{{e['role']}}</td>
                 <td>
-                    <button onclick="openedit(this, {{e['id']}})">修改</button>
-                    <button onclick="ondelete(this, {{e['id']}})">删除</button>
+                    <button onclick="openedit(this, {{e['id']}})"
+{% if e['role'] == head['conf'].office_admin_role %}
+    disabled="disabled"
+{% else %}
+    style="background:greenyellow"
+{% end %}
+>修改</button>
+                    <button onclick="ondelete(this, {{e['id']}})"
+{% if e['role'] == head['conf'].office_admin_role %}
+    disabled="disabled"
+{% else %}
+    style="background:greenyellow"
+{% end %}
+>删除</button>
                 </td>
             </tr>
             {% end %}

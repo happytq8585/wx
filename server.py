@@ -23,6 +23,7 @@ from data   import update_user_by_id, add_user, delete_user_by_id
 from data   import write_order, query_all_orders, query_orders_by_uid
 from data   import query_dish_by_ids, query_user_by_ids
 from data   import order_confirm, query_order_by_dish_id
+from data   import query_already_ordered
 from conf import conf
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -57,6 +58,16 @@ class BaseHandler(tornado.web.RequestHandler):
         return u
 
 class UploadFileHandler(BaseHandler):
+    def _get_time_delta(self, kind):
+        if kind == 0x0000:
+            return ' 07:30:00'
+        if kind == 0x0010:
+            return ' 07:30:00'
+        if kind == 0x0100:
+            return ' 11:30:00'
+        if kind == 0x1000:
+            return ' 17:30:00'
+        return ' 00:00:00'
     @tornado.web.authenticated
     def post(self):
         if not os.path.exists("static/files"):
@@ -65,23 +76,31 @@ class UploadFileHandler(BaseHandler):
         if not day:
             self.write("no day parameter")
         else:
+            kind          = int(self.get_argument('dish_order', 0))
+            delta         = self._get_time_delta(kind)
+            now = time.strftime("%Y-%m-%d %H:%m:%S")
+            if now > day + delta:
+                self.write('不能上传现在时刻之前的菜了')
+                return
             arr = [int(e) for e in day.split('-')]
             timestamp = "%4d%02d%02d"%(arr[0], arr[1], arr[2])
             todaydir = "static/files/" + timestamp
-            if not os.path.exists(todaydir):
-                os.makedirs(todaydir)
             upload_path = os.path.join(os.path.dirname(__file__), todaydir)
-            file_metas  = self.request.files['file']
-            meta = file_metas[0]
-            filename = meta['filename']
-            filename = todaydir + '/' +  filename
-            with open(filename, 'wb') as up:
-                up.write(meta['body'])
+            file_metas  = self.request.files.get('file')
+            filename = ''
+            if file_metas:
+                meta = file_metas[0]
+                filename = meta.get('filename', '')
+            if filename:
+                if not os.path.exists(todaydir):
+                    os.makedirs(todaydir)
+                filename = todaydir + '/' +  filename
+                with open(filename, 'wb') as up:
+                    up.write(meta['body'])
             name          = self.get_argument('dish_name', '')
             pic_loc       = filename
             t             = day 
             material      = self.get_argument('dish_material', '')
-            kind          = self.get_argument('dish_order', 0)
             price         = self.get_argument('dish_price', 0)
             if price == '':
                 price = 0
@@ -229,7 +248,7 @@ class CanteenItemBottomModule(tornado.web.UIModule):
         return self.render_string(target, comments=comments)
 
 class CanteenItemHandler(BaseHandler):
-    def _alread_comment(self, comments):
+    def _already_comment(self, comments):
         uid       = int(self.get_secure_cookie('uid'))
         for e in comments:
             if e['user_id'] == int(uid):
@@ -240,14 +259,19 @@ class CanteenItemHandler(BaseHandler):
         did           = int(self.get_argument('id', 0))
         if did:
             dish      = query_dish_by_id(did)
+            kind      = dish['kind']
+            uid       = int(self.get_secure_cookie('uid'))
+            ordered   = False
+            if kind == 0x0000:
+                ordered = query_already_ordered(uid, did)
             comments  = query_comments_by_dish_id(did)
-            user_comment = self._alread_comment(comments)
+            user_comment = self._already_comment(comments)
             device    = self.get_secure_cookie('pc_or_mobile')
             target    = '%s/canteenList/canteenList.html' % device
             head      = self._get_head_nav()
             canteen   = self._get_canteen()
             t         = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-            self.render(target, head=head, canteen=canteen, device=device, comments=comments, dish=dish, user_comment=user_comment, T=t)
+            self.render(target, head=head, canteen=canteen, device=device, comments=comments, dish=dish, user_comment=user_comment, T=t, ordered=ordered)
     #handle comments
     def post(self):
         did           = int(self.get_argument('id', 0))

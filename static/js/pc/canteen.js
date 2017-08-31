@@ -22,28 +22,6 @@ function get_cookie_by_name(name)
     }
     return '';
 }
-function close_click()
-{
-    var id = $(this).attr('id');
-    $.ajax({
-        'Cookie': document.cookie,
-        url:"/delete",
-        type: "GET",
-        data: {"id":id},
-        success: function(para){
-            alert("delete success");
-            window.location.reload();
-        },
-        error: function(para) {
-            if (para.status == 400) {
-                alert("该菜已经有人预定了,不能删除了!");
-            }
-            else {
-                alert('delete failed!');
-            }
-        }
-    });
-}
 var r_num=0;
 var r_price=0;
 var r_did=0;
@@ -83,7 +61,8 @@ $(function () {
     today = $('#calendar').find('.item-curDay').attr("data");
     today += "食堂菜谱";
     $('.Canteen').find('h3').html(today);
-    
+    today = get_day('-'); 
+    fill_canteen(today);
     $('.item-curMonth').click('on',function () {
         var day = get_day('');
         $('.Canteen').find('h3').html(day + "食堂菜谱");
@@ -198,7 +177,6 @@ function delMenu(e, id){
         data: {'id': id, '_xsrf': xsrf},
         success: function(para) {
             alert('delete success');
-            window.location.reload();
         },
         error: function(para) {
             if (para.status == 400) {

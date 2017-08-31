@@ -337,6 +337,11 @@ def query_order_by_dish_id_db(did):
     S.close()
     return False if not res else True
 
+def query_already_ordered_db(uid, did):
+    S = DBSession()
+    res = S.query(Order).filter(Order.user_id == uid).filter(Order.dish_id == did).first()
+    S.close()
+    return False if not res else True
 
 
 
