@@ -90,11 +90,6 @@ $(function () {
 
     $('.ReserveBtn').click('on',function () {
         $('.Reserve').css({display:'none'});
-        var g_time = $('#input1').val();
-        if (g_time == null || g_time == '') {
-            alert('请确认取单时间');
-            return -1;
-        }
         var xsrf   = get_cookie_by_name('_xsrf');
         var unit   = $('#reservePrice').html().split('/')[1];
         r_price    = $('#reservePrice').html().split('元')[0];
@@ -109,12 +104,7 @@ $(function () {
             alert('请选择要订的食品');
             return -1;
         }
-        var dish_time = $('#reserveTime').html();
-        if (dish_time > g_time) {
-            alert('取单时间应在菜的时间之后');
-            return -1;
-        }
-        var D = {'r_did':r_did, 'num': r_num, 'r_price': r_price, 'g_time':g_time, 'unit':unit, '_xsrf':xsrf};
+        var D = {'r_did':r_did, 'num': r_num, 'r_price': r_price, 'unit':unit, '_xsrf':xsrf};
         $.ajax({
             url: '/order',
             type: 'POST',

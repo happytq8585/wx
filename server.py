@@ -449,10 +449,9 @@ class OrderHandler(BaseHandler):
         did          = int(self.get_argument('r_did', 0))
         num          = int(self.get_argument('num', 0))
         price        = int(self.get_argument('r_price', 0))
-        get_time     = self.get_argument('g_time', '')
         unit         = self.get_argument('unit', '')
         uid          = int(self.get_secure_cookie('uid'))
-        r = write_order(uid, did, num, price, unit, get_time)
+        r = write_order(uid, did, num, price, unit)
         self.write(str(r))
 class OrderConfirmHandler(BaseHandler):
     def post(self):

@@ -32,7 +32,7 @@
             <span>{{round(o['price']*o['num']/100.0, 2)}}元</span>
             <span>{{o['time']}}</span>
             <span>{{o['time1']}}</span>
-            <span>{{o['time2']}}</span>
+            <span>{{o['time2'] if o['remove'] == 1 else '未取'}}</span>
             <span style="cursor:pointer" onclick="Confirmation(this,{{o['id']}})">确认取单</span>
         </div>
         {% end %}

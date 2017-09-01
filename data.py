@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+import time
 from tables   import query_user_db, query_dish_by_day_db, write_dish_db
 from tables   import delete_dish_by_id_db, query_comments_by_dish_id_db
 from tables   import query_dish_by_id_db, write_comment_db, update_password_db
@@ -34,8 +35,8 @@ def query_dish_by_day(day):
         r      = query_dish_by_day_db(day)
     return r
 
-def write_dish(name, pic, time, material, kind, price, unit):
-    write_dish_db(name, pic, time, material, kind, price, unit)
+def write_dish(name, pic, tm, material, kind, price, unit):
+    write_dish_db(name, pic, tm, material, kind, price, unit)
 
 def delete_dish_by_id(did):
     delete_dish_by_id_db(did)
@@ -87,8 +88,11 @@ def delete_user_by_id(uid):
     r          = delete_user_by_id_db(uid)
     return r
 
-def write_order(uid, did, num, price, unit, get_time):
-    r          = write_order_db(uid, did, num, price, unit, None, get_time, None)
+def write_order(uid, did, num, price, unit):
+    t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    gt = time.strftime('%Y-%m-%d', time.localtime(time.time() + 3600*24))
+    gt = gt + ' ' + str(conf.fetch_time)
+    r          = write_order_db(uid, did, num, price, unit, t, gt, None)
     return r
 
 def query_all_orders():
@@ -111,7 +115,6 @@ def query_user_by_ids(ids):
     return d
 
 def order_confirm(oid):
-    import time
     t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     r          = order_confirm_db(oid, t)
     return r

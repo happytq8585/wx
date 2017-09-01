@@ -42,12 +42,15 @@ class Wxconf():
         self.office_admin_role    = p.getint('role', 'office_admin_role')
         self.common_member_role   = p.getint('role', 'common_member_role')
         self.other_role           = p.getint('role', 'other_role') 
+
+        self.fetch_time           = p.get('canteen', 'fetch_time')
     def canteen(self):
         r = {} 
         r['breakfast']            = self.breakfast
         r['lunch']                = self.lunch
         r['dinner']               = self.dinner
-        r['reserve']                = self.reserve
+        r['reserve']              = self.reserve
+        r['fetch_time']           = self.fetch_time
         return r
     def navhead(self):
         r = {}

@@ -43,3 +43,4 @@ breakfast=早餐
 lunch=午餐
 dinner=晚餐
 reserve=预订
+fetch_time=17:30:00

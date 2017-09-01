@@ -29,7 +29,7 @@
 {{round(dish['price']/100.0, 2)}}元/{{dish['unit']}}
                                 </span>
                             </p>
-                         {% if T <= dish['time'] %}
+                         {% if T <= dish['time'] + ' 15:00:00'%}
                             <div class="canteenmenuBtn" value="{{dish['id']}}">立即预定</div>
                          {% end %}
                         </div>

@@ -52,7 +52,7 @@
                             <td>{{o['time']}}</td>
                             <td>{{o['time1']}}</td>
                             <td>{{'已支付' if o['pay_status'] else '未支付'}}</td>
-                            <td>{{o['time2']}}</td>
+                            <td>{{o['time2'] if o['remove'] == 1 else '未取'}}</td>
                             <td>{{user[o['user_id']]['real_name']}}</td>
                             <td>{{user[o['user_id']]['mobile_phone']}}<td>
                             <td>{{user[o['user_id']]['office_phone']}}<td>
