@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>IconFont</title>
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+</head>
+<body>
+    <div class="main markdown">
+        <h1>IconFont 图标</h1>
+        <ul class="icon_lists clear">
+            
+                <li>
+                <i class="icon iconfont icon-user"></i>
+                    <div class="name">用户</div>
+                    <div class="fontclass">.icon-user</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-error"></i>
+                    <div class="name">错误</div>
+                    <div class="fontclass">.icon-error</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-delete"></i>
+                    <div class="name">删除</div>
+                    <div class="fontclass">.icon-delete</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-link"></i>
+                    <div class="name">链接</div>
+                    <div class="fontclass">.icon-link</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-clock"></i>
+                    <div class="name">闹钟</div>
+                    <div class="fontclass">.icon-clock</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-scan"></i>
+                    <div class="name">扫一扫</div>
+                    <div class="fontclass">.icon-scan</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-up"></i>
+                    <div class="name">上翻</div>
+                    <div class="fontclass">.icon-up</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-setting"></i>
+                    <div class="name">设置</div>
+                    <div class="fontclass">.icon-setting</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-sound"></i>
+                    <div class="name">声音</div>
+                    <div class="fontclass">.icon-sound</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-time"></i>
+                    <div class="name">时间</div>
+                    <div class="fontclass">.icon-time</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-index"></i>
+                    <div class="name">首页</div>
+                    <div class="fontclass">.icon-index</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-refresh"></i>
+                    <div class="name">刷新</div>
+                    <div class="fontclass">.icon-refresh</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-search"></i>
+                    <div class="name">搜索</div>
+                    <div class="fontclass">.icon-search</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-lock"></i>
+                    <div class="name">锁</div>
+                    <div class="fontclass">.icon-lock</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-prompt"></i>
+                    <div class="name">提示</div>
+                    <div class="fontclass">.icon-prompt</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-finish"></i>
+                    <div class="name">完成</div>
+                    <div class="fontclass">.icon-finish</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-feedback"></i>
+                    <div class="name">反馈</div>
+                    <div class="fontclass">.icon-feedback</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-down"></i>
+                    <div class="name">下翻</div>
+                    <div class="fontclass">.icon-down</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-uparrow"></i>
+                    <div class="name">向上箭头</div>
+                    <div class="fontclass">.icon-uparrow</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-downarrow"></i>
+                    <div class="name">向下箭头</div>
+                    <div class="fontclass">.icon-downarrow</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-rtarrow"></i>
+                    <div class="name">向右箭头</div>
+                    <div class="fontclass">.icon-rtarrow</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-lfarrow"></i>
+                    <div class="name">向左箭头</div>
+                    <div class="fontclass">.icon-lfarrow</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-idea"></i>
+                    <div class="name">意见反馈</div>
+                    <div class="fontclass">.icon-idea</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-camera"></i>
+                    <div class="name">照相机</div>
+                    <div class="fontclass">.icon-camera</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-rightly"></i>
+                    <div class="name">正确</div>
+                    <div class="fontclass">.icon-rightly</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-msghome"></i>
+                    <div class="name">消息中心</div>
+                    <div class="fontclass">.icon-msghome</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-saveas"></i>
+                    <div class="name">另存为</div>
+                    <div class="fontclass">.icon-saveas</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-message"></i>
+                    <div class="name">短信</div>
+                    <div class="fontclass">.icon-message</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-like"></i>
+                    <div class="name">喜欢</div>
+                    <div class="fontclass">.icon-like</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-voice"></i>
+                    <div class="name">语音</div>
+                    <div class="fontclass">.icon-voice</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-reduce"></i>
+                    <div class="name">减</div>
+                    <div class="fontclass">.icon-reduce</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-help"></i>
+                    <div class="name">帮助</div>
+                    <div class="fontclass">.icon-help</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-exit"></i>
+                    <div class="name">退出</div>
+                    <div class="fontclass">.icon-exit</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-filt"></i>
+                    <div class="name">筛选</div>
+                    <div class="fontclass">.icon-filt</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-notice"></i>
+                    <div class="name">提醒</div>
+                    <div class="fontclass">.icon-notice</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-add"></i>
+                    <div class="name">添加</div>
+                    <div class="fontclass">.icon-add</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-expand"></i>
+                    <div class="name">展开菜单</div>
+                    <div class="fontclass">.icon-expand</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-collect"></i>
+                    <div class="name">收藏</div>
+                    <div class="fontclass">.icon-collect</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-list"></i>
+                    <div class="name">列表</div>
+                    <div class="fontclass">.icon-list</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-save"></i>
+                    <div class="name">保存</div>
+                    <div class="fontclass">.icon-save</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-tag"></i>
+                    <div class="name">标签</div>
+                    <div class="fontclass">.icon-tag</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-see"></i>
+                    <div class="name">查看</div>
+                    <div class="fontclass">.icon-see</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-task"></i>
+                    <div class="name">任务</div>
+                    <div class="fontclass">.icon-task</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-cmdb"></i>
+                    <div class="name">配置管理</div>
+                    <div class="fontclass">.icon-cmdb</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-limit"></i>
+                    <div class="name">权限</div>
+                    <div class="fontclass">.icon-limit</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-calendar"></i>
+                    <div class="name">日历</div>
+                    <div class="fontclass">.icon-calendar</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-text"></i>
+                    <div class="name">text</div>
+                    <div class="fontclass">.icon-text</div>
+                </li>
+            
+        </ul>
+
+        <h2 id="font-class-">font-class引用</h2>
+        <hr>
+
+        <p>font-class是unicode使用方式的一种变种，主要是解决unicode书写不直观，语意不明确的问题。</p>
+        <p>与unicode使用方式相比，具有如下特点：</p>
+        <ul>
+        <li>兼容性良好，支持ie8+，及所有现代浏览器。</li>
+        <li>相比于unicode语意明确，书写更直观。可以很容易分辨这个icon是什么。</li>
+        <li>因为使用class来定义图标，所以当要替换图标时，只需要修改class里面的unicode引用。</li>
+        <li>不过因为本质上还是使用的字体，所以多色图标还是不支持的。</li>
+        </ul>
+        <p>使用步骤如下：</p>
+        <h3 id="-fontclass-">第一步：引入项目下面生成的fontclass代码：</h3>
+
+
+        <pre><code class="lang-js hljs javascript"><span class="hljs-comment">&lt;link rel="stylesheet" type="text/css" href="./iconfont.css"&gt;</span></code></pre>
+        <h3 id="-">第二步：挑选相应图标并获取类名，应用于页面：</h3>
+        <pre><code class="lang-css hljs">&lt;<span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">class</span>="<span class="hljs-selector-tag">iconfont</span> <span class="hljs-selector-tag">icon-xxx</span>"&gt;&lt;/<span class="hljs-selector-tag">i</span>&gt;</code></pre>
+        <blockquote>
+        <p>"iconfont"是你项目下的font-family。可以通过编辑项目查看，默认是"iconfont"。</p>
+        </blockquote>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+
+{% for d in arr %}
+<div class="from-order ">
+    <div class="row">
+        <a  class="col-xs-18 col-sm-18 col-md-18" href="/dish?id={{d[id]}}">
+            <div class="col-xs-4 col-sm-4 col-md-4 menu-img">
+                <img src="{{ d['pic_loc'] }}" alt="">
+            </div>
+            <div class="col-xs-16 col-sm-16 col-md-16 menu-txt">
+                <div class="dishes">
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">菜品名称</div>
+                        <div class="col-xs-15 col-sm-15 col-md-15 grade">
+    {{ '暂无评分' if d['num'] == 0 else round(d['score']/float(d['num']), 2)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 material">食材</div>
+                        <div class="col-xs-15 col-sm-15 col-md-15 material-style">{{d['material']}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 price">价格</div>
+                        <div class="col-xs-15 col-sm-15 col-md-15 value">￥{{d['price']}}元/{{d['unit']}}</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% if not expire %}
+            {% if role == conf.canteen_admin_mobile %}
+        <div class="col-xs-6 col-sm-6 col-md-6 menu-edit">
+            <div class="operate">
+                <div class="col-xs-24 col-sm-24 col-md-24 dele pull-right">
+                    <button type="button" class="close cd"   data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </div>
+                <div class="col-xs-24 col-sm-24 col-md-24 edit pull-right">
+                    <a href="/edit?id={{d['id']}}">
+                        <input type="submit" class="btn btn-primary btn-md pull-right" href="edit.html" value="编辑"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+            {% end %}
+        {% end %}
+    </div>
+</div>
+{% end %}

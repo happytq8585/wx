@@ -1,0 +1,14 @@
+/*
+ * 修正bootstrap
+ */
+
+.form-inline {
+	.btn-group-sm {
+		display: inline-block;
+	}
+}
+
+.btn-sm {
+  width: 120px;
+  margin-right: 10px;
+}

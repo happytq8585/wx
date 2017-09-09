@@ -1,0 +1,567 @@
+/*
+ * 皮肤
+ */
+/*
+ *@皮肤变量less文件
+ **/
+/*
+ * bootstrap补充，修正bootstrap的bug
+ */
+/*
+ * 修正bootstrap
+ */
+.form-inline .btn-group-sm {
+  display: inline-block;
+}
+.btn-sm {
+  width: 120px;
+  margin-right: 10px;
+}
+/*基础样式*/
+/*
+ * base.less
+ * 定义 html 与 body 标签的样式， 包括字体和字体大小等……
+ */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 1024px;
+  font-size: 14px;
+  background: #3b4a62;
+  font-family: Arial, 'Microsoft YaHei', 'SimSun';
+}
+/*表格里面的删除功能链接的样式*/
+.data-del {
+  margin-left: 10px;
+}
+/*删除提示图表*/
+.msg-prompt {
+  font-size: 40px;
+  vertical-align: middle;
+  margin-right: 20px;
+}
+/*页面错误提示信息*/
+.error-msg {
+  position: fixed;
+  top: 81px;
+  width: 500px;
+  left: 50%;
+  margin-left: -250px;
+  background-color: #f5eab0;
+  border: none;
+}
+/*无返回数据提醒*/
+.no-data {
+  width: 100%;
+  height: 100px;
+  line-height: 100px;
+  background: #fff;
+  font-size: 18px;
+  color: #b0b3b9;
+}
+.no-data i {
+  font-size: 32px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+/*通用的最小宽度*/
+.min-width50 {
+  min-width: 50px;
+}
+.min-width100 {
+  min-width: 100px;
+}
+.min-width150 {
+  min-width: 150px;
+}
+.grail-basic-styles {
+  /* #grail-content
+  {
+    div
+    {
+      height: 100%;
+    }
+  }
+  #grail-aside {
+    div
+    {
+      height: 100%;
+    }
+  }*/
+}
+.grail-basic-styles .tree-search {
+  width: 95px;
+  height: 25px;
+}
+.grail-basic-styles .tree-btn {
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.grail-basic-styles .tree-search-btn {
+  background: url(../assets/images/search.png) no-repeat center #44afd1;
+}
+.grail-basic-styles .tree-unfold-btn {
+  background: url(../assets/images/spread.png) no-repeat center #49d3c6;
+}
+.grail-basic-styles .tree-fold-btn {
+  background: url(../assets/images/combine.png) no-repeat center #49d3c6;
+}
+.grail-basic-styles .tree-container {
+  padding-right: 15px;
+  position: relative;
+}
+.grail-basic-styles .tree-container .tree-area {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background: #fff;
+}
+.grail-basic-styles .tree-container .fold-btn {
+  width: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: none;
+  background: #fff;
+  padding: 0;
+  outline: none;
+  color: #8d8d8d;
+}
+.grail-basic-styles .tree-container .fold-btnhover {
+  background: #e9e9e9;
+}
+.grail-basic-styles .tree-container .fold-btnactive {
+  box-shadow: 0 0 5px #878787 inset;
+}
+.grail-basic-styles .navbar-dropmenu-container {
+  display: none;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  background: #b0b3b9;
+  z-index: 9999;
+}
+.grail-basic-styles .navbar-dropmenu-container .list-group {
+  border-radius: 0;
+  border: none;
+  background: #666eb9;
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.grail-basic-styles .navbar-dropmenu-container .list-group a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
+  color: #fff;
+}
+.grail-basic-styles .navbar-dropmenu-container .list-group-item {
+  border-radius: 0;
+  border: none;
+  background: #666eb9;
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.grail-basic-styles .navbar-dropmenu-container .list-group-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
+  color: #fff;
+}
+.grail-basic-styles .navbar-dropmenu-container .list-group-itemhover {
+  background: #727AC6;
+  box-shadow: 2px 2px 5px #333;
+}
+.grail-basic-styles .navbar-dropmenu-container .list-group-itemhover .second-level-menu {
+  display: none;
+}
+.grail-basic-styles .navbar-dropmenu-container .first-level-menu {
+  display: none;
+  width: 180px;
+  position: relative;
+}
+.grail-basic-styles .navbar-dropmenu-container .first-level-menu .second-level-menu {
+  display: none;
+  position: absolute;
+  width: 180px;
+  top: 0;
+  left: 180px;
+}
+.grail-basic-styles .navbar-dropmenu-container .navdrop-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+.first-level-menu {
+  overflow: auto;
+  height: 100%;
+}
+.first-level-menu li {
+  line-height: 48px;
+  border-bottom: #333;
+}
+.first-level-menu li a {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.first-level-menu li span {
+  padding-left: 10px;
+}
+.first-level-menu li span a {
+  color: #fff;
+  font-size: 16px;
+}
+.first-level-menu li .second-level-menu {
+  background: #314057;
+  color: #fff;
+  padding: 0;
+}
+.first-level-menu li .second-level-menu li {
+  list-style: none;
+  line-height: 40px;
+  padding: 0;
+  color: #fff;
+  padding-left: 40px;
+  cursor: pointer;
+}
+.first-level-menu li .second-level-menu li a {
+  color: #fff;
+}
+.first-level-menu li a {
+  color: #fff;
+  font-size: 16px;
+}
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+}
+.content {
+  padding: 10px 10px 10px 0;
+}
+.nav-tabs li a {
+  border: 1px solid #ddd;
+  background: #eee;
+  color: #444;
+}
+.nav-tabs li ahover {
+  border: 1px solid #ddd;
+  background: #ccc;
+  color: #555;
+}
+.nav-tabs li .active ahover {
+  color: #333;
+}
+.nav-tabs li .active afocus {
+  color: #333;
+}
+.ph {
+  padding: 15px;
+}
+.welcome {
+  font-size: 34px;
+  color: #555555;
+  position: absolute;
+  top: 140px;
+  left: 650px;
+}
+.data-fill ul li {
+  list-style: none;
+  float: left;
+  width: 260px;
+  height: 253px;
+}
+.blue {
+  background: #3798d8;
+}
+.gray {
+  background: #3b4a62;
+}
+.tree-container {
+  padding-right: 15px;
+  position: relative;
+}
+.tree-container .tree-area {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background: #fff;
+}
+.tree-container .folder-btn {
+  width: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: none;
+  background: #3b4a62;
+  padding: 0;
+  outline: none;
+  color: #8d8d8d;
+}
+.tree-container .folder-btnhover {
+  background: #364359;
+}
+.tree-container .folder-btnactive {
+  box-shadow: 0 0 5px #364359 inset;
+}
+.welkin-login {
+  width: 100%;
+  height: 100%;
+}
+.welkin-login .login {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: url("../../assets/images/login/login-bg.jpg") no-repeat center;
+}
+.welkin-login .log-con {
+  /*  width: 540px;*/
+  height: 411px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+.welkin-login .log-con .con-head {
+  height: 80px;
+  background: url("../assets/images/login/login-tit-bg.png") no-repeat;
+  padding: 25px;
+}
+.welkin-login .log-con .con-body {
+  background: url("../assets/images/login/login-box.png") no-repeat;
+}
+.welkin-login .log-con .con-body .by-con {
+  margin: 0 auto;
+  padding-top: 30px;
+}
+.welkin-login .log-con .con-body .by-con .log-int {
+  margin-top: 10px;
+}
+.welkin-login .log-con .con-body .by-con .log-int input {
+  height: 38px;
+  /*  width: 100%;*/
+  border: 1px solid #e2e3e9;
+  text-indent: 10px;
+  background: #fff;
+  margin-bottom: 20px;
+  color: #999;
+  line-height: 38px;
+}
+.welkin-login .log-con .con-body .by-con .logChose {
+  color: #999;
+}
+.welkin-login .log-con .con-body .by-con .log-prompt {
+  margin-top: 10px;
+  color: #e9593e;
+  display: none;
+}
+.welkin-login .log-con .con-body .by-con .log-prompt div {
+  height: 30px;
+  line-height: 30px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.welkin-login .log-con .con-body .by-con .log-btn {
+  margin-top: 15px;
+  text-align: center;
+  padding-bottom: 200px;
+}
+.welkin-login .log-con .con-body .by-con .log-btn input {
+  text-align: center;
+  height: 40px;
+  padding: 0 30px;
+  letter-spacing: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  margin: 0 auto;
+  width: 120px;
+}
+.fast-login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2999;
+  background: rgba(0, 0, 0, 0.3);
+}
+.fast-login .log-con {
+  z-index: 3000;
+}
+.fast-login .log-con .con-body {
+  background: #fff !important;
+}
+.fast-login .log-con .con-body .by-con .log-btn {
+  padding-bottom: 67px;
+}
+.field-manage {
+  background: #fff;
+}
+.field-manage .wlk-bottom .label-font {
+  font-weight: normal;
+}
+.field-manage .wlk-bottom .spr-size {
+  height: 34px;
+}
+.field-manage .wlk-bottom .opt-a {
+  cursor: pointer;
+}
+.field-manage .wlk-bottom .btn-group {
+  vertical-align: top;
+}
+.field-manage .wlk-bottom .btn-group-sm {
+  vertical-align: top;
+}
+.field-manage .wlk-bottom .btn-group-vertical {
+  vertical-align: top;
+}
+.add-field .slt-opt {
+  border: 1px solid #e3e5ec;
+  padding: 10px 0 0 0;
+  cursor: pointer;
+}
+.add-field .slt-opt .img-box {
+  height: 60px;
+  line-height: 50px;
+}
+.add-field .slted-opt {
+  background: #53d8dc;
+  color: #fff;
+  cursor: pointer;
+}
+.add-config .add-config-btn {
+  background: #fed258;
+  color: #fff;
+}
+.add-config .config-area {
+  height: 100px;
+  resize: none;
+}
+.add-config .dte-a {
+  height: 34px;
+  line-height: 34px;
+}
+.add-config .dte-a a {
+  cursor: pointer;
+}
+.btn-pmy {
+  background: #53d8dc;
+  color: #fff;
+  width: 126px;
+}
+.cancle-add {
+  background: #b0b3b9;
+  color: #fff;
+  width: 126px;
+}
+.scope-manage table a {
+  cursor: pointer;
+}
+.disbute-modal .fist-panel .panel-body {
+  padding: 0;
+}
+.disbute-modal .fist-panel .panel-body .scope-ul {
+  padding: 0;
+  height: 445px;
+  overflow: auto;
+}
+.disbute-modal .fist-panel .panel-body .scope-ul li {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px;
+}
+.disbute-modal .fist-panel .panel-body .scope-ul lihover {
+  background: #8a8dd2;
+  color: #fff;
+}
+.disbute-modal .fist-panel .panel-body .scope-ul lifocus {
+  background: #8a8dd2;
+  color: #fff;
+}
+.disbute-modal .fist-panel .panel-body .scope-ul .slted-ul {
+  background: #8a8dd2;
+  color: #fff;
+}
+.disbute-modal .scond-panel .panel-body {
+  height: 445px;
+  overflow: auto;
+}
+.disbute-modal .scond-panel .panel-body .mbr-box {
+  border-bottom: 1px solid #ddd;
+}
+.disbute-modal .scond-panel .panel-body .mbr-box .table {
+  margin-bottom: 0px;
+}
+.disbute-modal .scond-panel .panel-body .mbr-box .table tr th {
+  border: none;
+}
+.disbute-modal .scond-panel .panel-body .mbr-box .table tr td {
+  border: none;
+}
+.disbute-modal .thid-panel .panel-body {
+  padding: 0;
+}
+.disbute-modal .thid-panel .panel-body .sel-box .tip {
+  color: #b0b3b9;
+  text-indent: 12px;
+  height: 360px;
+  width: 100%;
+  overflow: auto;
+  border: none;
+  resize: none;
+}
+.disbute-modal .thid-panel .panel-body .sel-box .tipfocus {
+  border: 1px solid #a5c7fe;
+}
+.disbute-modal .thid-panel .panel-body .sel-box .tiphover {
+  border: 1px solid #a5c7fe;
+}
+.disbute-modal .thid-panel .panel-body .sel-box .sel-p {
+  height: 60px;
+  line-height: 60px;
+  background: #f6f7f8;
+  margin-top: 20px;
+}
+.disbute-modal .thid-panel .panel-body .sel-box .sel-p .sel-btn {
+  background: #49d3c6;
+  display: inline-block;
+  color: #fff;
+}
+.disbute-modal .thid-panel .panel-body .sel-box .disbute-modal .thid-panel .panel-body .sel-box .sel-p .add-group-modal textarea {
+  resize: none;
+}

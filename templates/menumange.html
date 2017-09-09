@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- font-icon -->
+    <link rel="stylesheet" href="../../lib/font-welkin/css/iconfont.css"/>
+
+    <!-- bootstrap-core -->
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="../../lib/bootstrap-addtabs/css/bootstrap.addtabs.css"/>
+    <link rel="stylesheet" href="../../lib/autocompleter/jquery.autocompleter.css"/>
+    <!-- welkin -->
+    <link rel="stylesheet" href="../../lib/welkin/css/welkin.css">
+    <link rel="stylesheet" href="../styles/less/components/header.css"/>
+    <link rel="stylesheet" href="../../src/styles/hoop.css"/>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../../libs/html5shiv.min.js"></script>
+    <script src="../../libs/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .footer {
+            background: lavenderblush;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+<!-- body -->
+<section class="main ">
+    <div class="container-fluid user-manage">
+
+        <div class="wlk-top">
+            <!--查询条件-->
+            <div class="row">
+                <form class="form-horizontal " action="">
+                    <div class="col-lg-offset-2 col-sm-offset-1 col-md-offset-0 col-sm-10 col-md-8 col-lg-7 ">
+                        <label class="col-sm-8 text-right" for="">柜员号:</label>
+
+                        <div class="col-sm-16 ">
+                            <input class=" form-control input-sm iptNum" type="text" placeholder="请输入柜员号">
+                        </div>
+                    </div>
+                    <div class="col-sm-10 col-md-8 col-lg-7">
+                        <label class="col-sm-8 text-right" for="">机构:</label>
+
+                        <div class="col-sm-16 input-group  stree">
+                            <input class=" form-control input-sm iptNum" id="orgName" name="operatorOrgName" type="text"
+                                   value="" placeholder="请选择"/>
+                            <span class="input-group-btn">
+                                <button class="iconfont icon-downarrow"></button>
+                            </span>
+                            <div id="treeContent" class="posDown">
+                                <ul id="tree" class="ztree tree-list "></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-24 col-md-8 col-lg-7 text-center btn-box">
+                        <button class="btn btn-sm btn-submit" id="validateBtn">查询</button>
+                        <input class=" btn btn-sm btn-reset" id="resetBtn" type="reset" value="重置"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="wlk-bottom">
+            <!--数据操作-->
+            <div class="query-operation">
+                <button class="btn btn-xs btn-add" data-toggle="modal" data-target="#add-form">增加</button>
+                <button class="btn btn-xs btn-settings" id="delete-all">删除</button>
+            </div>
+
+            <!--查询结果-->
+            <div class="qurey-result ">
+                <table class="table ">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input class="check-all" type="checkbox">
+                        </th>
+                        <th>序号</th>
+                        <th>柜员号</th>
+                        <th>姓名</th>
+                        <th>机构</th>
+                        <th>启用状态</th>
+                        <th>锁定状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <!--<tr>
+                        <td colspan="8">
+                            &lt;!&ndash;没有数据提示&ndash;&gt;
+                            <div class="no-data text-center">
+                                <span><i class="iconfont icon-help"></i>没有数据</span>
+                            </div>
+                        </td>
+                    </tr>-->
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="check-ls" type="checkbox">
+                        </td>
+                        <td>1</td>
+                        <td>8011024</td>
+                        <td>周数人</td>
+                        <td>浙江省农村信用社联合社</td>
+                        <td>启用</td>
+                        <td>锁定</td>
+                        <td><a href="#" class="data-edit">修改</a><a href="#" class="data-del" data-toggle="modal"  data-target="#data-delete">删除</a></td>
+                    </tr>
+
+                    </tbody>
+
+
+                </table>
+                <!--分页栏-->
+                分页栏
+                <p class="test">werwre</p>
+
+                <p class="test">werwre</p>
+
+                <p class="test">werwre</p>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!--footer-->
+<footer class="footer">
+    123
+</footer>
+
+<!--错误提示信息-->
+<div class="alert alert-danger error-msg hide" >
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong></strong>
+</div>
+<!--修改弹出框内容-->
+<div class="modal-modify" style="display:none">
+    <div class="modal-body">
+        <form class="form-horizontal" id="defaultForm" action="">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="">柜员号：</label>
+                <div class="col-sm-18">
+                    <input type="text" class="form-control"  name="teller">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="">姓名：</label>
+                <div class="col-sm-18">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="">机构：</label>
+                <div class="col-sm-18">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="">启用状态：</label>
+                <div class="col-sm-18">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!--js-->
+<script src="../../lib/jquery/jquery.min.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.js"></script>
+<script src="../../lib/autocompleter/jquery.autocompleter.js"></script>
+<script src="../../lib/bootstrap-addtabs/js/bootstrap.addtabs.js"></script>
+<script src="../../lib/layer/layer.js"></script>
+<script src="../../lib/welkin/js/welkin.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+    $(document).ContainerHeight();
+    var data = [
+        {'label':'one'},
+        {'label':'two'},
+        {'label':'three'}
+    ];
+    $('.iptNum').autocompleter({
+        source:data,
+        highlightMatches:true
+    })
+
+
+    $(function () {
+        $('.wlk-grail').GrailGrid();
+        $(document).ContainerHeight();
+        $.addtabs({
+            iframeUse: false
+        });
+
+        $('#closeAll').click(function () {
+            console.log('1');
+            $.addtabs.closeAll('#tabs1');
+        })
+    });
+
+    $(function(){
+       /* $('.input-sm').datetimepicker({
+            language:'zh-CN'
+        })*/
+        /*修改弹出框*/
+        $(".data-edit").on("click",function(){
+            layer.open({
+                type:1,
+                title:"信息提示",
+                area:"566px",
+                zIndex:2,
+                content:$(".modal-modify"),
+                btn:["确认","取消"],
+                yes:function(index){
+                    $('#defaultForm').bootstrapValidator('validate');
+                    if($('#defaultForm').data("bootstrapValidator").isValid()){
+                        /*重置表单*/
+                        $('#defaultForm').data('bootstrapValidator').resetForm(true);
+
+                        layer.close(index);
+                        errmsg("修改成功",2000);
+                    }
+                },
+                btn2:function(index){
+                    layer.close(index)
+                }
+            });
+
+        });
+        $('#defaultForm').bootstrapValidator({
+            container: 'tooltip',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+
+                teller: {
+                    group: ".col-sm-18",
+                    validators: {
+                        notEmpty: {
+                            message:"柜员号不能为空"
+                        },
+                        regexp:{
+                            regexp:/^\d{6}$/,
+                            message:"柜员号必须为6位数字"
+                        }
+                    }
+                }
+            }
+        });
+
+
+        /*删除弹出框*/
+        $(".data-del").on("click",function(){
+            var me=this;
+            layer.alert("确定删除吗?",{icon:2,btn:["确认","取消"],yes:function(index){
+                layer.close(winindex);
+                errmsg("删除成功",2000)
+            }});
+
+        })
+        /*表单验证*/
+
+        /*/!*设置错误提示信息自动消失方法*!/
+        function errmsg(content,delay){
+            $(".error-msg.alert").addClass("show");
+            $(".error-msg strong").text(content);
+            setTimeout(function(){
+                $(".error-msg.alert").removeClass("show");
+                $(".error-msg.alert").alert();
+            },delay)
+
+        };
+        /!*批量删除*!/
+        $("#delete-all").click(function(){
+            var chose=$("table .check-ls:checked");
+            if(chose.length>0){
+                alert(chose.length)
+            }else{
+                errmsg("未选中任何数据",2000)
+            }
+        })
+
+        /!*表格全选功能*!/
+        function checkall(){
+            $(".check-all").click(function(){
+                var checkel=$(".qurey-result table .check-ls");
+                if(this.checked){
+                    checkel.prop("checked",true)
+                }else{
+                    checkel.prop("checked",false)
+                }
+            })
+        }
+        checkall()
+        //机构树的设定
+        var orgOption = {
+
+            treeSettings : {
+                check:{
+                    chkboxType:{"Y":"s","N":"s"},
+                    chkStyle:"checkbox",
+                    enable:true
+                },
+                async : {
+                    url : "",
+                    dataType : "json",
+                    enable : true,
+                    autoParam : ["id","type"],
+                    dataFilter :function (treeId, parentNode, responseData) {
+                        /!*	return responseData.result;*!/
+
+                    }
+                },
+                callback : {
+
+                    onClick : function( e, treeId, treeNode){
+                        orgtree.onClicks(e, treeId, treeNode, function () {
+                            /!*console.log(treeNode)*!/
+                        })
+                    },
+                    onCheck:function( e, treeId, treeNode) {
+                        orgtree.onChecks(e, treeId, treeNode, function () {
+                            /!*console.log(treeNode)*!/
+                        })
+                    }
+                }
+            }
+        };
+        var data=[{name:"湖北",id:"ww",
+            children:[
+                {id:"22",name:"十堰",
+                    children:[
+                        {id:221,name:"竹山",checked:true},
+                        {id:"222",name:"竹溪",checked:true}
+                    ]
+                },
+                {id:"333",name:"宜昌",
+                    children:[
+                        {id:222,name:"宜兴",checked:true},
+                        {id:"334",name:"大秒",checked:true}]}]
+        }
+        ];
+        var orgtree= new Stree(orgOption,data);
+        /!*阻止表单的默认提交*!/
+        $("button").click(function (e) {
+            e.preventDefault();
+        })
+*/
+
+    })
+</script>
+</body>
+</html>
+

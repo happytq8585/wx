@@ -1,0 +1,101 @@
+.welkin-login {
+  width: 100%;
+  height: 100%;
+  .login {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: url("../../assets/images/login/login-bg.jpg") no-repeat center ;
+
+  }
+  .log-con {
+       /*  width: 540px;*/
+       height: 411px;
+       position: fixed;
+       top:0;
+       right: 0;
+       bottom: 0;
+       left: 0;
+       margin: auto;
+       .con-head {
+         height: 80px;
+         background: url("../assets/images/login/login-tit-bg.png") no-repeat;
+         padding: 25px;
+       }
+       .con-body {
+         background: url("../assets/images/login/login-box.png") no-repeat ;
+         .by-con {
+           margin: 0 auto;
+           padding-top: 30px;
+           .log-int {
+             margin-top: 10px;
+             input {
+               height: 38px;
+               /*  width: 100%;*/
+               border: 1px solid #e2e3e9;
+               text-indent: 10px;
+               background: #fff;
+               margin-bottom: 20px;
+               color: #999;
+               line-height: 38px;
+             }
+
+           }
+           .logChose {
+             color: #999;
+           }
+           .log-prompt {
+             margin-top: 10px;
+             color: #e9593e;
+             display: none;
+           }
+           .log-prompt>div{
+             height: 30px;
+             line-height: 30px;
+             background: rgba(0,0,0,.2);
+           }
+           .log-btn {
+             margin-top: 15px;
+             text-align: center;
+             padding-bottom:200px;
+             input {
+               text-align: center;
+               height: 40px;
+               padding: 0 30px;
+               letter-spacing: 5px;
+               cursor: pointer;
+               border-radius: 4px;
+               border: none;
+               margin: 0 auto;
+               width:120px;
+             }
+
+           }
+         }
+       }
+     }
+}
+
+.fast-login{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2999;
+  background: rgba(0,0,0,.3);
+
+  .log-con{
+    z-index: 3000;
+    .con-body{
+      background: #fff !important;
+      .by-con{
+        .log-btn{
+          padding-bottom:67px;
+        }
+      }
+
+    }
+  }
+
+}

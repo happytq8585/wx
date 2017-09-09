@@ -1,0 +1,101 @@
+/*
+ * structure.less
+ * 定义主体结构的样式
+ */
+
+
+
+// 头部
+header.header {
+  width: 100%;
+}
+
+
+// 主体内容（自动撑开高度）
+section.main {
+  width: 100%;
+  padding-top: 20px;
+
+  //上下结构(上)
+  .wlk-top {
+	background: #fff;
+	padding: 20px 10px;
+	label {
+	  padding-top: 7px;
+	  color: #81848b;
+	  font-weight: normal;
+	}
+	  //媒体查询
+	  @media(max-width:992px){
+		  .btn-box{
+			  margin-top:10px;
+		  }
+	  }
+  }
+
+
+  //上下结构(下)
+  .wlk-bottom {
+	background: #fff;
+	padding: 1px;
+	margin-top: 20px;
+	//头部数据操作
+	.query-operation {
+	  height: 60px;
+	  background: #f6f7f9;
+	  padding: 18px 20px;
+	}
+
+	//查询结果(表格)
+	.qurey-result {
+	  padding: 0 20px;
+	}
+  }
+}
+
+//主体内容（全屏显示）
+section.main-fullscreen {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 80px;
+	bottom: 15px;
+	padding-top: 20px;
+	.container-fluid {
+		height: 100%;
+
+
+
+		// 左右结构圣杯布局（左侧边栏固定宽度）
+		.wlk-grail {
+			height: 100%;
+			padding-left: 230px;
+			overflow: hidden;
+			.wlk-aside{
+				float: left;
+				width: 215px;
+				height: 100%;
+				margin-left: -100%;
+				position: relative;
+				left: -230px;
+				_left: 0;
+			}
+
+			.wlk-container {
+				float: left;
+				width: 100%;
+				height: 100%;
+			}
+
+
+		}
+
+		// 左右结构（侧边栏自适应宽度）
+		&>div.row,
+		&>div>div{
+			height: 100%;
+		}
+
+	}
+}

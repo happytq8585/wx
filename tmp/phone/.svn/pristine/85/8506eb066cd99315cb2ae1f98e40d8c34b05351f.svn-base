@@ -1,0 +1,129 @@
+.grail-basic-styles {
+	#grail-content>div,
+	#grail-aside>div{
+		height: 100%;
+	}
+
+	.tree-search {
+		width: 95px;
+		height: 25px;
+	}
+	.tree-btn {
+		padding: 0;
+		width: 25px;
+		height: 25px;
+		display: inline-block;
+		margin-bottom: 0;
+		font-size: 14px;
+		font-weight: normal;
+		line-height: 1.42857143;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		background-image: none;
+		border: 1px solid transparent;
+		border-radius: 4px;
+	}
+	.tree-search-btn {
+		background: url(../assets/images/search.png)  no-repeat center #44afd1;
+	}
+	.tree-unfold-btn {
+		background: url(../assets/images/spread.png)  no-repeat center #49d3c6;
+	}
+	.tree-fold-btn {
+		background: url(../assets/images/combine.png)  no-repeat center #49d3c6;
+	}
+
+	.tree-container{
+		padding-right: 15px;
+		position: relative;
+		.tree-area {
+			height: 100%;
+			width: 100%;
+			overflow: auto;
+			background: #fff;
+		}
+
+		.fold-btn {
+			width: 15px;
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+
+			border: none;
+			background: #fff;
+			padding: 0;
+			outline: none;
+			color: #8d8d8d;
+			&:hover {
+				background: #e9e9e9;
+			}
+			&:active {
+				box-shadow: 0 0 5px #878787 inset;
+			}
+		}
+	}
+
+  // 导航下拉菜单
+  .navbar-dropmenu-container {
+	display: none;
+	position: absolute;
+	top: 80px;
+	left: 0;
+	background: #b0b3b9;
+	z-index: 9999;
+	.list-group,
+	.list-group-item {
+	  border-radius: 0;
+	  border: none;
+	  background: @main-color-2;
+	  color: #fff;
+	  margin: 0;
+	  cursor: pointer;
+	  padding: 0;
+	  a {
+		display: block;
+		width: 100%;
+		height: 100%;
+		padding: 10px 15px;
+		color: #fff;
+	  }
+	}
+	.list-group-item:hover {
+	  background: @main-color-1;
+	  box-shadow: 2px 2px 5px #333;
+	  & > .second-level-menu {
+		display: block;
+	  }
+	}
+	.first-level-menu {
+	  display: none;
+	  width: 180px;
+	  position: relative;
+	  .second-level-menu {
+		display: none;
+		position: absolute;
+		width: 180px;
+		top: 0;
+		left: 180px;
+	  }
+	}
+	.navdrop-mask {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  z-index: -1;
+	}
+  }
+
+}

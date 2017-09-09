@@ -15,21 +15,18 @@ from device import isMobileDevice, checkMobile
 from tornado.web import StaticFileHandler
 from tornado.options import define, options
 
-from data   import query_user, query_dish_by_day, write_dish
-from data   import delete_dish_by_id, query_comments_by_dish_id
-from data   import query_dish_by_id, write_comment, update_password
-from data   import update_personal_info, query_user_by_id, query_user_all
-from data   import update_user_by_id, add_user, delete_user_by_id
-from data   import write_order, query_all_orders, query_orders_by_uid
-from data   import query_dish_by_ids, query_user_by_ids
-from data   import order_confirm, query_order_by_dish_id
-from data   import query_already_ordered
+from wx import wxapi
 from conf import conf
+
+from data import query_dish_by_day
+
 define("port", default=8000, help="run on the given port", type=int)
+
+user_cache = {}
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
-        return self.get_secure_cookie("real_name")
+        return self.get_secure_cookie("mobile")
     def get_role(self):
         return int(self.get_secure_cookie("role"))
     def _get_head_nav(self):
@@ -110,68 +107,68 @@ class UploadFileHandler(BaseHandler):
             self.write('上传成功!')
 
 class IndexHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
     def get(self):
-        r = checkMobile(self.request)
-        device = ''
-        if r:
-            device = 'mobile'
-            self.set_secure_cookie('pc_or_mobile', device)
+        code = self.get_argument('code', None)
+        if not code:
+            self.finish()
         else:
-            device = 'pc'
-            self.set_secure_cookie('pc_or_mobile', device)
-        target = device + '/' + 'index.html'
-        self.render(target, name=conf.tpl_index_name, device=device)
+            atk    = yield tornado.gen.Task(self._access)
+            if not atk:
+                self.finish()
+            else:
+                print("atk=%s"%atk)
+                uid    = yield tornado.gen.Task(self._userid, atk, code)
+                if not uid:
+                    self.finish()
+                else:
+                    print("userid=%s"%uid)
+                    info   = yield tornado.gen.Task(self._userinfo, atk, uid)
+                    if not info:
+                        self.finish()
+                    else:
+                        print("userinfo=%s"%info)
+                        self._write_user_cache(info)
+                        self.render('index.html')
+    def _write_user_cache(self, u):
+        mobile = u.get('mobile', '')
+        self.set_secure_cookie('mobile', mobile)
+        user_cache[mobile] = u
 
-class LoginHandler(tornado.web.RequestHandler):
+    @tornado.gen.coroutine
+    def _access(self):
+        return wxapi.access_token()
+
+    @tornado.gen.coroutine
+    def _userid(self, atk, code):
+        return wxapi.userid(atk, code)
+
+    @tornado.gen.coroutine
+    def _userinfo(self, atk, uid):
+        return wxapi.userinfo(atk, uid)
+
+class DishModule(tornado.web.UIModule):
+    def render(self, arr, mobile, expire, conf):
+        target = 'menu_modules/dish.html'
+        return self.render_string(target, arr=arr, mobile=mobile, expire=expire, conf=conf)
+
+class MenuHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        device = self.get_secure_cookie('pc_or_mobile')
-        target = device + '/' + 'index.html'
-        self.render(target, name=conf.tpl_index_name, device=device)
-    def post(self):
-        rname = self.get_argument("real_name")
-        upass = self.get_argument("password")
-        e     = query_user(rname, upass)#返回user表的字典
-        if not e:
-            self.set_status(400)
-        else:
-            print(e)
-            self._write_cookie(e)
-    def _write_cookie(self, e):
-        if e:
-            self.set_secure_cookie('uid', str(e['id']), expires_days=None)
-            self.set_secure_cookie('real_name', e['real_name'], expires_days=None)
-            self.set_secure_cookie('nick_name', e['nick_name'], expires_days=None)
-            self.set_secure_cookie('real_img_url', e['real_img_url'], expires_days=None)
-            self.set_secure_cookie('nick_img_url', e['nick_img_url'], expires_days=None)
-            self.set_secure_cookie('office_phone', e['office_phone'], expires_days=None)
-            self.set_secure_cookie('mobile_phone', e['mobile_phone'], expires_days=None)
-            self.set_secure_cookie('role', str(e['role']), expires_days=None)
-class BreakfastModule(tornado.web.UIModule):
-    def render(self, arr, device, role, t):
-        target = '%s/canteen/modules/breakfast.html' % device
-        return self.render_string(target, breakfast=arr, role=role, conf=conf, T=t)
-class LunchModule(tornado.web.UIModule):
-    def render(self, arr, device, role, t):
-        target = '%s/canteen/modules/lunch.html' % device
-        return self.render_string(target, lunch=arr, role=role, conf=conf, T=t)
-class DinnerModule(tornado.web.UIModule):
-    def render(self, arr, device, role, t):
-        target = '%s/canteen/modules/dinner.html' % device
-        return self.render_string(target, dinner=arr, role=role, conf=conf, T=t)
-class ReserveModule(tornado.web.UIModule):
-    def render(self, arr, device, role, t):
-        target = '%s/canteen/modules/reserve.html' % device
-        return self.render_string(target, reserve=arr, role=role, conf=conf, T=t)
-class TabModule(tornado.web.UIModule):
-    def render(self, arr, device, canteen, role):
-        breakfast = []
-        lunch     = []
-        dinner    = []
-        reserve   = []
+        day         = self.get_argument('day', None)
+        t           = time.localtime()
+        now         = time.strftime('%Y-%m-%d', t)
+        offset      = time.strftime('%H:%M:%S', t)
+        if not day:
+            day     = now
+        expire      = True if day + conf.timeoffset  < now + offset else False
+        arr         = query_dish_by_day(day)
+        breakfast   = []
+        lunch       = []
+        dinner      = []
         for e in arr:
-            if e['kind'] == 0x0000:
-                reserve.append(e)
-            elif e['kind'] == 0x0010:
+            if e['kind'] == 0x0010:
                 breakfast.append(e)
             elif e['kind'] == 0x0100:
                 lunch.append(e)
@@ -179,54 +176,16 @@ class TabModule(tornado.web.UIModule):
                 dinner.append(e)
             else:
                 pass
-        target = '%s/canteen/modules/tab.html' % device
-        t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-        return self.render_string(target, canteen=canteen, breakfast=breakfast,lunch=lunch, dinner=dinner, reserve=reserve, device=device, role=role, conf=conf, T=t)
+        mobile      = self.get_secure_cookie('mobile')
+        self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
 
-class PublicData():
-    def __init__(self, name, role):
-        self.real_name    = name
-        self.role         = int(role)
-    def get_head(self):
-        head = {}
-        head['agent_name']       = conf.agent_name
-        head['canteen_service']  = conf.canteen_service
-        head['meeting_service']  = conf.meeting_service
-        head['notice_service']   = conf.notice_service
-        head['property_service'] = conf.property_service
-        head['real_name']        = self.real_name
-        head['personal_center']  = conf.personal_center
-        head['order_list']       = conf.order_list
-        head['member_management']= conf.member_management
-        head['role']             = self.role
-        head['conf']             = conf
-        return head
-    def get_canteen(self):
-        canteen  = {}
-        canteen['breakfast']     = conf.breakfast
-        canteen['lunch']         = conf.lunch
-        canteen['dinner']        = conf.dinner
-        canteen['reserve']       = conf.reserve
-        return canteen
-class CanteenHandler(BaseHandler):
+class AddHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        head    = self._get_head_nav()
-        canteen = self._get_canteen()
-        role    = int(self.get_role())
-        device  = self.get_secure_cookie('pc_or_mobile')
-        target  = '%s/canteen/canteen.html' % device
-        self.render(target, head=head, canteen=canteen, device=device, role=role, conf=conf)
+        self.render('add.html')
     @tornado.web.authenticated
     def post(self):
-        day     = self.get_argument('day', None)
-        if day:
-            arr     = query_dish_by_day(day)
-            device  = self.get_secure_cookie('pc_or_mobile')
-            canteen = self._get_canteen()
-            role    = int(self.get_role())
-            target  = '%s/canteen/modules/tab_tmp.html' % device
-            self.render(target, dishes=arr, device=device, canteen=canteen, role=role)
+        pass
 
 class DeleteDishHandler(BaseHandler):
     @tornado.web.authenticated
@@ -297,13 +256,6 @@ class PersonalHandler(BaseHandler):
             target    = '%s/personal/PersonalCenter.html' % device
             user    = self._get_user()
             self.render(target, device=device, head=head, canteen=canteen, user=user)
-        elif action == 'orderlist':
-            if role == conf.canteen_admin_role:#admin
-                target    = '%s/personal/AdminCanteen.html' % device
-                self.render(target, device=device, head=head, canteen=canteen)
-            elif role == conf.common_member_role:#members
-                target    = '%s/personal/OrderList.html' % device
-                self.render(target, device=device, head=head, canteen=canteen)
         elif action == 'management':
             target    = '%s/personal/Employeelists.html' % device
             users     = query_user_all()
@@ -477,18 +429,13 @@ class ConstructHandler(BaseHandler):
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
-    ui_modules = {'Breakfast_module':BreakfastModule,
-                  'Lunch_module':LunchModule,
-                  'Dinner_module':DinnerModule,
-                  'Reserve_module':ReserveModule,
-                  'Tab_tmp_module':TabModule,
-                  'Canteen_item_bottom_module':CanteenItemBottomModule}
+    ui_modules = {'Dish_module':DishModule}
     settings = {
         "template_path": os.path.join(os.path.dirname(__file__), "templates"),
         "static_path": os.path.join(os.path.dirname(__file__), "static"),
         "cookie_secret": "bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=",
         "xsrf_cookies": True,
-        "login_url": "/login",
+        "login_url": "/",
         "ui_modules":ui_modules,
         "debug":True}
     handler = [
@@ -496,19 +443,10 @@ if __name__ == "__main__":
                (r"/css/(.*)", StaticFileHandler, {"path": "static/css"}),  
                (r"/js/(.*)", StaticFileHandler, {"path": "static/js"}),  
                (r"/img/(.*)", StaticFileHandler, {"path": "static/img"}), 
+               (r"/images/(.*)", StaticFileHandler, {"path": "static/images"}), 
                (r'/', IndexHandler),
-               (r'/login', LoginHandler),
-               (r'/canteen', CanteenHandler),
-               (r'/canteenItem', CanteenItemHandler),
-               (r'/comment', CanteenItemHandler),
-               (r'/up', UploadFileHandler),
-               (r'/delete', DeleteDishHandler),
-               (r'/personal', PersonalHandler),
-               (r'/order', OrderHandler),
-               (r'/orderconfirm', OrderConfirmHandler),
-               (r'/logout', LogoutHandler),
-               (r'/meeting', ConstructHandler),
-               (r'/property',ConstructHandler),
+               (r'/menu', MenuHandler),
+               (r'/add', AddHandler),
                (r'/notice',  ConstructHandler),
               ]
     application = tornado.web.Application(handler, **settings)

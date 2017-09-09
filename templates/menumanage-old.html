@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- font-icon -->
+    <link rel="stylesheet" href="../../lib/font-welkin/css/iconfont.css"/>
+
+    <!-- bootstrap-core -->
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="../../lib/bootstrap-addtabs/css/bootstrap.addtabs.css"/>
+    <link rel="stylesheet" href="../../lib/autocompleter/jquery.autocompleter.css"/>
+    <!-- welkin -->
+    <link rel="stylesheet" href="../../lib/welkin/css/welkin-old.css">
+    <link rel="stylesheet" href="../styles/less/components/header.css"/>
+    <link rel="stylesheet" href="../../src/styles/hoop.css"/>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../../libs/html5shiv.min.js"></script>
+    <script src="../../libs/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .footer {
+            background: lavenderblush;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+<!-- header -->
+<header class="header">
+    <!--左侧菜单和logo部分-->
+    <div class="pull-left">
+        <!--导航菜单按钮-->
+        <div class="pull-left title">聚合支付管理系统</div>
+        <!--搜索框-->
+        <div class="pull-left search">
+            <form action="">
+                <input type="text" placeholder="请输入证件号">
+                <i class="iconfont serch-img icon-search "></i>
+            </form>
+        </div>
+    </div>
+    <div class="pull-right opt-box">
+
+        <!--操作按钮-->
+        <div class="btn-box">
+            <a class="to-home" href="">
+                <i class="iconfont icon-index"></i>
+            </a>
+            <a class="exit" href="">
+                <i class="iconfont icon-exit"></i>
+            </a>
+        </div>
+
+    </div>
+
+</header>
+
+<!-- body -->
+<section class="main-fullscreen">
+    <div class=" grail-basic-styles">
+
+        <div class="wlk-grail">
+
+            <!-- 具体内容 -->
+            <section class="wlk-container" id="grail-content">
+                <div class="content">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="tabs1" role="tablist">
+                        <li class="active" role="presentation">
+                            <a aria-controls="home" data-toggle="tab" href="#home" role="tab">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home" role="tabpanel">
+                            <div class="ph">
+                                <a href="#pic">
+                                    <img src="../assets/images/main-pic.png" alt=""/>
+                                    <span class="welcome">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</span>
+                                </a>
+                            </div>
+                            <div class="data-fill">
+                                <ul>
+                                    <li class="blue"></li>
+                                    <li class="gray"></li>
+                                    <li class="blue"></li>
+                                    <li class="gray"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 侧边栏树 -->
+            <aside class="wlk-aside" id="grail-aside">
+                <div class="tree-container js-tree-container" data-height="auto">
+                    <ul class="list-group first-level-menu">
+
+                        <li>
+                            <a href="#system"><img src="../assets/images/system.png" alt=""/></a>
+                            <span id="myCollapsibleExample0"><a href="#system" data-toggle="collapse">系统管理</a></span>
+                            <ul class="second-level-menu collapse" id="system">
+                                <li>
+                                    <a class="list" data-addtab="group"
+                                       data-url="company-manage.html">
+                                        集团管理
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="list" data-addtab="merchants"
+                                       data-url="example/ajax/mailbox.txt">
+                                        商户管理
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#usermanager"><img src="../assets/images/user.png" alt=""/></a>
+                            <span id="myCollapsibleExample1"><a href="#usermanager"
+                                                                data-toggle="collapse">用户管理</a></span>
+                            <ul class="second-level-menu collapse" id="usermanager">
+                                <li>
+                                    <a class="list" data-addtab="group"
+                                       data-url="example/ajax/mailbox.txt">
+                                        集团管理
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="list" data-addtab="merchants"
+                                       data-url="example/ajax/mailbox.txt">
+                                        商户管理
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#tem"><img src="../assets/images/tem.png" alt=""/></a>
+                            <span id="myCollapsibleExample2"><a href="#tem" data-toggle="collapse">终端管理</a></span>
+                            <ul class="second-level-menu collapse" id="tem">
+                                <li>tem
+                                    <a class="list" data-addtab="mail1" data-ajax="true"
+                                       data-url="example/ajax/mailbox.txt">
+                                        Use Ajax
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="list" data-addtab="email" data-ajax="true"
+                                       data-url="example/ajax/mailbox.txt">
+                                        User Ajax
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#trade"><img src="../assets/images/trade.png" alt=""/></a>
+                            <span id="myCollapsibleExample3"><a href="#trade" data-toggle="collapse">交易管理</a></span>
+                            <ul class="second-level-menu collapse" id="trade">
+                                <li>
+                                    <a class="list" data-addtab="message"
+                                       data-content="Customize the content"
+                                       data-url="example/ajax/mailbox.txt">
+                                        <i class="glyphicon glyphicon-bullhorn">
+                                        </i>
+                                        指定内容
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="list" data-addtab="message"
+                                       data-content="Customize the content"
+                                       data-url="example/ajax/mailbox.txt">
+                                        <i class="glyphicon glyphicon-bullhorn">
+                                        </i>
+                                        指定内容
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#reconciliation"><img src="../assets/images/trade.png" alt=""/></a>
+                            <span id="myCollapsibleExample4"><a href="#reconciliation" data-toggle="collapse"><span>对账管理</span></a></span>
+                            <ul class="second-level-menu collapse" id="reconciliation">
+                                <li><a class="list" data-addtab="setting"
+                                       data-title="Customize"
+                                       data-url="example/ajax/mailbox.txt">
+                                    <i class="glyphicon glyphicon-cog">
+                                    </i>
+                                    指定标题
+                                </a></li>
+                                <li><a class="list" data-addtab="setting"
+                                       data-title="Customize the title"
+                                       data-url="example/ajax/mailbox.txt">
+                                    <i class="glyphicon glyphicon-cog">
+                                    </i>
+                                    指定标题123
+                                </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#router"><img src="../assets/images/router.png" alt=""/></a>
+                            <span id="myCollapsibleExample5"><a href="#router" data-toggle="collapse">路由管理</a></span>
+                            <ul class="second-level-menu collapse" id="router">
+                                <li><a class="list" data-addtab="userMenu1"
+                                       data-url="example/ajax/mailbox.txt">
+                                    用户菜单1
+                                </a></li>
+                                <li><a class="list" data-addtab="userMenu1"
+                                       data-url="example/ajax/mailbox.txt">
+                                    用户菜单2
+                                </a></li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#report"><img src="../assets/images/report.png" alt=""/></a>
+                            <span id="myCollapsibleExample6"><a href="#report" data-toggle="collapse">报表管理</a></span>
+                            <ul class="second-level-menu collapse" id="report">
+                                <li><a class="list" data-addtab="userMenu2" data-target="#tabs2"
+                                       data-url="example/ajax/button.html">
+                                    target2
+                                </a></li>
+                                <li><a class="list" data-addtab="userMenu2" data-target="#tabs2"
+                                       data-url="example/ajax/button.html">
+                                    target2
+                                </a></li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#turnover"><img src="../assets/images/turnover.png" alt=""/></a>
+                            <span id="myCollapsibleExample7"><a href="#turnover" data-toggle="collapse">流水管理</a></span>
+                            <ul class="second-level-menu collapse" id="turnover">
+                                <li><a class="list" data-addtab="sina" data-url="http://sina.com.cn">
+                                    新浪
+                                </a></li>
+                                <li><a class="list" data-addtab="sina" data-url="http://sina.com.cn">
+                                    新浪新闻
+                                </a></li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#activity"><img src="../assets/images/activity.png" alt=""/></a>
+                            <span id="myCollapsibleExample8"><a href="#activity" data-toggle="collapse">活动管理</a></span>
+                            <ul class="second-level-menu collapse" id="activity">
+                                <li><a class="list" data-addtab="baidu" data-url="http://baidu.com">
+                                    百度
+                                </a></li>
+                                <li><a class="list" data-addtab="baidu" data-url="http://baidu.com">
+                                    百度云
+                                </a></li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#closeAll"><img src="../assets/images/close-all.png" alt=""/></a>
+                            <a class="list" id="closeAll">
+                                关闭所有
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <button class="folder-btn" id="fold-btn">
+                        <i class="iconfont icon-lfarrow"></i>
+                    </button>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!--js-->
+<script src="../../lib/jquery/jquery.min.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.js"></script>
+<script src="../../lib/autocompleter/jquery.autocompleter.js"></script>
+<script src="../../lib/bootstrap-addtabs/js/bootstrap.addtabs.js"></script>
+<script src="../../lib/welkin/js/welkin.js"></script>
+<script src="../js/main.js"></script>
+<script>
+
+    $(function () {
+        $('.wlk-grail').GrailGrid();
+        $.addtabs({
+            iframeUse: true,
+            iframeHeight: 495
+        })
+
+        $('#closeAll').click(function () {
+            console.log('1');
+            $.addtabs.closeAll('#tabs1');
+        })
+    });
+
+</script>
+
+</body>
+</html>

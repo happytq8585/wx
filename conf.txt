@@ -3,7 +3,7 @@ host=localhost
 port=3306
 user=root
 password=123
-db=wxcorp
+db=canteen
 encode=utf-8
 
 [table]
@@ -34,13 +34,25 @@ order_list=订单列表
 member_management=人员列表
 
 [role]
-canteen_admin_role=1
-office_admin_role=2
-common_member_role=3
-other_role=4
+#canteen_admin_mobile=17313615918
+canteen_admin_mobile=15381134430
+office_admin_mobile=17313615918
+
 [canteen]
 breakfast=早餐
 lunch=午餐
 dinner=晚餐
 reserve=预订
 fetch_time=17:30:00
+
+[offset]
+timeoffset=11:30:00
+
+[wx]
+corpid=wwfaf45bf68f147fe1
+secret=A9AH9oHsyVct0YLc1QLY520tdYKhjM21VubP53JacBI
+access_token=https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s
+userid=https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code=%s
+userinfo=https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s
+msg=https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s
+agentid=1000002

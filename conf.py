@@ -38,12 +38,22 @@ class Wxconf():
         self.dinner               = p.get('canteen', 'dinner')
         self.reserve              = p.get('canteen', 'reserve')
 
-        self.canteen_admin_role   = p.getint('role', 'canteen_admin_role')
-        self.office_admin_role    = p.getint('role', 'office_admin_role')
-        self.common_member_role   = p.getint('role', 'common_member_role')
-        self.other_role           = p.getint('role', 'other_role') 
+        self.canteen_admin_mobile = p.get('role', 'canteen_admin_mobile')
+        self.office_admin_mobile  = p.get('role', 'office_admin_mobile')
 
         self.fetch_time           = p.get('canteen', 'fetch_time')
+
+        self.timeoffset           = p.get('offset', 'timeoffset')
+
+
+        self.corpid               = p.get('wx', 'corpid')
+        self.secret               = p.get('wx', 'secret')
+        self.access_token         = p.get('wx', 'access_token')
+        self.userid               = p.get('wx', 'userid')
+        self.userinfo             = p.get('wx', 'userinfo')
+        self.msg                  = p.get('wx', 'msg')
+        self.agentid              = p.get('wx', 'agentid')
+
     def canteen(self):
         r = {} 
         r['breakfast']            = self.breakfast

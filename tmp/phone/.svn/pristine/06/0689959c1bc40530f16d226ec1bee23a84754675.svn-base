@@ -1,0 +1,32 @@
+/*
+ * 皮肤
+ */
+@import "skin";
+
+/*
+ * bootstrap补充，修正bootstrap的bug
+ */
+@import "bootstrap-shim";
+
+/*基础样式*/
+@import "base";
+@import "common";
+
+
+//用户管理
+@import "usermanage";
+//左右结构基本样式
+@import "grail-basic-styles";
+//左边栏
+@import "aside";
+
+//登录页面样式
+@import "login";
+
+//自定义字段管理
+@import "field-manage";
+
+//范围域管理
+@import "scope-manage";
+
+
