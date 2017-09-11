@@ -195,12 +195,12 @@
             '       {previewFileIcon}\n' +
             '   </div>',
         defaultFileActionSettings = {
-            removeIcon: '<i class="glyphicon glyphicon-trash text-danger"></i>',
+         /*   removeIcon: '<i class="glyphicon glyphicon-trash text-danger"></i>',
             removeClass: 'btn btn-xs btn-default',
             removeTitle: 'Remove file',
             uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
             uploadClass: 'btn btn-xs btn-default',
-            uploadTitle: 'Upload file',
+            uploadTitle: 'Upload file',*/
             indicatorNew: '<i class="glyphicon glyphicon-hand-down text-warning"></i>',
             indicatorSuccess: '<i class="glyphicon glyphicon-ok-sign file-icon-large text-success"></i>',
             indicatorError: '<i class="glyphicon glyphicon-exclamation-sign text-danger"></i>',
@@ -1951,14 +1951,14 @@
             if (self.isDisabled) {
                 status = ' disabled ';
             }
-            return '<button type="button" title="' + self.removeTitle + '" class="' + css + '"' + status + '>' + self.removeIcon + self.removeLabel + '</button>';
+            return;
         },
         renderCancel: function () {
             var self = this, css = self.cancelClass + ' fileinput-cancel fileinput-cancel-button';
             if (!self.showCancel) {
                 return '';
             }
-            return '<button type="button" title="' + self.cancelTitle + '" class="hide ' + css + '">' + self.cancelIcon + self.cancelLabel + '</button>';
+            return ;
         },
         renderUpload: function () {
             var self = this, css = self.uploadClass + ' kv-fileinput-upload fileinput-upload-button', content = '', status = '';
@@ -1967,11 +1967,6 @@
             }
             if (self.isDisabled) {
                 status = ' disabled ';
-            }
-            if (!self.isUploadable || self.isDisabled) {
-                content = '<button type="submit" title="' + self.uploadTitle + '"class="' + css + '"' + status + '>' + self.uploadIcon + self.uploadLabel + '</button>';
-            } else {
-                content = '<a href="' + self.uploadUrl + '" title="' + self.uploadTitle + '" class="' + css + '"' + status + '>' + self.uploadIcon + self.uploadLabel + '</a>';
             }
             return content;
         }
@@ -2077,6 +2072,10 @@
         fileSingle: 'file',
         filePlural: 'files',
         browseLabel: '添加',
+        removeLabel: 'Remove',
+        removeTitle: 'Clear selected files',
+        cancelLabel: 'Cancel',
+        cancelTitle: 'Abort ongoing upload',
         uploadLabel: 'Upload',
         uploadTitle: 'Upload selected files',
         msgSizeTooLarge: 'File "{name}" (<b>{size} KB</b>) exceeds maximum allowed upload size of <b>{maxSize} KB</b>. Please retry your upload!',

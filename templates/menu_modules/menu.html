@@ -38,7 +38,7 @@
 <div class="container-fluid">
 {% if mobile == conf.canteen_admin_mobile %}
     <div class="page-header">
-        <div class="pull-right"><a class="plus-dish" href="/add"> <span class="glyphicon glyphicon-plus"></span></a></div>
+        <div class="pull-right"><button class="btn btn-primary plus-dish" type="button"> <span class="glyphicon glyphicon-plus"></span></button></div>
     </div>
 {% end %}
     <div class="from-group">
@@ -48,7 +48,7 @@
                     <div class="col-xs-8 col-sm-8 col-md-8"><label class="pull-right text-right" for="datetime">选择日期</label></div>
                     <div class="col-xs-16 col-sm-16 col-md-16">
                         <div class=" input-append date form_datetime"  id="datetimepicker">
-                            <input size="16"  class="input-txt"  type="text" value="" readonly name="datetime">
+                            <input size="16"  name="day" class="input-txt"  type="text" value="" readonly name="datetime">
                             <span class="add-on "><i class="icon iconfont icon-calendar"  data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
 <script src="js/mobile/jquery.autocompleter.js"></script>
 <script src="js/mobile/bootstrap.addtabs.js"></script>
 <script src="js/mobile/bootstrap-datetimepicker.js"></script>
-<script src="js/mobile/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script src="js/mobile/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="js/mobile/main.js"></script>
 <script>
 

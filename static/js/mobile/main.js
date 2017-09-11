@@ -1,12 +1,29 @@
 /*
  *   所有也页面都需要的脚本
  * */
-
+$('.form_datetime').datetimepicker({
+    minView: "month", //选择日期后，不会再跳转去选择时分秒
+    language: 'zh-CN',
+    format: 'yyyy-mm-dd',
+    todayBtn: 1,
+    autoclose: 1,
+});
+/*
 $(".form_datetime").datetimepicker({
-    format: "dd MM yyyy - hh:ii",
+    format: "yyyy-MM-dd",
     autoclose: true,
     todayBtn: true,
     pickerPosition: "bottom-left"
+});
+*/
+
+$('.plus-dish').click(function(){
+    var day = $('.form_datetime').children('input[name="day"]').val();
+    if (day == null || day.length == 0) {
+        alert('请选择时间');
+        return -1;
+    }
+    location.href = '/add?day=' + day;
 });
 
 /*tab转换*/

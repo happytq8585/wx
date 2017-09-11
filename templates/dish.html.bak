@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>菜谱详情</title>
+    <!-- font-icon -->
+<!--    <link rel="stylesheet" href="css/mobile/iconfont.css"/>-->
+
+    <!-- bootstrap-core -->
+    <link rel="stylesheet" href="css/mobile/bootstrap.css">
+    <link rel="stylesheet" href="css/mobile/bootstrap-theme.css">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="css/mobile/font-awesome.css">
+    <link href="css/mobile/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+    <!-- welkin -->
+
+    <link rel="stylesheet" href="css/mobile/hoop.css" />
+
+    <style>
+        @media screen and(min-width:480px){
+            body{background:blue;}
+        }
+    </style>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/mobile/html5shiv.min.js"></script>
+    <script src="js/mobile/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="page-header">
+        <h1 class="text-center">评价</h1>
+    </div>
+    <div class="from-group">
+        <div class="tab-content ">
+            <div class="" id="">
+                <div class="from-order">
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-8 col-md-8 menu-img">
+                                <img src="{{d['pic_loc']}}" alt="">
+                                <span class="grade">{{ '暂无评分' if d['num'] == 0 else round(d['score']/float(d['num']), 2)}}</span>
+                            </div>
+                            <div class="col-xs-14 col-sm-14 col-md-14 menu-txt">
+                                <div class="dishes">
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">菜名</div>
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13">{{d['name']}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 material">食材</div>
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13 material-style">{{d['material']}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 price">价格</div>
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13 value">{{round(d['price']/100.0, 1)}}元/{{d['unit']}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="from-group">
+        <label for="rating-input" class="evl">评价</label>
+        <input id="rating-input" type="text" class="rating-input" title=""/>
+        <textarea name="eva-txt" id="eva-txt" class="txtara" rows="10"></textarea>
+        <button id="btn-rating-input" type="button" class="btn btn-primary btn-lg btn-eva">提交</button>
+    </div>
+    <hr>
+    {% for c in C %}
+    <div class="from-group">
+        <div class="tab-content ">
+            <div class="">
+                <div class="user-info">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 menu-img">
+                            <img src="{{U[c['mobile']]['avatar']}}" alt="">
+                            <div class="username">{{U[c['mobile']]['name']}}</div>
+                        </div>
+                        <div class="col-xs-20 col-sm-20 col-md-20 menu-txt">
+                            <div class="dishes">
+                                <div class="row">
+                                    <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">评分</div>
+                                    <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13 grade">
+        {{0.0 if d['num'] == 0 else round(d['score']/float(d['num']), 2) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 material">评论日期</div>
+                                    <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13 material-style">{{c['time']}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 price">评论</div>
+                                    <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13 value">{{c['content']}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% end %}
+</div>
+    <div class="canteenListCenter">
+        <div class="canteenCenterStart">
+            <input style="display:none" id="rating" name="serving" value="0" type="txt">
+            <span class="evaluate">评价：</span>
+            <ul class="Star">
+                <li>
+                    <span class="Select">
+                        <a onMouseOver="javascript:setProfix('star_');showStars(1,'rating');" onMouseOut="javascript:setProfix('star_');clearStars('rating');" href="javascript:setProfix('star_');setStars(1,'rating');">
+                            <img id="star_1" title="差(1)" src="../img/icon_star_1.gif"></a>
+                        <a onMouseOver="javascript:setProfix('star_');showStars(2,'rating');"onMouseOut="javascript:setProfix('star_');clearStars('rating');" href="javascript:setProfix('star_');setStars(2,'rating');">
+                            <img id="star_2" title="一般(2)" src="../img/icon_star_1.gif"></a>
+                        <a onMouseOver="javascript:setProfix('star_');showStars(3,'rating');"onMouseOut="javascript:setProfix('star_');clearStars('rating');" href="javascript:setProfix('star_');setStars(3,'rating');">
+                            <img id="star_3" title="好(3)" src="../img/icon_star_1.gif"></a>
+                        <a onMouseOver="javascript:setProfix('star_');showStars(4,'rating');" onMouseOut="javascript:setProfix('star_');clearStars('rating');" href="javascript:setProfix('star_');setStars(4,'rating');">
+                            <img id="star_4" title="很好(4)" src="../img/icon_star_1.gif"></a>
+                        <a onMouseOver="javascript:setProfix('star_');showStars(5,'rating');" onMouseOut="javascript:setProfix('star_');clearStars('rating');" href="javascript:setProfix('star_');setStars(5,'rating');">
+                            <img id="star_5" title="非常好(5)" src="../img/icon_star_1.gif"></a>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <textarea name="evaluate" id="evaluate" cols="30" rows="10" placeholder="最多可输入200字~" maxlength="200"></textarea>
+        <button type="button" class="btn btn-primary UpdataBtn evaluate">提交评论</button>
+    </div>
+<!--js-->
+<script src="js/mobile/jquery.min.js"></script>
+<script src="js/mobile/bootstrap.js"></script>
+<script>
+</script>
+</body>
+</html>

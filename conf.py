@@ -54,6 +54,10 @@ class Wxconf():
         self.msg                  = p.get('wx', 'msg')
         self.agentid              = p.get('wx', 'agentid')
 
+        self.uselog               = p.getint('log', 'uselog')
+        self.logloc               = p.get('log', 'location')
+        self.interval_unit        = p.get('log', 'interval_unit')
+        self.interval             = p.getint('log', 'interval')
     def canteen(self):
         r = {} 
         r['breakfast']            = self.breakfast

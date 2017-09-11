@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <title>add</title>
-    <!-- font-icon -->
-  <!--  <link rel="stylesheet" href="css/mobile/iconfont.css"/>-->
 
     <!-- bootstrap-core -->
     <link rel="stylesheet" href="css/mobile/bootstrap.css">
@@ -37,33 +35,35 @@
 </head>
 <div class="container-fluid">
 
-    <div class="form">
+    <div class="form" id="operinfo">
         <div class="container-fluid">
             <div class="row cli">
                 <div class="col-xs-7 col-sm-7 col-md-7"><label class="pull-right text-right" for="fname">菜名 </label></div>
                 <div class="col-xs-17 col-sm-17 col-md-17">
                     <div class=" input-append" >
-                        <input size="16"  class="col-xs-24 col-sm-24 col-md-24 input-txt" value="" placeholder="请输入" >
+                        <input size="16" id="add-name"  class="col-xs-24 col-sm-24 col-md-24 input-txt" value="" placeholder="请输入" >
                     </div>
                 </div>
             </div>
             <div class="row cli">
-                <div class="col-xs-7 col-sm-7 col-md-7"><label class="pull-right text-right" for="material">食材 </label></div>
+                <div class="col-xs-7 col-sm-7 col-md-7"><label class="pull-right text-right" for="material">食材/口味 </label></div>
                 <div class="col-xs-17 col-sm-17 col-md-17">
                     <div class=" input-append" >
-                        <input size="16"  class="col-xs-24 col-sm-24 col-md-24 input-txt" value="" placeholder="请输入" >
+                        <input size="16" id="add-style"  class="col-xs-24 col-sm-24 col-md-24 input-txt" value="" placeholder="请输入" >
                     </div>
                 </div>
             </div>
             <div class="row cli">
                 <div class="col-xs-7 col-sm-7 col-md-7"><label class="pull-right text-right" for="fname">单位 </label></div>
                 <div class="col-xs-17 col-sm-17 col-md-17">
-                    <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" id="add-unit">
+                        <option value="斤">斤</option>
+                        <option value="两">两</option>
+                        <option value="个">个</option>
+                        <option value="碗">碗</option>
+                        <option value="杯">杯</option>
+                        <option value="只">只</option>
+                        <option value="份">份</option>
                     </select>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="col-xs-7 col-sm-7 col-md-7"><label class="pull-right text-right" for="price">价格 </label></div>
                 <div class="col-xs-17 col-sm-17 col-md-17">
                     <div class=" input-append" >
-                        <input size="16"  class="col-xs-24 col-sm-24 col-md-24 input-txt" value="" placeholder="请输入" >
+                        <input size="16" id="add-price"  class="col-xs-24 col-sm-24 col-md-24 input-txt" value="" placeholder="请输入" >
                     </div>
                 </div>
             </div>
@@ -79,8 +79,8 @@
                 <div class="col-xs-7 col-sm-7 col-md-7"><label class="pull-right text-right" for="">图片 </label></div>
                 <div class="col-xs-17 col-sm-17 col-md-17">
                     <div class="container kv-main">
-                        <form enctype="multipart/form-data">
-                            <input id="file-0a" class="file" type="file" multiple data-min-file-count="3">
+                        <form enctype="multipart/form-data" id='form_img'>
+                            <input id="file-0a" class="file" type="file" name="file" multiple >
                             <br>
                         </form>
                     </div>
@@ -91,25 +91,25 @@
                 <div class="col-xs-17 col-sm-17 col-md-17">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="style" id="reserve" value="reserve" checked>
+                            <input type="radio" name="style" id="reserve" value="0">
                            预定
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="style" id="bf" value="bf">
+                            <input type="radio" name="style" id="bf" value="16">
                             早餐
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="style" id="lh" value="lh">
+                            <input type="radio" name="style" id="lh" value="256">
                             午餐
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="style" id="dn" value="dn">
+                            <input type="radio" name="style" id="dn" value="4096">
                             晚餐
                         </label>
                     </div>
@@ -123,22 +123,13 @@
             </div>
             <div class="row cli">
                 <div class="col-sm-offset-2 col-sm-20">
-                    <a type="submit" href=""  class="btn btn-primary btn-lg btn-block">添加</a>
+                    <button type="button" id="data-query"  class="btn btn-primary btn-lg btn-block">添加</button>
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </div>
-
-
 <body>
-
-
-
-
 <!--js-->
 <script src="js/mobile/jquery.min.js"></script>
 <script src="js/mobile/bootstrap.js"></script>
@@ -148,10 +139,6 @@
 
 <script src="js/mobile/form.js"></script>
 <script>
-
-
-
 </script>
-
 </body>
 </html>

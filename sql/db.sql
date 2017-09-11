@@ -47,7 +47,7 @@ create table if not exists dish_comment
 (
  id int unsigned primary key auto_increment,
  dish_id int unsigned not null,                /*菜的id*/
- mobile int unsigned not null,                /*用户的mobile phone*/
+ mobile varchar(16) not null,                  /*用户的mobile phone*/
  stars  int unsigned default 1,                /*用户对该菜评价了几颗星*/
  time timestamp default CURRENT_TIMESTAMP,     /*评论的时间*/
  content varchar(512)                          /*评价的内容*/

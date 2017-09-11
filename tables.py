@@ -23,13 +23,12 @@ class User(Base):
         self.gender        = g
         self.userid        = u
         self.telephone     = t
-        self.avatra        = a
+        self.avatar        = a
     def dic_return(self):
         return {'id': self.id, 'name':str(self.name), 
                 'mobile': str(self.mobile), 'gender': str(self.gender),
                 'userid': str(self.userid), 'telephone': str(self.telephone),
-                'avatra': self.avatra}
-
+                'avatar': self.avatar}
 # 表的结构:
     #用户的id
     id                = Column(Integer, primary_key=True)
@@ -44,7 +43,7 @@ class User(Base):
     #telephone
     telephone         = Column(String(32))
     #avatar
-    avatra            = Column(String(256))
+    avatar            = Column(String(256))
 
 class Dish(Base):
 # 表的名字:
@@ -126,7 +125,7 @@ class Comment(Base):
     #comment的id
     id          = Column(Integer, primary_key=True)
     dish_id     = Column(Integer)
-    mobile      = Column(Integer)
+    mobile      = Column(String(16))
     stars       = Column(Integer)
     time        = Column(TIMESTAMP)
     content     = Column(String(512))
@@ -146,8 +145,59 @@ db_url = 'mysql+mysqlconnector://' + str(conf.db_user) + ':ygb1canteen2017@local
 engine = create_engine(db_url, encoding=conf.db_encode)
 # 创建DBSession类型:
 DBSession = sessionmaker(bind=engine)
-S = DBSession()
+
+def write_user_db(name, mobile, gender, userid, telephone, avatar):
+    S      = DBSession()
+    r      = S.query(User).filter(User.mobile == mobile).first()
+    if not r:
+        u  = User(0, name, mobile, gender, userid, telephone, avatar)
+        S.add(u)
+        S.commit()
+    else:
+        D = {User.name:name, User.mobile:mobile, User.gender:gender,
+             User.telephone:telephone, User.avatar:avatar}
+        r = S.query(User).filter(User.mobile == mobile).update(D)
+        S.commit()
+    S.close()
+    return True
+
+def query_all_users_db():
+    S     = DBSession()
+    r     = S.query(User).all()
+    S.close()
+    return [] if not r else [e.dic_return() for e in r]
 
 def query_dish_by_day_db(day):
-    r     = S.query(Dish).filter(time == day).all()
+    S     = DBSession()
+    r     = S.query(Dish).filter(Dish.time == day).all()
+    S.close()
     return [] if not r else [e.dic_return() for e in r]
+
+def query_dish_by_id_db(did):
+    S     = DBSession()
+    r     = S.query(Dish).filter(Dish.id == did).first()
+    S.close()
+    return {} if not r else r.dic_return()
+
+def query_comments_by_dish_id_db(did):
+    S     = DBSession()
+    r     = S.query(Comment).filter(Comment.dish_id == did).all()
+    S.close()
+    print('query_comments_by_dish_id_db', r)
+    return [] if not r else [e.dic_return() for e in r]
+
+def write_dish_db(name, pic_loc, day, material, kind, price, unit):
+    S = DBSession()
+    d     = Dish(0, name, pic_loc, day, material, kind, price, unit, 0, 0)
+    S.add(d)
+    S.commit()
+    S.close()
+    return True
+
+def write_comment_db(mobile, num, cnt, did):
+    S = DBSession()
+    c = Comment(0, did, mobile, num, cnt)
+    S.add(c)
+    S.commit()
+    S.close()
+    return True

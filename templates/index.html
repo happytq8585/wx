@@ -45,7 +45,9 @@
 </head>
 
 <body>
-
+<form hidden="hidden">
+{% raw xsrf_form_html() %}
+</form>
 <div class="container-fluid">
     <div class="page-header">
         <h1 class="text-center">食堂</h1>

@@ -34,8 +34,8 @@ order_list=订单列表
 member_management=人员列表
 
 [role]
-#canteen_admin_mobile=17313615918
-canteen_admin_mobile=15381134430
+canteen_admin_mobile=123456789
+#canteen_admin_mobile=15381134430
 office_admin_mobile=17313615918
 
 [canteen]
@@ -56,3 +56,9 @@ userid=https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code
 userinfo=https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s
 msg=https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s
 agentid=1000002
+
+[log]
+uselog=0
+location=/home/admin/log/access
+interval_unit=D
+interval=1

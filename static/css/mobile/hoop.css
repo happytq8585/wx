@@ -24,6 +24,7 @@
   position: absolute;
   top: 30px;
   right: 30px;
+  z-index: 9999;
 }
 .from-group {
   margin-top: 30px;
@@ -40,8 +41,8 @@
   border: 1px solid #eeeeee;
 }
 .from-group .tab-content .from-order .row .menu-img {
-  width: 70px;
-  height: 46px;
+  width: 8rem;
+  height: 5rem;
 }
 .from-group .tab-content .from-order .row .menu-txt .dishes {
   font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
@@ -66,6 +67,12 @@
   width: 50px;
   height: 50px;
 }
+.from-group .tab-content .from-order .row .menu-img img {
+  width: 7.2rem;
+  height: auto;
+  margin-top: 7px;
+}
+
 .from-group .tab-content .user-info .row .menu-img .username {
   text-align: center;
   margin-top: 20px;

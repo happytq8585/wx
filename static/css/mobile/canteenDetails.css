@@ -1,0 +1,46 @@
+.canteenDetails{
+    width:90%;
+    margin:0.2rem auto;
+}
+.canteenDetailsTop>img{
+    width:1.4rem;
+    margin-right:0.3rem;
+}
+.canteenDetailsTop p{
+    font-size: 0.14rem;
+}
+.canteenDetailsTop .scorecolor{
+    font-size: 0.14rem;
+    color: #FF6715;
+}
+.weui-btn{
+    font-size: 0.14rem;
+    line-height: 0.30rem;
+    background-color: #FF6715;
+    margin-top:0.2rem;
+}
+.evaluate{
+    font-size: 1.2rem;
+}
+.canteenCenterStart{
+    margin:0.1rem 0;
+}
+.canteenListCenter textarea{
+    resize: none;
+    width:85%;
+    height:0.8rem;
+    padding:0.06rem;
+}
+.canteenListEva{
+    font-size: 1.2rem;
+    padding:0.5rem 0;
+    border-bottom:1px solid #f3f3f3;
+}
+.canteenListEvausername{
+    width:1.5rem;
+    margin-right: 1rem;
+    text-align: center;
+}
+.canteenListEvausername img{
+    width:2rem;
+}
