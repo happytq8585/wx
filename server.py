@@ -21,10 +21,11 @@ from log import log
 
 from data import query_dish_by_day, write_dish, query_dish_by_id
 from data import query_comments_by_dish_id, write_user, write_comment
+from data import query_all_users, delete_dish_by_id, update_dish
+from data import query_order
 
 define("port", default=8000, help="run on the given port", type=int)
 
-from data import user_cache
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -88,7 +89,6 @@ class IndexHandler(tornado.web.RequestHandler):
     def _write_user_cache(self, u):
         mobile = u.get('mobile', '')
         self.set_secure_cookie('mobile', mobile)
-        user_cache[mobile] = u
         write_user(mobile, u)
 
     @tornado.gen.coroutine
@@ -193,7 +193,6 @@ class DishHandler(BaseHandler):
         if not did:
             pass
         else:
-            print(user_cache)
             dish        = yield tornado.gen.Task(self._get_dish, did)
             comments    = yield tornado.gen.Task(self._get_comments, did)
             mobile      = self.get_secure_cookie('mobile')
@@ -202,8 +201,14 @@ class DishHandler(BaseHandler):
                 if e['mobile'] == mobile:
                     tag = True
                     break
-            self.render('dish.html', d=dish, C=comments, U=user_cache, already=tag)
+            users = yield tornado.gen.Task(self._get_users)
+            print(users)
+            self.render('dish.html', d=dish, C=comments, U=users, already=tag)
 
+    @tornado.gen.coroutine
+    def _get_users(self):
+        r = query_all_users()
+        return r
     @tornado.gen.coroutine
     def _get_comments(self, did):
         r = query_comments_by_dish_id(did)
@@ -236,54 +241,126 @@ class CommentHandler(BaseHandler):
             else:
                 yield tornado.gen.Task(self._write_comment, mobile, num, cnt, did)
                 self.write('ok')
+        self.finish()
 
     @tornado.gen.coroutine
     def _write_comment(self, mobile, num, cnt, did):
         write_comment(mobile, num, cnt, did)        
 
-class CanteenItemBottomModule(tornado.web.UIModule):
-    def render(self, comments, device):
-        target = '%s/canteenList/modules/canteen_item_bottom.html' % device
-        return self.render_string(target, comments=comments)
-
-class CanteenItemHandler(BaseHandler):
-    def _already_comment(self, comments):
-        uid       = int(self.get_secure_cookie('uid'))
-        for e in comments:
-            if e['user_id'] == int(uid):
-                return e['stars']
-        return 0
+class EditHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
     @tornado.web.authenticated
     def get(self):
-        did           = int(self.get_argument('id', 0))
-        if did:
-            dish      = query_dish_by_id(did)
-            kind      = dish['kind']
-            uid       = int(self.get_secure_cookie('uid'))
-            ordered   = False
-            if kind == 0x0000:
-                ordered = query_already_ordered(uid, did)
-            comments  = query_comments_by_dish_id(did)
-            user_comment = self._already_comment(comments)
-            device    = self.get_secure_cookie('pc_or_mobile')
-            target    = '%s/canteenList/canteenList.html' % device
-            head      = self._get_head_nav()
-            canteen   = self._get_canteen()
-            t         = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-            self.render(target, head=head, canteen=canteen, device=device, comments=comments, dish=dish, user_comment=user_comment, T=t, ordered=ordered)
-    #handle comments
+        did       = self.get_argument('id', None)
+        if not did:
+            self.write('invalid dish id')
+        else:
+            d     = yield tornado.gen.Task(self._query_dish, did)
+            self.render('edit.html', d=d)
+
+    @tornado.gen.coroutine
+    def _query_dish(self, did):
+        d   = query_dish_by_id(did)
+        return d
+
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
     def post(self):
-        did           = int(self.get_argument('id', 0))
-        if did:
-            uid       = int(self.get_secure_cookie('uid'))
-            real_name = self.get_secure_cookie('real_name')
-            nick_name = self.get_secure_cookie('nick_name')
-            r_img_url = self.get_secure_cookie('real_img_url')
-            n_img_url = self.get_secure_cookie('nick_img_url')
-            stars     = int(self.get_argument('star', 0))
-            words     = self.get_argument('words', '')
-            write_comment(did, uid, real_name, nick_name, r_img_url, n_img_url, stars, words)
-            self.write('comment successfully!')
+        day = self.get_argument('day', None)
+        if not day or len(day) == 0:
+            self.write('没有选择时间, 没法编辑')
+            self.finish()
+        else:
+            if not os.path.exists("static/files"):
+                os.makedirs("static/files");
+            old_img      = self.get_argument('old_img', '')
+            did          = self.get_argument('did', '')
+            name         = self.get_argument('name', '')
+            material     = self.get_argument('material', '')
+            unit         = self.get_argument('unit', '')
+            price        = self.get_argument('price', 0)
+            kind         = self.get_argument('kind', 0)
+            todaydir = "static/files/" + day
+            upload_path = os.path.join(os.path.dirname(__file__), todaydir)
+            file_metas  = self.request.files.get('file')
+            filename = ''
+            pic_loc  = ''
+            if file_metas:
+                meta = file_metas[0]
+                filename = meta.get('filename', '')
+            print("filename=", filename)
+            if filename:
+                pic_loc = todaydir + '/' + filename
+                if not os.path.exists(todaydir):
+                    os.makedirs(todaydir)
+                filename = todaydir + '/' +  filename
+                yield tornado.gen.Task(self._up_img, filename, meta['body'])
+            else:
+                pic_loc = old_img
+            r = yield tornado.gen.Task(self._update_dish, did, name, pic_loc, day, material, kind, price, unit)
+            if not r:
+                self.write("更新失败!")
+            else:
+                self.write("更新成功!")
+            self.finish()
+
+    @tornado.gen.coroutine
+    def _up_img(self, name, body):
+        with open(name, 'wb') as up:
+            up.write(body)
+
+    @tornado.gen.coroutine
+    def _update_dish(self, did, name, pic_loc, day, material, kind, price, unit):
+        r = update_dish(did, name, pic_loc, day, material, kind, price, unit)
+        return r
+
+class DeleteHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def post(self):
+        did    = self.get_argument('id', None)
+        if not did:
+            self.write('dish id is invalid')
+        else:
+            r  = yield tornado.gen.Task(self._delete_dish, did)
+            if not r:
+                self.write('delete failed!')
+            else:
+                self.write('delete success!')
+        self.finish()
+
+    @tornado.gen.coroutine
+    def _delete_dish(self, did):
+        r = delete_dish_by_id(did)
+        return r
+
+class ReserveHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def get(self):
+        day  = self.get_argument('day', None)
+        if not day:
+            t   = time.localtime()
+            now = time.strftime('%Y-%m-%d', t)
+            day = now 
+        d    = yield tornado.gen.Task(self._query_order, 'day', day)
+        print(d)
+        self.render('food_reservation.html', D=d)
+
+    @tornado.gen.coroutine
+    def _query_order(self, t, p):
+        d    = query_order(t, p)
+        return d
+
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def post(self):
+        self.finish()
 
 class PersonalHandler(BaseHandler):
     def get(self):
@@ -490,6 +567,9 @@ if __name__ == "__main__":
                (r'/up', AddHandler),
                (r'/dish', DishHandler),
                (r'/comment', CommentHandler),
+               (r'/edit', EditHandler),
+               (r'/delete', DeleteHandler),
+               (r'/reserve', ReserveHandler),
                (r'/notice',  ConstructHandler),
               ]
     application = tornado.web.Application(handler, **settings)

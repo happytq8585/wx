@@ -34,6 +34,7 @@ order_list=订单列表
 member_management=人员列表
 
 [role]
+#canteen_admin_mobile=17313615918
 canteen_admin_mobile=123456789
 #canteen_admin_mobile=15381134430
 office_admin_mobile=17313615918
@@ -46,7 +47,8 @@ reserve=预订
 fetch_time=17:30:00
 
 [offset]
-timeoffset=11:30:00
+#timeoffset=11:30:00
+timeoffset=21:00:00
 
 [wx]
 corpid=wwfaf45bf68f147fe1

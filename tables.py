@@ -194,6 +194,14 @@ def write_dish_db(name, pic_loc, day, material, kind, price, unit):
     S.close()
     return True
 
+def update_dish_db(did, name, pic_loc, day, material, kind, price, unit):
+    S = DBSession()
+    D = {Dish.name:name, Dish.pic_loc:pic_loc, Dish.time:day, Dish.material:material, Dish.kind:kind, Dish.price:price, Dish.unit:unit}
+    r = S.query(Dish).filter(Dish.id == did).update(D)
+    S.commit()
+    S.close()
+    return r
+
 def write_comment_db(mobile, num, cnt, did):
     S = DBSession()
     c = Comment(0, did, mobile, num, cnt)
@@ -201,3 +209,29 @@ def write_comment_db(mobile, num, cnt, did):
     S.commit()
     S.close()
     return True
+
+def delete_dish_by_id_db(did):
+    S = DBSession()
+    r = S.query(Dish).filter(Dish.id == did).delete(synchronize_session=False)
+    r = S.commit()
+    S.close()
+    return True
+
+def query_order_by_day_db(day):
+    S = DBSession()
+    r = S.query(Dish).filter(Dish.time == day).all()
+    S.close()
+    return [] if not r else [e.dic_return() for e in r]
+
+def query_order_by_user_id_db(mobile):
+    S = DBSession()
+    r = S.query(Dish).filter(Dish.mobile == mobile).all()
+    S.close()
+    return [] if not r else [e.dic_return() for e in r]
+
+def query_order_by_order_id_db(oid):
+    S = DBSession()
+    r = S.query(Dish).filter(Dish.id == oid).all()
+    S.close()
+    return {} if not r else [e.dic_return() for e in r]
+

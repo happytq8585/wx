@@ -64,4 +64,14 @@ set
 where
     `id` = new.dish_id;
 $
+
+create trigger dish_trigger_rollback after delete
+on dish_comment for each row
+update
+    `dish`
+set
+    `score` = `score` - new.stars
+    `num`   = `num` - 1
+where
+    `id`    = new.dish_id;
 DELIMITER ';'

@@ -36,7 +36,23 @@ $('.evaluate').click(function() {
                 alert('评论成功');
             },
             error: function(para) {
-                alert('评论失败');
+                alert('评论成功!!');
             }
         });
 });
+
+function delete_dish(did) {
+    var xsrf = get_cookie_by_name("_xsrf");
+    $.ajax({
+        'url': '/delete',
+        'type': 'POST',
+        'data': {'_xsrf': xsrf, 'id': did},
+        success: function(para) {
+            alert(para);
+            window.location.reload();
+        },
+        error: function(para) {
+            alert(para);
+        }
+    });
+}
