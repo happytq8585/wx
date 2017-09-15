@@ -1,0 +1,13 @@
+
+        <div class="tab-content " id="tabData">
+            <div class="tab-pane fade in active" id="Breakfast">
+                {% module Dish_module(breakfast, mobile, expire, conf) %}
+            </div>
+            <div class="tab-pane fade" id="lunch">
+                {% module Dish_module(lunch, mobile, expire, conf) %}
+            </div>
+            <div class="tab-pane fade" id="dinner">
+                {% module Dish_module(dinner, mobile, expire, conf) %}
+            </div>
+
+        </div>

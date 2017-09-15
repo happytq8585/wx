@@ -101,27 +101,27 @@
  * Sizes
  */
 .rating-xl {
-    font-size: 4.89em;
+    font-size: 1.2rem;
 }
 
 .rating-lg {
-    font-size: 3.91em;
+    font-size: 2rem;
 }
 
 .rating-md {
-    font-size: 3.13em;
+    font-size: 1.6remem;
 }
 
 .rating-sm {
-    font-size: 2.5em;
+    font-size: 0.8rem;
 }
 
 .rating-xs {
-    font-size: 2em;
+    font-size: 0.7rem;
 }
 
 .rating-xl {
-    font-size: 4.89em;
+    font-size: 0.8rem;
 }
 
 /**

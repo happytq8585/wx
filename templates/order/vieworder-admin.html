@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>vieworder-admin</title>
+    <!-- font-icon -->
+    <!-- bootstrap-core -->
+    <link rel="stylesheet" href="css/mobile/bootstrap.css">
+    <link rel="stylesheet" href="css/mobile/bootstrap-theme.css">
+    <!-- plugins -->
+    <link rel="stylesheet" href="css/mobile/vieworder.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/mobile/html5shiv.min.js"></script>
+    <script src="js/mobile/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container-fluid">
+    <div class="from-group">
+        <ul id="myTab" class="nav nav-tabs">
+            <li onclick="fill_tab_admin(0)" class="col-xs-8 col-sm-8 col-md-8 menu-tabc active"><a href="#ad-current " data-toggle="tab" class="tab-current">订单</a></li>
+            <li onclick="fill_tab_admin(1)" class="col-xs-8 col-sm-8 col-md-8 menu-tabh"><a href="#ad-statistics" data-toggle="tab" class="tab-statistics">订单统计</a></li>
+            <li onclick="fill_tab_admin(2)" class="col-xs-8 col-sm-8 col-md-8 menu-tabh"><a href="#ad-history" data-toggle="tab" class="tab-history">历史订单</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content ">
+            <div class="tab-pane fade in active" id="current">
+            </div>
+            <div class="tab-pane fade" id="ad-statistics">
+            </div>
+            <div class="tab-pane fade" id="ad-history">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade myModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定已取餐?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pre" >确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="js/mobile/jquery.min.js"></script>
+<script src="js/mobile/bootstrap.js"></script>
+<script src="js/mobile/ad-vieworder.js"></script>
+<script>
+</script>
+</body>
+</html>

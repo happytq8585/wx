@@ -1,0 +1,77 @@
+body {
+  background: #fff;
+  font-size: 1.2rem;
+  color: #333;
+  font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+}
+.from-order {
+  width: 100%;
+  color: #000;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #d4d4d4;
+  display: inline-block;
+}
+.from-order .order-head {
+  border-bottom: 1px solid #eeeeee;
+  line-height: 2rem;
+  height: 4rem;
+}
+.from-order .order-head .un {
+  margin-left: .5rem;
+  font-size:1.2rem;
+}
+.from-order .order-head .t-date {
+  margin-left: .5rem;
+  font-size:1.2rem;
+  line-height:4rem;
+  text-align:center;
+}
+.from-order .order-head .title {
+  margin-left: .5rem;
+}
+.from-order .order-head .grade {
+  color: #e02433;
+  font-size: 1.3rem;
+}
+.from-order .order-head .delevo {
+  color: #44afd1;
+  font-size:2rem;
+  line-height: 4rem;
+}
+.from-order .order-bottom {
+  height: 8rem;
+  line-height: 2rem;
+}
+.from-order .order-bottom .dish {
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.from-order .order-bottom .dish .aatatis .title {
+
+  color: #333;
+  font-size: 1.2rem;
+  line-height: 4rem;
+}
+
+.from-order .order-bottom .dish .aatatis .aatatis-num{
+  margin-left: .5rem;
+  color: #e02433;
+  font-size: 1.6rem;
+  line-height: 4rem;
+}
+.from-order .order-bottom .dish .title {
+  margin-left: .5rem;
+}
+.from-order .order-bottom .dish .orimg img {
+  width: 9.8rem;
+  height: auto;
+  margin-left: 15px;
+}
+
+.from-order .order-bottom .dish .grade {
+  color: #e02433;
+  font-size: 1.6rem;
+  line-height: 2rem;
+}

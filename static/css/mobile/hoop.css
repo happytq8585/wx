@@ -40,24 +40,23 @@
   border: 1px solid #eeeeee;
 }
 .from-group .tab-content .from-order .row .menu-img {
-  width:8.2rem;
+  width:6.2rem;
   height: auto;
 }
 .from-group .tab-content .from-order .row .menu-img img {
-  width: 6.8rem;
+  width: 6.2rem;
   height: auto;
-  margin-left: 15px;
+  margin-left: 5px;
 }
 .from-group .tab-content .from-order .row .menu-txt .dishes {
   font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
-  font-size: 1.3rem;
   line-height: 2.42857143;
   color: #333;
+  margin-left: 10px;
 }
 .from-group .tab-content .from-order .row .menu-txt .dishes .grade {
   font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
-  font-size: 1.3rem;
-  line-height: 2.42857143;
+
   color: #e02433;
 }
 .from-group .tab-content .user-info {
@@ -68,8 +67,8 @@
   border: 1px solid #eeeeee;
 }
 .from-group .tab-content .user-info .row .menu-img {
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: auto;
 }
 .from-group .tab-content .user-info .row .menu-img .username {
   text-align: center;
@@ -77,13 +76,11 @@
 }
 .from-group .tab-content .user-info .row .menu-txt .dishes {
   font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
-  font-size: 1.3rem;
   line-height: 2.42857143;
   color: #333;
 }
 .from-group .tab-content .user-info .row .menu-txt .dishes .grade {
   font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
-  font-size: 1.3rem;
   line-height: 2.42857143;
   color: #e02433;
 }
@@ -129,19 +126,22 @@
   position: relative;
 }
 .menu-edit .operate .dele {
+  width:7rem;
   font-size: 1.2rem;
-  line-height: 1.3rem;
+  line-height: 2rem;
 }
 .menu-edit .operate .edit {
-  margin-top: 30px;
+  width:7rem;
+  font-size: 1.2rem;
+  line-height: 2rem;
 }
 .menu-edit .operate .edit .grade {
   font-size: 1.7rem;
   color: #e02433;
 }
 .menu-edit .operate .pls {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 8rem;
+  height: 3rem;
   line-height: 2.6rem;
 }
 .menu-edit .operate .pls a{
@@ -158,4 +158,10 @@
   width: 2.5rem;
   height: 2.5rem;
   border: 1px solid #ddd;
+}
+.container a{
+  width:300px;
+}
+.container  .text-center {
+  font-size:1.6rem;
 }

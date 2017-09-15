@@ -8,7 +8,7 @@
     <title>evaluate</title>
     <!-- font-icon -->
 <!--    <link rel="stylesheet" href="css/mobile/iconfont.css"/>-->
-    <link rel="stylesheet" href="css/mobile/weui.min.css">
+<!--    <link rel="stylesheet" href="css/mobile/weui.min.css"> -->
     <link rel="stylesheet" href="css/mobile/jquery-weui.min.css">
     <!-- bootstrap-core -->
     <link rel="stylesheet" href="css/mobile/bootstrap.css">
@@ -42,9 +42,11 @@
 <body>
 
 <div class="container-fluid">
+<!--
     <div class="page-header">
         <h1 class="text-center">评价</h1>
     </div>
+-->
     <div class="from-group identifier" id="{{d['id']}}">
         <div class="tab-content ">
             <div class="" id="">
@@ -110,6 +112,7 @@
     </div>-->
     <hr>
     {% for c in C %}
+        {% if c.get('mobile') %}
     <div class="from-group">
         <div class="tab-content ">
             <div class="">
@@ -119,7 +122,7 @@
                             <img src="{{U[c['mobile']]['avatar']}}" alt="">
                             <div class="username">{{U[c['mobile']]['name']}}</div>
                         </div>
-                        <div class="col-xs-20 col-sm-20 col-md-20 menu-txt">
+                        <div class="col-xs-19 col-sm-19 col-md-19 menu-txt">
                             <div class="dishes">
                                 <div class="row">
                                     <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">评分</div>
@@ -142,6 +145,7 @@
             </div>
         </div>
     </div>
+        {% end %}
     {% end %}
 </div>
 
@@ -155,30 +159,6 @@
 <script src="js/mobile/star.js"></script>
 <script src="js/mobile/dish.js"></script>
 <script>
-    !function (e) {
-        function t(a) {
-            if (i[a]) return i[a].exports;
-            var n = i[a] = {exports: {}, id: a, loaded: !1};
-            return e[a].call(n.exports, n, n.exports, t), n.loaded = !0, n.exports
-        }
-
-        var i = {};
-        return t.m = e, t.c = i, t.p = "", t(0)
-    }([function (e, t) {
-        "use strict";
-        Object.defineProperty(t, "__esModule", {value: !0});
-        var i = window;
-        t["default"] = i.flex = function (e, t) {
-            var a = e || 100, n = t || 1, r = i.document, o = navigator.userAgent,
-                d = o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i), l = o.match(/U3\/((\d+|\.){5,})/i),
-                c = l && parseInt(l[1].split(".").join(""), 10) >= 80, p = navigator.appVersion.match(/(iphone|ipad|ipod)/gi),
-                s = i.devicePixelRatio || 1;
-            p || d && d[1] > 534 || c || (s = 1);
-            var u = 1 / s, m = r.querySelector('meta[name="viewport"]');
-            m || (m = r.createElement("meta"), m.setAttribute("name", "viewport"), r.head.appendChild(m)), m.setAttribute("content", "width=device-width,user-scalable=no,initial-scale=" + u + ",maximum-scale=" + u + ",minimum-scale=" + u), r.documentElement.style.fontSize = a / 2 * s * n + "px"
-        }, e.exports = t["default"]
-    }]);
-    flex(100, 1);
 </script>
 
 </body>

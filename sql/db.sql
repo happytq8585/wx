@@ -30,11 +30,10 @@ create table if not exists dish
 create table if not exists order_info
 (
  id int unsigned primary key auto_increment,
- mobile int unsigned not null, /*用户mobile phone*/
+ orderid varchar(32) not null,
+ mobile varchar(16)  not null, /*用户mobile phone*/
  dish_id int unsigned not null, /*菜名id*/
  num     int unsigned not null, /*数量*/
- price   int unsigned not null, /*单价, 单位分*/
- unit    varchar(8) not null, /*单位: 斤 个 只 头 打*/
  time timestamp default CURRENT_TIMESTAMP,    /*下单的时间*/
  time1 timestamp,   /*预计取食品的时间*/
  time2 timestamp,   /*实际取食品的时间*/

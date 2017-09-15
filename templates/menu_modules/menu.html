@@ -62,18 +62,7 @@
             <li class="col-xs-8 col-sm-8 col-md-8 menu-tabl"><a href="#lunch" data-toggle="tab">午餐</a></li>
             <li class="col-xs-8 col-sm-8 col-md-8 menu-tabd"><a href="#dinner" data-toggle="tab">晚餐</a></li>
         </ul>
-        <div id="myTabContent" class="tab-content ">
-            <div class="tab-pane fade in active" id="Breakfast">
-                {% module Dish_module(breakfast, mobile, expire, conf) %}
-            </div>
-            <div class="tab-pane fade" id="lunch">
-                {% module Dish_module(lunch, mobile, expire, conf) %}
-            </div>
-            <div class="tab-pane fade" id="dinner">
-                {% module Dish_module(dinner, mobile, expire, conf) %}
-            </div>
-
-        </div>
+        {% include "tab.html" %}
     </div>
 
 
@@ -89,6 +78,7 @@
 <script src="js/mobile/bootstrap-datetimepicker.js"></script>
 <script src="js/mobile/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="js/mobile/main.js"></script>
+<script src="js/mobile/dish.js"></script>
 <script>
 
 

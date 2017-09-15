@@ -22,7 +22,8 @@ from log import log
 from data import query_dish_by_day, write_dish, query_dish_by_id
 from data import query_comments_by_dish_id, write_user, write_comment
 from data import query_all_users, delete_dish_by_id, update_dish
-from data import query_order
+from data import query_reserve, query_dish_by_ids, query_user_by_mobile
+from data import write_order, query_order_by_mobile, delete_order
 
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -64,7 +65,7 @@ class IndexHandler(tornado.web.RequestHandler):
         code = self.get_argument('code', None)
         if not code:
             self.set_secure_cookie('mobile', '123456789')
-            self.render('index.html')
+            self.render('index.html', mobile='123456789')
             #self.finish()
         else:
             atk    = yield tornado.gen.Task(self._access)
@@ -84,7 +85,7 @@ class IndexHandler(tornado.web.RequestHandler):
                         print("userinfo=%s"%info)
                         log.Print(str(info))
                         yield tornado.gen.Task(self._write_user_cache, info)
-                        self.render('index.html')
+                        self.render('index.html', mobile=info.get('mobile', ''))
     @tornado.gen.coroutine
     def _write_user_cache(self, u):
         mobile = u.get('mobile', '')
@@ -112,6 +113,7 @@ class MenuHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         day         = self.get_argument('day', None)
+        data        = self.get_argument('data', None)
         t           = time.localtime()
         now         = time.strftime('%Y-%m-%d', t)
         offset      = time.strftime('%H:%M:%S', t)
@@ -132,7 +134,12 @@ class MenuHandler(BaseHandler):
             else:
                 pass
         mobile      = self.get_secure_cookie('mobile')
-        self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
+        if not data:
+            self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
+        else:
+            R = self.render_string('menu_modules/tab.html',breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
+            self.write(R)
+            self.finish()
 
 class AddHandler(BaseHandler):
     @tornado.web.authenticated
@@ -316,7 +323,7 @@ class EditHandler(BaseHandler):
         r = update_dish(did, name, pic_loc, day, material, kind, price, unit)
         return r
 
-class DeleteHandler(BaseHandler):
+class DeleteDishHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.engine
     @tornado.web.authenticated
@@ -327,9 +334,9 @@ class DeleteHandler(BaseHandler):
         else:
             r  = yield tornado.gen.Task(self._delete_dish, did)
             if not r:
-                self.write('delete failed!')
+                self.write('有人评价,不能删除!')
             else:
-                self.write('delete success!')
+                self.write('删除成功!')
         self.finish()
 
     @tornado.gen.coroutine
@@ -343,206 +350,165 @@ class ReserveHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         day  = self.get_argument('day', None)
+        data = self.get_argument('data', None)
         if not day:
             t   = time.localtime()
             now = time.strftime('%Y-%m-%d', t)
             day = now 
-        d    = yield tornado.gen.Task(self._query_order, 'day', day)
+        d    = yield tornado.gen.Task(self._query_reserve, 'day', day)
         print(d)
-        self.render('food_reservation.html', D=d)
+        if data:
+            r = self.render_string('reserve/data.html', D=d)
+            R = {'data':r, 'len':len(d)}
+            self.write(R)
+            self.finish()
+        else:
+            self.render('reserve/reserve.html', D=d, day=day)
 
     @tornado.gen.coroutine
-    def _query_order(self, t, p):
-        d    = query_order(t, p)
+    def _query_reserve(self, t, p):
+        d    = query_reserve(t, p)
         return d
 
     @tornado.web.asynchronous
     @tornado.gen.engine
     @tornado.web.authenticated
     def post(self):
-        self.finish()
+        day  = self.get_argument('day',  None)
+        data = self.get_argument('data', None)
+        if not day or not data:
+            self.finish()
+        else:
+            ret         = data.split('\r')
+            ids, nums   = ret[0], ret[1]
+            ids         = [int(e) for e in ids.split('\t')]
+            nums        = [int(e) for e in nums.split('\t')]
+            data        = [ids, nums]
+            day         = day + ' ' + conf.getfood_offset
+            mobile      = self.get_secure_cookie('mobile')
+            u           = yield tornado.gen.Task(self._query_user, mobile)
+            if not u:
+                self.write('mobile phone number missing')
+                self.finish()
+            else:
+                dishes = yield tornado.gen.Task(self._query_dishes, ids)
+                r      = yield tornado.gen.Task(self._write_order, u, data, dishes, day)
+                self.finish()
 
-class PersonalHandler(BaseHandler):
-    def get(self):
-        action      = self.get_argument('action', '')
-        role        = int(self.get_secure_cookie('role'))
-        device      = self.get_secure_cookie('pc_or_mobile')
-        head    = self._get_head_nav()
-        canteen = self._get_canteen()
-        if action == 'info':#personal information and password
-            target    = '%s/personal/PersonalCenter.html' % device
-            user    = self._get_user()
-            self.render(target, device=device, head=head, canteen=canteen, user=user)
-        elif action == 'management':
-            target    = '%s/personal/Employeelists.html' % device
-            users     = query_user_all()
-            self.render(target, device=device, head=head, users=users)
-    def post(self):
-        action      = self.get_argument('action', '')
-        if action == 'password':
-            old_pass    = self.get_argument('old_pass', '')
-            new_pass    = self.get_argument('new_pass', '')
-            uid         = int(self.get_secure_cookie('uid'))
-            r           = update_password(uid, old_pass, new_pass)
-            self.write(str(r))
-        elif action == 'info':
-            r_name      = self.get_argument('real_name', '')
-            n_name      = self.get_argument('nick_name', '')
-            o_phone     = self.get_argument('office_phone', '')
-            m_phone     = self.get_argument('mobile_phone', '')
-            personal_img_dir = "static/img/personal"
-            if not os.path.exists(personal_img_dir):
-                os.makedirs(personal_img_dir)
-            upload_path = os.path.join(os.path.dirname(__file__), personal_img_dir)
-            file_metas  = self.request.files['file']
-            meta = file_metas[0]
-            filename = meta['filename']
-            filename = personal_img_dir + '/' +  filename
-            with open(filename, 'wb') as up:
-                up.write(meta['body'])
-            f_name      = filename
-            uid         = int(self.get_secure_cookie('uid'))
-            r = update_personal_info(uid, r_name, n_name, '', f_name, o_phone, m_phone)
-            if r == 1:
-                e = query_user_by_id(uid)
-                self._update_cookie(e)
-                self.write('update success!')
-            else:
-                self.write('update failed!')
-        elif action == 'adduser':
-            uid         = int(self.get_argument('user_id', 0))
-            r_name      = self.get_argument('real_name', '')
-            n_name      = self.get_argument('nick_name', '')
-            o_phone     = self.get_argument('office_phone', '')
-            m_phone     = self.get_argument('mobile_phone', '')
-            password    = self.get_argument('password', '')
-            role        = int(self.get_argument('role', '0'))
-            r           = 0
-            device      = self.get_secure_cookie('pc_or_mobile')
-            target      = '%s/personal/user_op.html' % device
-            if not uid:
-                r       = add_user(r_name, n_name, o_phone, m_phone, password, role)
-                self.render(target, msg='添加成功')
-            else:
-                r       = update_user_by_id(uid, r_name, n_name, o_phone, m_phone, password, role)
-                self.render(target, msg='修改成功')
-        elif action == 'delete':
-            uid         = int(self.get_argument('user_id', 0))
-            r           = delete_user_by_id(uid)
-            if not r:
-                self.write("没有这个用户")
-            else:
-                self.write("删除成功")
-    def _update_cookie(self, e):
-            self.set_secure_cookie('uid', str(e['id']), expires_days=None)
-            self.set_secure_cookie('real_name', e['real_name'], expires_days=None)
-            self.set_secure_cookie('nick_name', e['nick_name'], expires_days=None)
-            self.set_secure_cookie('real_img_url', e['real_img_url'], expires_days=None)
-            self.set_secure_cookie('nick_img_url', e['nick_img_url'], expires_days=None)
-            self.set_secure_cookie('office_phone', e['office_phone'], expires_days=None)
-            self.set_secure_cookie('mobile_phone', e['mobile_phone'], expires_days=None)
-            self.set_secure_cookie('role', str(e['role']), expires_days=None)
+    @tornado.gen.coroutine
+    def _query_dishes(self, ids):
+        r = query_dish_by_ids(ids)
+        return r
+
+    @tornado.gen.coroutine
+    def _query_user(self, mobile):
+        r = query_user_by_mobile(mobile)
+        return r
+
+    @tornado.gen.coroutine
+    def _write_order(self, user, data, dishes, day):
+        r = write_order(user, data, dishes, day)
+        return r
 
 class OrderHandler(BaseHandler):
-    def _grp_orders(self, orders):
-        t            = {}
-        r            = {}
-        ids_tmp      = {}
-        for e in orders:
-            ids_tmp[e['dish_id']] = 1
-            day = e['time1'].split(' ')[0]
-            arr = t.get(day)
-            if not arr:
-                t[day] = [e]
-            else:
-                t[day].append(e)
-        ids          = [e for e in ids_tmp]
-        R            = query_dish_by_ids(ids)
-        DishDic = {}
-        for e in R:
-            DishDic['%dpic' % e['id']] = e['pic_loc']
-            DishDic['%dname' % e['id']] = e['name']
-            DishDic['%dunit' % e['id']] = e['unit']
-
-        for e in t:
-            d   = {}
-            arr = t[e]
-            for i in arr:
-                did = i['dish_id']
-                pic_key = '%dpic'%did
-                name_key= '%dname'%did
-                unit_key= '%dunit'%did
-                if not d.get(did):
-                    d[did] = {'num': i['num'], 'early': i['time1'], 'late': i['time1'], 'pic_loc': DishDic.get(pic_key, ''), 'name':DishDic.get(name_key, ''), 'unit':DishDic.get(unit_key, '')}
-                else:
-                    d[did]['num'] = d[did]['num'] + i['num']
-                    if i['time1'] < d[did]['early']:
-                        d[did]['early'] = i['time1']
-                    if i['time1'] > d[did]['late']:
-                        d[did]['late']  = i['time1']
-            r[e] = d
-        return r, DishDic
-    #个人订单、管理员所有订单查看
-    def get(self):
-        uid          = int(self.get_secure_cookie('uid'))
-        role         = int(self.get_secure_cookie('role'))
-        action       = self.get_argument('action', '')
-        device       = self.get_secure_cookie('pc_or_mobile')
-        res          = []
-        head    = self._get_head_nav()
-        if action == 'orderlist':
-            if role == conf.canteen_admin_role:
-                res      = query_all_orders()
-                dids     = [e['dish_id'] for e in res]
-                dishes   = query_dish_by_ids(dids)
-
-                uids     = [e['user_id'] for e in res]
-                user     = query_user_by_ids(uids)
-
-                D        = {}
-                grp, D   = self._grp_orders(res)
-                target   = '%s/AdminCanteen.html' % device
-                self.render(target, device=device, head=head, orders=res, groups=grp, D=D, user=user)
-            else:
-                res      = query_orders_by_uid(uid)
-                dids     = [e['dish_id'] for e in res]
-                dishes   = query_dish_by_ids(dids)
-                D        = {}
-                for e in dishes:
-                    D['%dpic'%e['id']] = e['pic_loc']
-                    D['%dname'%e['id']] = e['name']
-                target = '%s/Orderlist.html' % device 
-                self.render(target, device=device, head=head, orders=res, D=D)
-    #下单
-    def post(self):
-        did          = int(self.get_argument('r_did', 0))
-        num          = int(self.get_argument('num', 0))
-        price        = int(self.get_argument('r_price', 0))
-        unit         = self.get_argument('unit', '')
-        uid          = int(self.get_secure_cookie('uid'))
-        r = write_order(uid, did, num, price, unit)
-        self.write(str(r))
-class OrderConfirmHandler(BaseHandler):
-    def post(self):
-        oid          = self.get_argument('order_id', '')
-        if oid:
-            r        = order_confirm(oid)
-            self.write('ok')
-class LogoutHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.clear_cookie("real_name");
-        self.clear_cookie("nick_name");
-        self.clear_cookie("real_img_url")
-        self.clear_cookie("nick_img_url")
-        self.clear_cookie("office_phone")
-        self.clear_cookie("mobile_phone")
-        self.clear_cookie("role")
-        self.redirect("/")
-
-class ConstructHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
     @tornado.web.authenticated
     def get(self):
-        self.write("Constructing!")
+        mobile      = self.get_secure_cookie('mobile', None)
+        data        = self.get_argument('data', None)
+        if not mobile:
+            self.finish()
+        else:
+            t           = time.localtime()
+            now         = time.strftime('%Y-%m-%d', t)
+
+            u           = yield tornado.gen.Task(self._get_user, mobile)
+            name        = u['name']
+#            mobile      = '17313615918'
+#            name        = '谭强'
+            dids, O     = yield tornado.gen.Task(self._get_order, mobile)
+            if len(dids):
+                dishes      = yield tornado.gen.Task(self._get_dishes, dids)
+                D           = {}
+                for e in dishes:
+                    D[e['id']] = e
+                self._get_sum(O, D)
+            if mobile != conf.canteen_admin_mobile:
+                if not data:
+                    self.render('order/vieworder.html', name=name, O=O, D=D, now=now)
+                else:
+                    R = self.render_string('order/vieworder_data.html', name=name, O=O, D=D, now=now)
+                    self.write(R)
+                    self.finish()
+            else:
+                if not data:
+                    self.render('order/vieworder-admin.html')
+                else:
+                    loc = self.get_argument('loc', None)
+                    if not loc:
+                        self.finish()
+                    else:
+                        loc = int(loc)
+                        if loc == 0:
+                            O = yield tornado.gen.Task(self._get_left)
+                            R = self.render_string('order/now-admin.html', name=name, O=O, D=D, now=now)
+                            self.write(R)
+                            self.finish()
+                        elif loc == 1:
+                            O = yield tornado.gen.Task(self._get_middle)
+
+    def _get_sum(self, O, D):
+        for o in O:
+            s  = 0
+            for e in o['list']:
+                n = e['num']
+                p = D[e['dish_id']]['price']
+                s = s + n*p
+            s = round(s/100.0, 1)
+            o['sum'] = s
+
+    @tornado.gen.coroutine
+    def _get_dishes(self, dids):
+        r = query_dish_by_ids(dids)
+        return r
+
+    @tornado.gen.coroutine
+    def _get_order(self, mobile):
+        r = query_order_by_mobile(mobile)
+        return r
+
+    @tornado.gen.coroutine
+    def _get_user(self, mobile):
+        r = query_user_by_mobile(mobile)
+        return r
+
+    def post(self):
+        pass
+
+class DeleteOrderHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def post(self):
+        oid     = self.get_argument('id', None)
+        if not oid:
+            self.finish()
+        else:
+            yield tornado.gen.Task(self._del_order, oid)
+            self.finish()
+
+    @tornado.gen.coroutine
+    def _del_order(self, oid):
+        r = delete_order(oid)
+        return r
+
+class PersonalHandler(BaseHandler):
+    pass
+class OrderConfirmHandler(BaseHandler):
+    pass
+class ConstructHandler(BaseHandler):
+    pass
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
@@ -568,8 +534,10 @@ if __name__ == "__main__":
                (r'/dish', DishHandler),
                (r'/comment', CommentHandler),
                (r'/edit', EditHandler),
-               (r'/delete', DeleteHandler),
+               (r'/delete', DeleteDishHandler),
                (r'/reserve', ReserveHandler),
+               (r'/order', OrderHandler),
+               (r'/delorder', DeleteOrderHandler),
                (r'/notice',  ConstructHandler),
               ]
     application = tornado.web.Application(handler, **settings)

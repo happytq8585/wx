@@ -88,13 +88,12 @@ class Dish(Base):
 
 class Order(Base):
     __tablename__ = conf.t_order
-    def __init__(self, i, mo, di, nu, pr, un, t, t1, t2, c, p):
+    def __init__(self, i, oi, mo, di, nu, pr, un, t, t1, t2, c, p):
         self.id            = i
+        self.orderid       = oi
         self.mobile        = mo
         self.dish_id       = di
         self.num           = nu
-        self.price         = pr
-        self.unit          = un
         self.time          = t
         self.time1         = t1
         self.time2         = t2
@@ -102,15 +101,14 @@ class Order(Base):
         self.pay_status    = p
     def dic_return(self):
         return {'id': self.id, 'mobile': self.mobile, 'dish_id': self.dish_id,
-                'num':self.num, 'price': self.price, 'unit': self.unit, 
-                'time':str(self.time), 'time1': str(self.time1), 'time2': str(self.time2),
+                'orderid':str(self.orderid), 'time':str(self.time), 'num': self.num,
+                'time1': str(self.time1), 'time2': str(self.time2),
                 'confirm':self.confirm, 'pay_status': self.pay_status}
     id          = Column(Integer, primary_key=True)
-    mobile      = Column(Integer)
+    orderid     = Column(String(32))
+    mobile      = Column(String(16))
     dish_id     = Column(Integer)
     num         = Column(Integer)
-    price       = Column(Integer)
-    unit        = Column(Integer)
     time        = Column(TIMESTAMP) #下单的时间
     time1       = Column(TIMESTAMP) #预计取食品的时间
     time2       = Column(TIMESTAMP) #实际取食品的时间
@@ -160,6 +158,12 @@ def write_user_db(name, mobile, gender, userid, telephone, avatar):
         S.commit()
     S.close()
     return True
+
+def query_user_by_mobile_db(mobile):
+    S     = DBSession()
+    r     = S.query(User).filter(User.mobile == mobile).first()
+    S.close()
+    return {} if not r else r.dic_return()
 
 def query_all_users_db():
     S     = DBSession()
@@ -217,21 +221,82 @@ def delete_dish_by_id_db(did):
     S.close()
     return True
 
-def query_order_by_day_db(day):
+def query_reserve_by_day_db(day):
     S = DBSession()
-    r = S.query(Dish).filter(Dish.time == day).all()
+    r = S.query(Dish).filter(Dish.time == day).filter(Dish.kind == 0).order_by(Dish.time.desc()).all()
     S.close()
     return [] if not r else [e.dic_return() for e in r]
 
-def query_order_by_user_id_db(mobile):
+def query_reserve_by_user_id_db(mobile):
     S = DBSession()
     r = S.query(Dish).filter(Dish.mobile == mobile).all()
     S.close()
     return [] if not r else [e.dic_return() for e in r]
 
-def query_order_by_order_id_db(oid):
+def query_reserve_by_reserve_id_db(oid):
     S = DBSession()
     r = S.query(Dish).filter(Dish.id == oid).all()
     S.close()
     return {} if not r else [e.dic_return() for e in r]
 
+def query_dish_by_ids_db(dids):
+    S = DBSession()
+    r = S.query(Dish).filter(Dish.id.in_(dids)).all()
+    S.close()
+    return [] if not r else [e.dic_return() for e in r]
+
+#data=[ [did, num], [did, num] ... ]
+#dishes=[ {dish}, {dish}, ... ]
+#user={user}
+#day=预计取单时间
+def write_order_db(user, data, dishes, day):
+    t           = time.localtime()
+    now         = time.strftime('%Y%m%d-%H%M%S', t)
+    now1        = time.strftime('%Y-%m-%d %H:%M:%S', t)
+    name        = user['name']
+    mobile      = user['mobile']
+    S = DBSession()
+    N = len(data[0])
+    oid         = now + '-' + name
+    for i in xrange(N):
+        if data[1][i] == 0:
+            continue;
+        price   = dishes[i]['price']
+        unit    = dishes[i]['unit']
+        o       = Order(0, oid, mobile, data[0][i], data[1][i], price, unit, now1, day, '', 0, 0)
+        S.add(o)
+    r = S.commit()
+    S.close()
+    return r
+
+#return: [ {'oid':oid,'list':[dish, dish,...]}, ... ]
+def query_order_by_mobile_db(mobile):
+    S = DBSession()
+    r = S.query(Order).filter(Order.mobile == mobile).order_by(Order.time).all()
+    S.close()
+    if not r:
+        return [], []
+   
+    dids = [e.dish_id for e in r]
+    O = []
+    d = {}
+    for e in r:
+        if not d.get(e.orderid):
+            d[e.orderid] = [e.dic_return()]
+        else:
+            d[e.orderid].append(e.dic_return())
+    for e in d:
+        O.append({'oid':e, 'list':d[e]})
+    return dids, O
+
+def delete_order_db(oid):
+    S = DBSession()
+    r = S.query(Order).filter(Order.orderid == oid).delete(synchronize_session=False)
+    S.commit()
+
+
+if __name__ == "__main__":
+    from conf import conf
+    m = '17313615918'
+    r = query_order_by_mobile_db(m)
+    print(r)

@@ -49,6 +49,7 @@ fetch_time=17:30:00
 [offset]
 #timeoffset=11:30:00
 timeoffset=21:00:00
+getfood_offset=18:00:00
 
 [wx]
 corpid=wwfaf45bf68f147fe1

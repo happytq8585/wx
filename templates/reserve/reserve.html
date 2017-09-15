@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>food reservation</title>
+
+
+
+    <!-- bootstrap-core -->
+    <link rel="stylesheet" href="css/mobile/bootstrap.css">
+    <link rel="stylesheet" href="css/mobile/bootstrap-theme.css">
+
+    <!-- plugins -->
+
+
+    <link rel="stylesheet" href="css/mobile/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="css/mobile/hoop.css" />
+    <link rel="stylesheet" href="css/mobile/freservation.css">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/mobile/html5shiv.min.js"></script>
+    <script src="js/mobile/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="from-group">
+        <div class="row">
+            <div class="container-fluid">
+                <div class="container menu-datetime">
+                    <div class="col-xs-8 col-sm-8 col-md-8"><label class="pull-right text-right" for="datetime">选择日期</label></div>
+                    <div class="col-xs-16 col-sm-16 col-md-16">
+                        <div class=" input-append date form_datetime"  id="datetimepicker">
+                            <input size="16"  class="input-txt"  type="text" value="{{day}}" readonly name="datetime">
+                            <span class="add-on "><i class="icon iconfont icon-calendar"  data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include "data.html" %}
+    <div class="from-group">
+
+     <div class="row">
+         <div class="col-xs-15 col-sm-15 col-md-15 yuding" >
+             <button type="submit" class="btn btn-primary btn-lg lyd re-older" {{"disabled=\"disabled\"" if len(D) == 0 else ""}} >立即预定</button>
+         </div>
+         <div class="col-xs-15 col-sm-15 col-md-15 tijiao" >
+             <button type="submit" class="btn btn-primary btn-lg lyd subm" id="subm">提交</button>
+         </div>
+         <div class=" col-xs-9 col-sm-9 col-md-9 tjsu" >
+             <span class="grade ">提交成功</span>
+         </div>
+
+         <div class="col-xs-9 col-sm-9 col-md-9 text-right zongjia">
+
+             <span class="dw">总价:</span><span class="grade" id="AllTotal"><span class="dw">元</span></span>
+         </div>
+     </div>
+    </div>
+
+    <div class="modal fade myModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定提交</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pre" >确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!--js-->
+<script src="js/mobile/jquery.js"></script>
+<script src="js/mobile/bootstrap.js"></script>
+<script src="js/mobile/bootstrap-datetimepicker.js"></script>
+<script src="js/mobile/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="js/mobile/reserve.js"></script>
+</body>
+</html>

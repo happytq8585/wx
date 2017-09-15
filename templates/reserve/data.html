@@ -1,0 +1,63 @@
+
+    <div class="from-group" id="datalist">
+        <div id="" class="tab-content ">
+            <div class="reserve" id="reserve">
+                {% for d in D %}
+                <div class="from-order">
+                    <div class="row re-ly">
+                        <a  class="col-xs-19 col-sm-19 col-md-19" href="/dish?id={{d['id']}}">
+                            <div class="col-xs-6 col-sm-6 col-md-6 menu-img">
+                                <img src="{{d['pic_loc']}}" alt="">
+                            </div>
+                            <div class="col-xs-15 col-sm-15 col-md-15 menu-txt">
+                                <div class="dishes">
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">评价</div>
+                                        <div class="col-xs-15 col-sm-15 col-md-15 grade">
+    {{'暂无评价' if d['num'] == 0 else round(d['score']/float(d['num']), 1)}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">名称</div>
+                                        <div class="col-xs-15 col-sm-15 col-md-15 ">{{d['name']}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 material">食材/口味</div>
+                                        <div class="col-xs-15 col-sm-15 col-md-15 material-style">{{d['material']}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 price">价格</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="col-xs-5 col-sm-5 col-md-5 menu-edit">
+                            <div class="operate">
+                                <div class="row jishu">
+                                    <div class="col-xs-23 col-sm-23 col-md-23 dele pull-right">
+                                        <div class="pls pull-right lt-rt">
+                                            <input id="min" onclick="minus(this)" name="" type="button" value="-" class="minus"/>
+                                            <input name="num" type="text" value="0" class="num" />
+                                            <input id="add" onclick="plus(this)" name="" type="button" value="+" class="plus"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row danjia">
+                                    <div class="col-xs-23 col-sm-23 col-md-23 dele pull-right">
+                                        <div class=" value">￥<span class="price">{{round(d['price']/100.0, 2)}}</span>元/{{d['unit']}}</div>
+                                    </div>
+                                </div>
+                                <div class="row op">
+                                    <div class="col-xs-23 col-sm-23 col-md-23 edit pull-right lt-r">
+                                        <span  class="pull-right edit text-right" >¥<span class="oprice"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% end %}
+            </div>
+        </div>
+    </div>

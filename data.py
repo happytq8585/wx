@@ -5,8 +5,9 @@ from tables   import query_dish_by_day_db, query_dish_by_id_db
 from tables   import write_dish_db, query_comments_by_dish_id_db
 from tables   import query_all_users_db, write_user_db, write_comment_db
 from tables   import delete_dish_by_id_db, update_dish_db
-from tables   import query_order_by_day_db, query_order_by_user_id_db
-from tables   import query_order_by_order_id_db
+from tables   import query_reserve_by_day_db, query_dish_by_ids_db
+from tables   import query_user_by_mobile_db, write_order_db
+from tables   import query_order_by_mobile_db, delete_order_db
 
 from conf    import conf
 
@@ -59,14 +60,30 @@ def update_dish(did, name, pic_loc, day, material, kind, price, unit):
     r         = update_dish_db(did, name, pic_loc, day, material, kind, price, unit)
     return r
 
-def query_order(t, p):
+def query_reserve(t, p):
     r     = []
     if t == 'day':
-        r = query_order_by_day_db(p)
-    elif t == 'uid':
-        r = query_order_by_user_id_db(p)
-    elif t == 'oid':
-        r = query_order_by_order_id_db(p)
+        r = query_reserve_by_day_db(p)
+    return r
+
+def query_dish_by_ids(ids):
+    r     = query_dish_by_ids_db(ids)
+    return r
+
+def query_user_by_mobile(mobile):
+    r     = query_user_by_mobile_db(mobile)
+    return r
+
+def write_order(user, data, dishes, day):
+    r     = write_order_db(user, data, dishes, day)
+    return r
+
+def query_order_by_mobile(mobile):
+    r     = query_order_by_mobile_db(mobile)
+    return r
+
+def delete_order(oid):
+    r     = delete_order_db(oid)
     return r
 
 if __name__ == "__main__":

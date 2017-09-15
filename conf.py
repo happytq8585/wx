@@ -44,6 +44,7 @@ class Wxconf():
         self.fetch_time           = p.get('canteen', 'fetch_time')
 
         self.timeoffset           = p.get('offset', 'timeoffset')
+        self.getfood_offset       = p.get('offset', 'getfood_offset')
 
 
         self.corpid               = p.get('wx', 'corpid')

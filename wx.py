@@ -29,7 +29,10 @@ class WxAPI():
         cmd   = conf.msg % (access_token)
         print(cmd)
         data  = {'touser': uid, 'toparty': '测试119', 'totag':'', 'msgtype':'text', 'agentid':aid, 'text':{'content': content}}
-        data  = urllib.urlencode(data)
+
+        #data  = urllib.urlencode(data)
+        data = json.dumps(data)
+        print(data)
         req   = urllib2.Request(url=cmd, data=data)
         data  = urllib2.urlopen(req)
         res   = data.read()
@@ -38,6 +41,6 @@ wxapi = WxAPI()
 
 if __name__ == '__main__':
 #   res = wxapi.access_token()
-    atk = '3X70xt-ol7wtZjqxOEJPPBs5FSv2-zQtjwQhlmEs3vZZ9MHa1qXPrb8WGc2XXfmTROSymCbAzYjBCWeB23YWH8GFaS27rPcj4xGaU8NEkc5kE_pETrYVsSiopVuoCK78gcTSBn9WN591IwCfq3kOxtCvd7RZNdXvSDBhh9b40L1K-gQ-jNuvUcZV4Qbz5goFJK2ET4CEb3iaOPMVDHS2_5NCooSzy5GsW1T8U5TN95tjico0ZwzaldU8PHqrM-IqzEo_64J5o6iBh9SwSw6SlC9aGvRGn5DUph3NIYUHQl8'
+    atk = 'HLz8MIrI9ClphUP0KNONARnu5NzRVxZGRGz0g3oMRT0h0H2p4wWqSfsx1D6qSqzu6xZ5Ia8dFXj2JsM_2OMkNBpBMTQwn2vflqTgsmY74WXrsFTT5vfPy7nYGZV9GgXBK9jsp8YHUEAax67_jMoqtOhPnzmQzvvGhVq1lojsxgLYi4Z0ECBMNR0tgO2LCrZqML9PyeG9GLpUMYisoHPqDC5f-Q6zDtr5vdvXS0yjEwnrLUmICt2Ztq3jliN5Yuz6K_4Lw8QvD02v69zzsuCwW6OMxMVxFXzBpxCzFWHtSCM'
 #   wxapi.msg(atk, 'TanQiang', conf.agentid, 'hello tanqiang')
-    wxapi.msg(atk, 'TanQiang', conf.agentid, 'hello world')
+    wxapi.msg(atk, 'ZhengErYang', 1000002, '您的包子已领取！')

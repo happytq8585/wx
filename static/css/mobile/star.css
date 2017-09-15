@@ -2,22 +2,33 @@
 /* CSS Document */
 
 h1,h2,h3,h4,h5,h6,form,ul,img{
- margin:0;padding:0;border:0;
+ margin:0;padding:0;border:0;width:2rem;height:2rem;
 }
+.menu-img .username{
+ font-size:1rem;
+}
+
 li{
  list-style:none;
 }
 
 ul.Star{
  display: inline-block;
- height:18px;
+ height: 1.6rem;
+ width: 20rem;
 }
 ul.Star li{
- float:left;margin-right:8px;margin-bottom:0;list-style:none;
+ float: left;
+ margin-right: 8px;
+ margin-bottom: 0;
+ list-style: none;
+ width: 20rem;
 }
 ul.Star li span.Select{
  float:left;display:block;
 }
 ul.Star li span.Select img{
- vertical-align:middle;
+ vertical-align: middle;
+ width: 2.5rem;
+ height: auto;
 }

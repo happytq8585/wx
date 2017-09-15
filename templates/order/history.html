@@ -1,0 +1,105 @@
+
+            <div class="tab-pane fade" id="history">
+                {% for o in O %}
+                    {% if o['list'][0]['time'] < now %}
+                <div class="from-order ">
+                    <div class="order-head">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div>
+                                    <span class="title">订单编号</span>
+                                    <span class="o-num">{{o['oid']}}</span>
+                                </div>
+                                <div class="un">姓名 <span class="myname">&nbsp; {{name}}</span></div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
+                                <button type="button" onclick="delete_order({{o['oid']}})"  class="pull-right delevo">删除</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-bottom">
+                        {% for d in o['list'] %}
+                        <div class="row dish">
+                            <div class="col-xs-12 col-sm-12 col-md-12 orimg">
+                                <img src="{{D[d['dish_id']]['pic_loc']}}" alt="">
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">菜名</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="d-name pull-left">{{D[d['dish_id']]['name']}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">下单时间</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="xiadan pull-left">{{d['time']}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">数量</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="amount pull-left">{{d['num']}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">取单时间</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="qudan pull-left">{{d['time2']}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">单价</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="atotle pull-left">
+            {{round(D[d['dish_id']]['price']/100.0, 1)}}元/{{D[d['dish_id']]['unit']}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">状态</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="state pull-left">
+            {{ '未取' if d['confirm'] == 0 else '已取' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% end %}
+                        <div class="row dish">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-11">
+                                        <span class="title pull-right">总价</span>
+                                    </div>
+                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                                        <span class="ototle grade pull-left">{{o['sum']}}</span><span>元</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md">
+                                <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
+                                    <button type="button" class="pull-right btn btn-primary edit-view">编辑</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    {% end %}
+                {% end %}
+            </div>

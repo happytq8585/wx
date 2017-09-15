@@ -34,6 +34,7 @@ $('.evaluate').click(function() {
             'data': {'_xsrf':xsrf, 'content':cnt, 'num':star, 'did':did},
             success: function(para) {
                 alert('评论成功');
+                window.location.reload();
             },
             error: function(para) {
                 alert('评论成功!!');

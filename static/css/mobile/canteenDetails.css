@@ -27,9 +27,10 @@
 }
 .canteenListCenter textarea{
     resize: none;
-    width:85%;
-    height:0.8rem;
-    padding:0.06rem;
+    width: 90%;
+    height: 6.8rem;
+    margin-top: 2rem;
+    border: 1px solid #ddd;
 }
 .canteenListEva{
     font-size: 1.2rem;
