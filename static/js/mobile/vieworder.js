@@ -65,3 +65,6 @@ function fill_tab_admin(i) {
         }
     });
 }
+$(
+    fill_tab_admin(0);
+);

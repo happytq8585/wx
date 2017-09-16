@@ -22,8 +22,9 @@ from log import log
 from data import query_dish_by_day, write_dish, query_dish_by_id
 from data import query_comments_by_dish_id, write_user, write_comment
 from data import query_all_users, delete_dish_by_id, update_dish
-from data import query_reserve, query_dish_by_ids, query_user_by_mobile
+from data import query_reserve, query_dish_by_ids, query_user_by_mobile, query_user_by_mobiles
 from data import write_order, query_order_by_mobile, delete_order
+from data import query_order_left, query_order_middle, query_order_right
 
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -33,30 +34,6 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.get_secure_cookie("mobile")
     def get_role(self):
         return int(self.get_secure_cookie("role"))
-    def _get_head_nav(self):
-        if not hasattr(self, 'pb_data'):
-            real_name      = self.get_secure_cookie('real_name')
-            role           = self.get_secure_cookie('role')
-            self.pb_data   = PublicData(real_name, role)
-        return self.pb_data.get_head()
-    def _get_canteen(self):
-        if not hasattr(self, 'pb_data'):
-            real_name      = self.get_secure_cookie('real_name')
-            role           = self.get_secure_cookie('role')
-            self.pb_data   = PublicData(real_name, role)
-        return self.pb_data.get_canteen()
-    def _get_user(self):
-        u = {}
-        u['id']            = int(self.get_secure_cookie('uid'))
-        u['real_name']     = self.get_secure_cookie('real_name')
-        u['nick_name']     = self.get_secure_cookie('nick_name')
-        u['real_img_url']  = self.get_secure_cookie('real_img_url')
-        u['nick_img_url']  = self.get_secure_cookie('nick_img_url')
-        u['office_phone']  = self.get_secure_cookie('office_phone')
-        u['mobile_phone']  = self.get_secure_cookie('mobile_phone')
-        u['role']          = int(self.get_secure_cookie('role'))
-        u['password']      = ''
-        return u
 
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -135,7 +112,7 @@ class MenuHandler(BaseHandler):
                 pass
         mobile      = self.get_secure_cookie('mobile')
         if not data:
-            self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
+            self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf, now=now)
         else:
             R = self.render_string('menu_modules/tab.html',breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
             self.write(R)
@@ -427,14 +404,14 @@ class OrderHandler(BaseHandler):
             name        = u['name']
 #            mobile      = '17313615918'
 #            name        = '谭强'
-            dids, O     = yield tornado.gen.Task(self._get_order, mobile)
-            if len(dids):
-                dishes      = yield tornado.gen.Task(self._get_dishes, dids)
-                D           = {}
-                for e in dishes:
-                    D[e['id']] = e
-                self._get_sum(O, D)
             if mobile != conf.canteen_admin_mobile:
+                dids, O     = yield tornado.gen.Task(self._get_order, mobile)
+                if len(dids):
+                    dishes      = yield tornado.gen.Task(self._get_dishes, dids)
+                    D           = {}
+                    for e in dishes:
+                        D[e['id']] = e
+                    self._get_sum(O, D)
                 if not data:
                     self.render('order/vieworder.html', name=name, O=O, D=D, now=now)
                 else:
@@ -451,12 +428,68 @@ class OrderHandler(BaseHandler):
                     else:
                         loc = int(loc)
                         if loc == 0:
-                            O = yield tornado.gen.Task(self._get_left)
-                            R = self.render_string('order/now-admin.html', name=name, O=O, D=D, now=now)
+                            ids, O, mobile = yield tornado.gen.Task(self._get_left)
+                            users  = yield tornado.gen.Task(self._get_users, mobile)
+                            U = {}
+                            for e in users:
+                                U[e['mobile']] = e.get('name', e['mobile'])
+                            dishes = yield tornado.gen.Task(self._get_dish, ids)
+                            D = {}
+                            for e in dishes:
+                                D[e['id']] = e
+                            R = self.render_string('order/now-admin.html', O=O, D=D, U=U, now=now)
                             self.write(R)
                             self.finish()
                         elif loc == 1:
-                            O = yield tornado.gen.Task(self._get_middle)
+                            ids, O = yield tornado.gen.Task(self._get_middle)
+                            dishes = yield tornado.gen.Task(self._get_dish, ids)
+                            D = {}
+                            for e in dishes:
+                                D[e['id']] = e
+                            T = self._get_tormorrow()
+                            R = self.render_string('order/statistic.html', O=O, D=D, tormorrow=T)
+                            self.write(R)
+                            self.finish()
+                        elif loc == 2:
+                            ids, O, mobile = yield tornado.gen.Task(self._get_right)
+                            users  = yield tornado.gen.Task(self._get_users, mobile)
+                            U = {}
+                            for e in users:
+                                U[e['mobile']] = e.get('name', e['mobile'])
+                            dishes = yield tornado.gen.Task(self._get_dish, ids)
+                            D = {}
+                            for e in dishes:
+                                D[e['id']] = e
+                            R = self.render_string('order/now-admin.html', O=O, D=D, U=U, now=now)
+                            self.write(R)
+                            self.finish()
+                        else:
+                            self.finish()
+    def _get_tormorrow(self):
+        t           = time.time() + 24*3600
+        t           = time.localtime(t)
+        day         = time.strftime('%Y-%m-%d', t)
+        return day
+    @tornado.gen.coroutine
+    def _get_left(self):
+        r = query_order_left()
+        return r
+    @tornado.gen.coroutine
+    def _get_right(self):
+        r = query_order_right()
+        return r
+    @tornado.gen.coroutine
+    def _get_dish(self, ids):
+        r = query_dish_by_ids(ids)
+        return r
+    @tornado.gen.coroutine
+    def _get_users(self, mobiles):
+        r = query_user_by_mobiles(mobiles)
+        return r
+    @tornado.gen.coroutine
+    def _get_middle(self):
+        ids, o = query_order_middle()
+        return ids, o
 
     def _get_sum(self, O, D):
         for o in O:
@@ -504,9 +537,64 @@ class DeleteOrderHandler(BaseHandler):
         return r
 
 class PersonalHandler(BaseHandler):
-    pass
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def get(self):
+        mobile = self.get_argument('mobile', None)
+        if not mobile:
+            self.finish()
+        else:
+            u = yield tornado.gen.Task(self._get_user, mobile)
+            if not u:
+                self.finish()
+            else:
+                if u['gender'] == '1':
+                    u['gender'] = '男'
+                elif u['gender'] == '2':
+                    u['gender'] = '女'
+                else:
+                    u['gender'] = 'unknown'
+                self.render('user.html', U=u)
+
+    @tornado.gen.coroutine
+    def _get_user(self, mobile):
+        r = query_user_by_mobile(mobile)
+        return r
+
 class OrderConfirmHandler(BaseHandler):
     pass
+class MsgHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def post(self):
+        mobile = self.get_argument('mobile', None)
+        cnt    = self.get_argument('content', None)
+        if not mobile or not cnt:
+            self.finish()
+        else:
+            u      = yield tornado.gen.Task(self._get_user, mobile)
+            if not u:
+                self.finish()
+            else:
+                atk    = yield tornado.gen.Task(self._access)
+                r      = yield tornado.gen.Task(self._send, u['userid'], agentid, cnt)
+                self.write(r)
+                self.finish()
+
+    @tornado.gen.coroutine
+    def _get_user(self, mobile):
+        r = query_user_by_mobile(mobile)
+        return r
+    @tornado.gen.coroutine
+    def _access(self):
+        return wxapi.access_token()
+
+    @tornado.gen.coroutine
+    def _send(self, uid, agentid, cnt):
+        return wxapi.msg(uid, agentid, cnt)
+
 class ConstructHandler(BaseHandler):
     pass
 
@@ -538,6 +626,8 @@ if __name__ == "__main__":
                (r'/reserve', ReserveHandler),
                (r'/order', OrderHandler),
                (r'/delorder', DeleteOrderHandler),
+               (r'/personal', PersonalHandler),
+               (r'/msgsend', MsgHandler),
                (r'/notice',  ConstructHandler),
               ]
     application = tornado.web.Application(handler, **settings)

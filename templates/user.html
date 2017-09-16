@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>users</title>
+
+
+
+    <!-- bootstrap-core -->
+    <link rel="stylesheet" href="css/mobile/bootstrap.css">
+    <link rel="stylesheet" href="css/mobile/bootstrap-theme.css">
+
+    <!-- plugins -->
+
+
+    <link rel="stylesheet" href="css/mobile/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="css/mobile/users.css" />
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/mobile/html5shiv.min.js"></script>
+    <script src="js/mobile/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="con-h">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 uh pull-left">
+                <span class="pname">头像</span>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 uh pull-right">
+                <img src="{{U['avatar']}}" class="img-circle userimg pull-right" >
+            </div>
+        </div>
+
+
+    </div>
+    <div class="from-group">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10  pull-left">
+                <span class="name">姓名</span>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12  pull-right">
+                <span class="uname text-right pull-right">{{U['name']}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10  pull-left">
+                <span class="xingbie">性别</span>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12  pull-right">
+                <span class="text-right pull-right gender">{{U['gender']}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10  pull-left">
+                <span class="tphone">电话</span>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12  pull-right">
+                <span class="text-right pull-right phone ">{{U['mobile']}}</span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+<!--js-->
+<script src="js/mobile/jquery.js"></script>
+<script src="js/mobile/bootstrap.js"></script>
+<script src="js/mobile/bootstrap-datetimepicker.js"></script>
+<script src="js/mobile/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+</body>
+</html>

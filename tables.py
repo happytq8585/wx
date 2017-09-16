@@ -160,10 +160,21 @@ def write_user_db(name, mobile, gender, userid, telephone, avatar):
     return True
 
 def query_user_by_mobile_db(mobile):
+    if not mobile or mobile == '':
+        return {}
     S     = DBSession()
     r     = S.query(User).filter(User.mobile == mobile).first()
     S.close()
     return {} if not r else r.dic_return()
+
+def query_user_by_mobiles_db(mobiles):
+    if len(mobiles) == 0:
+        return []
+    S     = DBSession()
+    r     = S.query(User).filter(User.mobile.in_(mobiles)).all()
+    S.close()
+    return [] if not r else [e.dic_return() for e in r]
+
 
 def query_all_users_db():
     S     = DBSession()
@@ -272,7 +283,7 @@ def write_order_db(user, data, dishes, day):
 #return: [ {'oid':oid,'list':[dish, dish,...]}, ... ]
 def query_order_by_mobile_db(mobile):
     S = DBSession()
-    r = S.query(Order).filter(Order.mobile == mobile).order_by(Order.time).all()
+    r = S.query(Order).filter(Order.mobile == mobile).order_by(Order.time1, Order.time).all()
     S.close()
     if not r:
         return [], []
@@ -287,16 +298,91 @@ def query_order_by_mobile_db(mobile):
             d[e.orderid].append(e.dic_return())
     for e in d:
         O.append({'oid':e, 'list':d[e]})
+    S.close()
     return dids, O
 
 def delete_order_db(oid):
     S = DBSession()
     r = S.query(Order).filter(Order.orderid == oid).delete(synchronize_session=False)
     S.commit()
+    S.close()
+
+
+def query_order_left_db():
+    t          = time.localtime()
+    now        = time.strftime('%Y-%m-%d', t)
+    begin      = now + ' 00:00:00'
+    end        = now + ' 23:59:59'
+    S = DBSession()
+    r = S.query(Order).filter(Order.time1 > begin).filter(Order.time1 < end).order_by(Order.time).all()
+    if not r:
+        return [], [], []
+    ids    = [e.dish_id for e in r]
+    mobile = [e.mobile  for e in r]
+    O      = []
+    d = {}
+    for e in r:
+        if not d.get(e.orderid):
+            d[e.orderid] = [e.dic_return()]
+        else:
+            d[e.orderid].append(e.dic_return())
+    for e in d:
+        O.append({'oid':e, 'mobile': d[e][0]['mobile'], 'list':d[e]})
+
+    S.close()
+    return ids, O, mobile
+
+def query_order_right_db():
+    t          = time.localtime()
+    now        = time.strftime('%Y-%m-%d', t)
+    begin      = now + ' 00:00:00'
+    S = DBSession()
+    r = S.query(Order).filter(Order.time1 < begin).order_by(Order.time).all()
+    if not r:
+        return [], [], []
+    ids    = [e.dish_id for e in r]
+    mobile = [e.mobile  for e in r]
+    O      = []
+    d = {}
+    for e in r:
+        if not d.get(e.orderid):
+            d[e.orderid] = [e.dic_return()]
+        else:
+            d[e.orderid].append(e.dic_return())
+    for e in d:
+        O.append({'oid':e, 'mobile': d[e][0]['mobile'], 'list':d[e]})
+    S.close()
+    return ids, O, mobile
+
+
+def query_order_middle_db():
+    t          = time.time()
+    t          = t + 24*3600
+    t          = time.localtime(t)
+    now        = time.strftime('%Y-%m-%d', t)
+    begin      = now + ' 00:00:00'
+    end        = now + ' 23:59:59'
+    S          = DBSession()
+    r          = S.query(Order).filter(Order.time1 >= begin).filter(Order.time1 <= end).all()
+    S.close()
+    if not r:
+        return [], {}
+    d          = {}
+    ids        = []
+    for e in r:
+        if not d.get(e.dish_id):
+            d[e.dish_id] = e.num
+        else:
+            d[e.dish_id] = d[e.dish_id] + e.num
+    n = 0
+    for e in d:
+        n = n + d[e]
+        ids.append(e)
+    d['sum'] = n
+    return ids, d
+
 
 
 if __name__ == "__main__":
-    from conf import conf
-    m = '17313615918'
-    r = query_order_by_mobile_db(m)
-    print(r)
+    ids, o = query_order_left_db()
+    print(o)

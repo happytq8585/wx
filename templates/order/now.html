@@ -1,7 +1,7 @@
 
             <div class="tab-pane fade in active" id="current">
                 {% for o in O %}
-                    {% if o['list'][0]['time'] >= now %}
+                    {% if o['list'][0]['time1'] >= now %}
                 <div class="from-order ">
                     <div class="order-head">
                         <div class="row">
@@ -54,7 +54,9 @@
                                         <span class="title pull-right">取单时间</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="qudan pull-left">{{d['time2']}}</span>
+                                        <span class="qudan pull-left">
+                            {{ d['time1'] if d['confirm'] == 0 else d['time2']}}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row">

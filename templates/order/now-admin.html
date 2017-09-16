@@ -1,24 +1,42 @@
-                
+                {% for o in O %} 
                 <div class="from-order ">
                     <div class="order-head">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div>
                                     <span class="title">订单编号</span>
-                                    <span class="o-num">113300023</span>
+                                    <span class="o-num">{{o['oid']}}</span>
                                 </div>
-                                <div class="un">取餐 <span class="username">&nbsp; 张三三三</span></div>
+                                <div class="un">取餐 <span class="username">&nbsp; {{U.get(o['mobile'], o['mobile'])}}</span></div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
-                                <a href="#"  class="pull-right delevo">删除</a>
+                                <button data-toggle="modal" data-target="#myModal" class="pull-right delevo" onclick="_confirm('{{o['oid']}}')">确认取单</button>
+                                    <div class="modal fade myModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">提示</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>确定已取餐?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary pre" data-dismiss="modal">确定</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="order-bottom">
+                        {% for d in o['list'] %}
                         <div class="row dish">
                             <div class="col-xs-12 col-sm-12 col-md-12 orimg">
-                                <img src="../assets/images/food.png" alt="">
+                                <img src="{{D[d['dish_id']]['pic_loc']}}" alt="">
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="row">
@@ -26,7 +44,7 @@
                                         <span class="title pull-right">菜名</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="d-name pull-left">辣子鸡</span>
+                                        <span class="d-name pull-left">{{D[d['dish_id']]['name']}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -34,7 +52,7 @@
                                         <span class="title pull-right">下单时间</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="xiadan pull-left">2017 09 01</span>
+                                        <span class="xiadan pull-left">{{d['time']}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -42,7 +60,7 @@
                                         <span class="title pull-right">数量</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="amount pull-left">2</span>
+                                        <span class="amount pull-left">{{d['num']}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -50,7 +68,9 @@
                                         <span class="title pull-right">取单时间</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="qudan pull-left">2017 09 02</span>
+                                        <span class="qudan pull-left">
+                            {{ d['time2'] if d['confirm'] == 1 else d['time1'] }}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -58,7 +78,9 @@
                                         <span class="title pull-right">单价</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="atotle pull-left">12元</span>
+                                        <span class="atotle pull-left">
+                        {{round(D[d['dish_id']]['price']/100.0, 1)}}元/{{D[d['dish_id']]['unit']}}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -66,15 +88,17 @@
                                         <span class="title pull-right">状态</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="state pull-left">未取</span>
+                                        <span class="state pull-left">
+                        {{'未取' if d['confirm'] == 0 else '已取' }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        {% end %}
                     </div>
                 </div>
-
+                {% end %}
 
 
 

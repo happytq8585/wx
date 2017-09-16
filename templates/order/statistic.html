@@ -1,17 +1,18 @@
 
-            <div class="tab-pane fade" id="ad-statistics">
                 <div class="from-order ">
                     <div class="order-head">
                         <div class="row">
                             <div class="col-xs-24 col-sm-24 col-md-24">
-                                <div class="t-date" id="t-date"> 2017-09-01</div>
+                                <div class="t-date" id="t-date"> {{tormorrow}}</div>
                             </div>
                         </div>
                     </div>
                     <div class="order-bottom">
+                        {% for id in O %}
+                        {% if id != 'sum' %}
                         <div class="row dish">
                             <div class="col-xs-12 col-sm-12 col-md-12 orimg">
-                                <img src="../assets/images/food.png" alt="">
+                                <img src="{{D[id]['pic_loc']}}" alt="">
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="row aatatis">
@@ -19,7 +20,9 @@
                                         <span class="title pull-right">菜名</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left pull-left">辣子鸡</span>
+                                        <span class="aatatis-num pull-left pull-left">
+                                        {{D[id]['name']}}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row aatatis">
@@ -27,62 +30,16 @@
                                         <span class="title pull-right">总计</span>
                                     </div>
                                     <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left grade">100<span>个</span></span>
+                                        <span class="aatatis-num pull-left grade">{{O[id]}}<span>{{D[id]['unit']}}</span></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row dish">
-                            <div class="col-xs-12 col-sm-12 col-md-12 orimg">
-                                <img src="../assets/images/food2.jpg" alt="">
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="row aatatis">
-                                    <div class="col-xs-11 col-sm-11 col-md-11">
-                                        <span class="title pull-right">菜名</span>
-                                    </div>
-                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left pull-left">辣子鸡</span>
-                                    </div>
-                                </div>
-                                <div class="row aatatis">
-                                    <div class="col-xs-11 col-sm-11 col-md-11">
-                                        <span class="title pull-right">总计</span>
-                                    </div>
-                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left grade">100<span>个</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row dish">
-                            <div class="col-xs-12 col-sm-12 col-md-12 orimg">
-                                <img src="../assets/images/food.png" alt="">
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="row aatatis">
-                                    <div class="col-xs-11 col-sm-11 col-md-11">
-                                        <span class="title pull-right">菜名</span>
-                                    </div>
-                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left pull-left">辣子鸡</span>
-                                    </div>
-                                </div>
-                                <div class="row aatatis">
-                                    <div class="col-xs-11 col-sm-11 col-md-11">
-                                        <span class="title pull-right">总计</span>
-                                    </div>
-                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left grade">100<span>个</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        {% end %}
+                        {% end %}
 
 
                     </div>
                 </div>
-            </div>
 
 
