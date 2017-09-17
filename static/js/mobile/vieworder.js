@@ -38,33 +38,34 @@ function delete_order(oid) {
         'data': {'_xsrf': xsrf, 'id': oid},
         success: function(para) {
             alert('delete success!')
+            top.window.location.reload();
         },
         error: function(para) {
         }
     });
 }
-
+$('#current').on('click', function() {
+    fill_tab_admin(0);
+});
+$('#history').on('click', function() {
+    fill_tab_admin(1);
+});
 function fill_tab_admin(i) {
     $.ajax({
         'url': '/order',
         'type': 'GET',
-        'data': {'loc': i},
+        'data': {'loc': i, 'data':1},
         success: function(para) {
             if (i == 0) {//left
                 $('#current').empty();
                 $('#current').append(para);
             } else if (i == 1){ //middle
-                $('#ad-statistics').empty();
-                $('#ad-statistics').append(para);
-            } else if (i == 2) { //right
-                $('#ad-history').empty();
-                $('#ad-history').append(para);
+                $('#history').empty();
+                $('#history').append(para);
             }
         },
         error: function(para) {
         }
     });
 }
-$(
-    fill_tab_admin(0);
-);
+fill_tab_admin(0);

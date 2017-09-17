@@ -1,4 +1,19 @@
 
+function get_cookie_by_name(name)
+{
+    var start = document.cookie.indexOf(name);
+    if (start != -1) {
+        var res = "";
+        var end  = document.cookie.indexOf(";", start+1);
+        if (end == -1) {
+            res = document.cookie.substring(start+name.length+1);
+        } else {
+            res = document.cookie.substring(start+name.length+1, end);
+        }
+        return res;
+    }
+    return "";
+}
 function fill_tab_admin(i) {
     $.ajax({
         'url': '/order',
@@ -20,21 +35,36 @@ function fill_tab_admin(i) {
         }
     });
 }
-$("#delevo").bind("click", function(){
-//    $('#myModal').show();
-//    $(".modal").show();
-    //$(this).parent().parent().parent().parent().css({'display':'none'});
-});
-$(".complete").click(function(){
-    $('#myModal').modal('show');
-    $(".modal").css({'display':'block'});
-   // 如果确定执行
-    /*$(this).closest(".from-order").css({'display':'none'});*/
-});
 
 var orderid = "";
+var xsrf = get_cookie_by_name('_xsrf');
+
 $(".pre").click(function(){
+    $('#myModal').css({'display':'none'});
+    $('.modal-backdrop').css({'display': 'none'});
+    $('.tjsu').css({'display':'none'});
+    var tmp = orderid.split('-');
+    var mobile = tmp[tmp.length-1];
     $.ajax({
+        'url': '/orderconfirm',
+        'type': 'POST',
+        'data': {'_xsrf': xsrf, 'orderid':orderid},
+        success: function(para) {
+            alert(para);
+            top.window.location.reload();
+            var cnt = '您的订单号' + orderid + '已经取单了';
+            $.ajax({
+                'url': '/msgsend',
+                'type': 'POST',
+                'data': {'_xsrf':xsrf, 'mobile': mobile, 'content': cnt},
+                success: function(para) {
+                },
+                error: function(para) {
+                }
+            });
+        },
+        error: function(para) {
+        }
     });
 });
 $(".tab-current").click(function(){
@@ -48,6 +78,7 @@ $(".tab-history").click(function(){
 })
 fill_tab_admin(0);
 
+  
 function _confirm(oid) {
     orderid = oid;
 }

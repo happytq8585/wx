@@ -9,6 +9,7 @@ from tables   import query_reserve_by_day_db, query_dish_by_ids_db
 from tables   import query_user_by_mobile_db, write_order_db, query_user_by_mobiles_db
 from tables   import query_order_by_mobile_db, delete_order_db
 from tables   import query_order_left_db, query_order_middle_db, query_order_right_db
+from tables   import orderconfirm_db
 
 from conf    import conf
 
@@ -101,6 +102,9 @@ def query_order_middle():
 def query_order_right():
     return query_order_right_db()
 
+def orderconfirm(orderid):
+    r = orderconfirm_db(orderid)
+    return r
 
 
 if __name__ == "__main__":

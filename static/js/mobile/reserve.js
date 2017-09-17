@@ -1,4 +1,30 @@
 
+function get_now(flag, day) {
+    if (day == null) {
+        day = new Date();
+    }
+    var y   = day.getFullYear();
+    var m   = day.getMonth() + 1;
+    m       = m < 10 ? '0' + m : m
+    var d1  = day.getDate();
+    var d   = d1 < 10 ? '0' + d1 : d1;
+    var H   = day.getHours();
+        H   = H < 10 ? '0' + H : H;
+    var M   = day.getMinutes();
+        M   = M < 10 ? '0' + M : M;
+    var S   = day.getSeconds();
+        S   = S < 10 ? '0' + S : S;
+    
+    if (flag == 0) {//yyyy-mm-dd
+        return y + '-' + m + '-' + d;
+    } else if (flag == 1) {//yyyy-mm-dd HH:MM:SS
+        return y + '-' + m + '-' + d + ' ' + H + ':' + M + ':' + S;
+    } else if (flag == 2) {//yyyy-mm-{dd+1}
+        day.setTime(day.getTime() + 24*3600*1000);
+        return get_now(0, day);
+    }
+    return '';
+}
 function setTotal() {
     var allprice = 0; //总价
     var oprice = 0; //店铺总价
@@ -41,6 +67,8 @@ $('.form_datetime').datetimepicker({
     todayBtn: 1,
     autoclose: 1,
 }).on('changeDate', function() {
+    $(".tijiao").css({'display':'none'});
+    $(".yuding").show();
     var y = $(".datetimepicker-years").find(".active").text();
     var m = $(".datetimepicker-months").find(".active").text();
     m     = parseInt(m);
@@ -49,6 +77,14 @@ $('.form_datetime').datetimepicker({
     d     = parseInt(d);
     d     = d < 10 ? '0' + d : '' + d;
     day   = y + '-' + m + '-' + d;
+    now   = get_now(0);
+    if (day <= now) {
+        $('.yuding').css({'display':'none'});
+    } else {
+        $('.yuding').css({'display':'block'});
+    }
+    $('.tjsu').css({'display':'none'});
+    $('.zongjia').css({'display':'none'});
     $.ajax({
         'url': '/reserve',
         'type': 'GET',
@@ -106,7 +142,16 @@ $(function() {
             n = parseInt(n)
             num.push(n);
         });
-        if (num.length == 0) {
+        var flag = 0;
+        for (var i = 0; i < num.length; ++i) {
+            if (num[i] > 0) {
+                flag = 1;
+                break;
+            }
+        }
+        if (flag == 0) {
+            $('#myModal').css({'display': 'none'});
+            $('.modal-backdrop').css({'display': 'none'});
             alert('没有选择数量, 下单失败');
             return -1;
         }
@@ -143,3 +188,24 @@ $(function() {
     });
     setTotal();
 });
+
+function check() {
+    var now = get_now(0);
+    var day = $('.input-txt').val();
+    if (day <= now) {
+        $('.yuding').css({'display':'none'});
+    } else {
+        now1 = get_now(1);
+        if (now1 < now + ' 18:30:00') {
+            $('.yuding').css({'display':'block'});
+        } else {
+            now = get_now(2);
+            if (now < day) {
+                $('.yuding').css({'display':'block'});
+            } else {
+                $('.yuding').css({'display':'none'});
+            }
+        }
+    }
+}
+check();

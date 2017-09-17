@@ -25,6 +25,7 @@ from data import query_all_users, delete_dish_by_id, update_dish
 from data import query_reserve, query_dish_by_ids, query_user_by_mobile, query_user_by_mobiles
 from data import write_order, query_order_by_mobile, delete_order
 from data import query_order_left, query_order_middle, query_order_right
+from data import orderconfirm
 
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -402,22 +403,29 @@ class OrderHandler(BaseHandler):
 
             u           = yield tornado.gen.Task(self._get_user, mobile)
             name        = u['name']
-#            mobile      = '17313615918'
-#            name        = '谭强'
             if mobile != conf.canteen_admin_mobile:
                 dids, O     = yield tornado.gen.Task(self._get_order, mobile)
+                D           = {}
                 if len(dids):
                     dishes      = yield tornado.gen.Task(self._get_dishes, dids)
-                    D           = {}
                     for e in dishes:
                         D[e['id']] = e
                     self._get_sum(O, D)
                 if not data:
                     self.render('order/vieworder.html', name=name, O=O, D=D, now=now)
                 else:
-                    R = self.render_string('order/vieworder_data.html', name=name, O=O, D=D, now=now)
-                    self.write(R)
-                    self.finish()
+                    loc = self.get_argument('loc', None)
+                    if not loc:
+                        self.finish()
+                    else:
+                        loc = int(loc)
+                        R = ''
+                        if loc == 0:
+                            R = self.render_string('order/now.html', name=name, O=O, D=D, now=now)
+                        elif loc == 1:
+                            R = self.render_string('order/history.html', name=name, O=O, D=D, now=now)
+                        self.write(R)
+                        self.finish()
             else:
                 if not data:
                     self.render('order/vieworder-admin.html')
@@ -563,7 +571,23 @@ class PersonalHandler(BaseHandler):
         return r
 
 class OrderConfirmHandler(BaseHandler):
-    pass
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def post(self):
+        orderid = self.get_argument('orderid', None)
+        if not orderid:
+            self.finish()
+        else:
+            yield tornado.gen.Task(self._confirm, orderid)
+            self.write('confirmed!')
+            self.finish()
+
+    @tornado.gen.coroutine
+    def _confirm(self, orderid):
+        r = orderconfirm(orderid)
+        return r
+
 class MsgHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.engine
@@ -579,7 +603,7 @@ class MsgHandler(BaseHandler):
                 self.finish()
             else:
                 atk    = yield tornado.gen.Task(self._access)
-                r      = yield tornado.gen.Task(self._send, u['userid'], agentid, cnt)
+                r      = yield tornado.gen.Task(self._send, atk, u['userid'], conf.agentid, cnt)
                 self.write(r)
                 self.finish()
 
@@ -592,8 +616,8 @@ class MsgHandler(BaseHandler):
         return wxapi.access_token()
 
     @tornado.gen.coroutine
-    def _send(self, uid, agentid, cnt):
-        return wxapi.msg(uid, agentid, cnt)
+    def _send(self, atk, uid, agentid, cnt):
+        return wxapi.msg(atk, uid, agentid, cnt)
 
 class ConstructHandler(BaseHandler):
     pass
@@ -628,6 +652,7 @@ if __name__ == "__main__":
                (r'/delorder', DeleteOrderHandler),
                (r'/personal', PersonalHandler),
                (r'/msgsend', MsgHandler),
+               (r'/orderconfirm', OrderConfirmHandler),
                (r'/notice',  ConstructHandler),
               ]
     application = tornado.web.Application(handler, **settings)

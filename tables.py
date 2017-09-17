@@ -268,7 +268,7 @@ def write_order_db(user, data, dishes, day):
     mobile      = user['mobile']
     S = DBSession()
     N = len(data[0])
-    oid         = now + '-' + name
+    oid         = now + '-' + mobile
     for i in xrange(N):
         if data[1][i] == 0:
             continue;
@@ -382,6 +382,14 @@ def query_order_middle_db():
     return ids, d
 
 
+def orderconfirm_db(oid):
+    S       = DBSession()
+    t       = time.localtime()
+    now        = time.strftime('%Y-%m-%d %H:%M:%S', t)
+    S.query(Order).filter(Order.orderid == oid).update({Order.time2: now, Order.confirm:1})
+    S.commit()
+    S.close()
+    return True
 
 if __name__ == "__main__":
     ids, o = query_order_left_db()

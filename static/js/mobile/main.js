@@ -1,3 +1,11 @@
+function get_now() {
+    var day = new Date();
+    var y   = day.getFullYear();
+    var m   = day.getMonth() + 1;
+    m       = m < 10 ? '0' + m : m
+    var d   = day.getDate();
+    return y + '-' + m + '-' + d;
+}
 /*
  *   所有也页面都需要的脚本
  * */
@@ -16,6 +24,12 @@ $('.form_datetime').datetimepicker({
     d     = parseInt(d);
     d     = d < 10 ? '0' + d : '' + d;
     day   = y + '-' + m + '-' + d;
+    var now = get_now();
+    if (day <= now) {
+        $('.plus-dish').css({'display':'none'});
+    } else {
+        $('.plus-dish').css({'display':'block'});
+    }
     var url = '/menu?day=' + day;
     $.ajax({
         'url': '/menu',
@@ -87,4 +101,13 @@ jQuery.fn.extend({
         }
     }
 });
-
+function check() {
+    var day = $('.input-txt').val();
+    var now = get_now();
+    if (day <= now) {
+        $('.plus-dish').css({'display':'none'});
+    } else {
+        $('.plus-dish').css({'display':'block'});
+    }
+}
+check();
