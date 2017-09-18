@@ -1,10 +1,10 @@
 // JavaScript Document
 var sArray = new Object;
  sArray[0] = new Image;
- sArray[0].src = "../img/icon_star_1.gif";
+ sArray[0].src = "img/icon_star_1.gif";
  for (var i=1; i<6; i++) {
   sArray[i] = new Image();
-  sArray[i].src = "../img/icon_star_2.gif";
+  sArray[i].src = "img/icon_star_2.gif";
 }
  var starTimer;
  var pro ;

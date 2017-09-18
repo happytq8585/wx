@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
-    <title>vieworder</title>
+    <title>订单查看</title>
     <!-- font-icon -->
     <!-- bootstrap-core -->
     <link rel="stylesheet" href="css/mobile/bootstrap.css">
@@ -22,14 +22,38 @@
 <body>
 <div class="container-fluid">
 
+    <div class="row" id="id-back">
+        <div class="pull-left col-xs-23 col-sm-23 col-md-23">
+            <a href="/"><img src="images/back.png"  alt=""></a>
+        </div>
+    </div>
+
+
     <div class="from-group">
         <ul id="myTab" class="nav nav-tabs">
-            <li class="col-xs-12 col-sm-12 col-md-12 menu-tabc active"><a href="#current " data-toggle="tab">订单</a></li>
-            <li class="col-xs-12 col-sm-12 col-md-12 menu-tabh"><a href="#history" data-toggle="tab">历史订单</a></li>
+            <li class="col-xs-12 col-sm-12 col-md-12 menu-tabc active"><a class="tab-current" href="#current " data-toggle="tab">订单</a></li>
+            <li class="col-xs-12 col-sm-12 col-md-12 menu-tabh"><a class="tab-history" href="#history" data-toggle="tab">历史订单</a></li>
         </ul>
         <div id="myTabContent" class="tab-content ">
             <div class="tab-pane fade in active" id="current"> </div>
             <div class="tab-pane fade" id="history"> </div>
+        </div>
+    </div>
+    <div class="modal fade myModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定已取餐?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pre" >确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -37,6 +61,7 @@
 <script src="js/mobile/jquery.min.js"></script>
 <script src="js/mobile/bootstrap.js"></script>
 <script src="js/mobile/vieworder.js"></script>
+<script src="js/mobile/device.js"></script>
 <script>
 </script>
 </body>

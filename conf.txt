@@ -53,7 +53,7 @@ getfood_offset=18:00:00
 
 [wx]
 corpid=wwfaf45bf68f147fe1
-secret=A9AH9oHsyVct0YLc1QLY520tdYKhjM21VubP53JacBI
+secret=A9AH9oHsyVct0YLc1QLY5yU9yLFhoIye56VHPxidXo0
 access_token=https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s
 userid=https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code=%s
 userinfo=https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s

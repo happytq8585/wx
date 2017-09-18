@@ -33,11 +33,10 @@ $('.evaluate').click(function() {
             'type': 'POST',
             'data': {'_xsrf':xsrf, 'content':cnt, 'num':star, 'did':did},
             success: function(para) {
-                alert('评论成功');
+                //alert('评论成功');
                 window.location.reload();
             },
             error: function(para) {
-                alert('评论成功!!');
             }
         });
 });
@@ -49,7 +48,7 @@ function delete_dish(did) {
         'type': 'POST',
         'data': {'_xsrf': xsrf, 'id': did},
         success: function(para) {
-            alert(para);
+//            alert(para);
             window.location.reload();
         },
         error: function(para) {

@@ -5,7 +5,7 @@
                 {% for d in D %}
                 <div class="from-order">
                     <div class="row re-ly">
-                        <a  class="col-xs-19 col-sm-19 col-md-19" href="/dish?id={{d['id']}}">
+                        <a  class="col-xs-19 col-sm-19 col-md-19" href="/dish_reserve?id={{d['id']}}&day={{d['time']}}">
                             <div class="col-xs-6 col-sm-6 col-md-6 menu-img">
                                 <img src="{{d['pic_loc']}}" alt="">
                             </div>

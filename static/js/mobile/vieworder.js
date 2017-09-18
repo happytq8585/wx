@@ -1,6 +1,21 @@
-$(".delevo").click(function(){
+/*$(".delevo").click(function(){
     var fr=$(this).parent().parent().parent().parent().css({'display':'none'});
+});*/
+var ORDERID = "";
+$(".pre").click(function(){
+    $('#myModal').modal('hide');
+    $(".modal").css({'display':'none'});
+    delete_order(ORDERID);
 });
+function set_oid(oid) {
+    ORDERID = oid;
+}
+$(".dele").click(function(e){
+     $(e.target).parent().parent().parent().parent().css({'display':'none'});
+     ORDERID = $(e.target).orderid;
+});
+
+
 $(".edit-view").click(function(){
     /*每个菜品的名称 */
     var forder=$(this).closest(".from-order");
@@ -44,10 +59,10 @@ function delete_order(oid) {
         }
     });
 }
-$('#current').on('click', function() {
+$('.tab-current').click(function() {
     fill_tab_admin(0);
 });
-$('#history').on('click', function() {
+$('.tab-history').click(function() {
     fill_tab_admin(1);
 });
 function fill_tab_admin(i) {

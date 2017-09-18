@@ -113,7 +113,7 @@ class MenuHandler(BaseHandler):
                 pass
         mobile      = self.get_secure_cookie('mobile')
         if not data:
-            self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf, now=now)
+            self.render('menu_modules/menu.html', breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf, day=day)
         else:
             R = self.render_string('menu_modules/tab.html',breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
             self.write(R)
@@ -175,9 +175,12 @@ class DishHandler(BaseHandler):
     @tornado.gen.engine
     def get(self):
         did             = self.get_argument('id', None)
+        day             = self.get_argument('day', '')
         if not did:
             pass
         else:
+            t           = time.localtime()
+            now         = time.strftime("%Y-%m-%d", t)
             dish        = yield tornado.gen.Task(self._get_dish, did)
             comments    = yield tornado.gen.Task(self._get_comments, did)
             mobile      = self.get_secure_cookie('mobile')
@@ -186,9 +189,54 @@ class DishHandler(BaseHandler):
                 if e['mobile'] == mobile:
                     tag = True
                     break
+            if dish['time'] > now:
+                tag = True
             users = yield tornado.gen.Task(self._get_users)
             print(users)
-            self.render('dish.html', d=dish, C=comments, U=users, already=tag)
+            self.render('dish.html', d=dish, C=comments, U=users, already=tag, day=day)
+
+    @tornado.gen.coroutine
+    def _get_users(self):
+        r = query_all_users()
+        return r
+    @tornado.gen.coroutine
+    def _get_comments(self, did):
+        r = query_comments_by_dish_id(did)
+        return r
+
+    @tornado.gen.coroutine
+    def _get_dish(self, did):
+        r = query_dish_by_id(did)
+        return r
+    @tornado.web.authenticated
+    def post(self):
+        pass
+
+class DishReserveHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    def get(self):
+        did             = self.get_argument('id', None)
+        day             = self.get_argument('day', '')
+        if not did:
+            pass
+        else:
+            t           = time.localtime()
+            now         = time.strftime("%Y-%m-%d", t)
+            dish        = yield tornado.gen.Task(self._get_dish, did)
+            comments    = yield tornado.gen.Task(self._get_comments, did)
+            mobile      = self.get_secure_cookie('mobile')
+            tag         = False
+            for e in comments:
+                if e['mobile'] == mobile:
+                    tag = True
+                    break
+            if dish['time'] > now:
+                tag = True
+            users = yield tornado.gen.Task(self._get_users)
+            print(users)
+            self.render('dish_reserve.html', d=dish, C=comments, U=users, already=tag, day=day)
 
     @tornado.gen.coroutine
     def _get_users(self):
@@ -644,6 +692,7 @@ if __name__ == "__main__":
                (r'/add', AddHandler),
                (r'/up', AddHandler),
                (r'/dish', DishHandler),
+               (r'/dish_reserve', DishReserveHandler),
                (r'/comment', CommentHandler),
                (r'/edit', EditHandler),
                (r'/delete', DeleteDishHandler),
