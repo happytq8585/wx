@@ -50,8 +50,8 @@ $(".pre").click(function(){
         'type': 'POST',
         'data': {'_xsrf': xsrf, 'orderid':orderid},
         success: function(para) {
-            alert(para);
-            top.window.location.reload();
+            $('#' + orderid).remove();
+            alert('订单号:' + orderid + '已取单');
             var cnt = '您的订单号' + orderid + '已经取单了';
             $.ajax({
                 'url': '/msgsend',

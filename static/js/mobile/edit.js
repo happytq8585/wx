@@ -83,10 +83,9 @@ $('#data-edit').click(function() {
             processData: false,
             data: formdata,
             success: function (result) {
-                alert(result);
+                alert('编辑成功');
             },
             error: function (data) {
-                alert(data);
             }
         });
 });

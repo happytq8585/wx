@@ -53,7 +53,7 @@ function delete_order(oid) {
         'data': {'_xsrf': xsrf, 'id': oid},
         success: function(para) {
             alert('delete success!')
-            top.window.location.reload();
+            $('#' + oid).remove();
         },
         error: function(para) {
         }

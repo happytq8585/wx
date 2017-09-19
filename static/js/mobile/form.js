@@ -89,10 +89,9 @@ $(function () {
             processData: false,
             data: formdata,
             success: function (result) {
-                alert(result);
+                alert('上传成功');
             },
             error: function (data) {
-                alert(data);
             }
         });
     })
