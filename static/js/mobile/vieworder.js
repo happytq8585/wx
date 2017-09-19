@@ -52,7 +52,7 @@ function delete_order(oid) {
         'type': 'POST',
         'data': {'_xsrf': xsrf, 'id': oid},
         success: function(para) {
-            alert('delete success!')
+            //alert('delete success!')
             $('#' + oid).remove();
         },
         error: function(para) {

@@ -42,10 +42,12 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         code = self.get_argument('code', None)
         if not code:
-            #self.set_secure_cookie('mobile', '123456789')
-            #self.render('index.html', mobile='123456789')
-            self.write('请登录企业APP')
-            self.finish()
+            mobile = self.get_secure_cookie('mobile')
+            if not mobile:
+                self.write('请登录企业APP')
+                self.finish()
+            else:
+                self.render('index.html', mobile=mobile)
         else:
             atk    = yield tornado.gen.Task(self._access)
             if not atk:
