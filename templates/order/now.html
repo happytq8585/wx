@@ -1,6 +1,6 @@
 
                 {% for o in O %}
-                    {% if o['list'][0]['time1'] >= now %}
+                    {% if o['list'][0]['time1'] >= now and o['list'][0]['confirm'] == 0 %}
                 <div class="from-order " id="{{o['oid']}}">
                     <div class="order-head">
                         <div class="row">

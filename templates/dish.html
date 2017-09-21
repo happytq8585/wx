@@ -135,7 +135,7 @@
                                 <div class="row">
                                     <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-8 col-sm-8 col-md-8 name">评分</div>
                                     <div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-13 col-sm-13 col-md-13 grade">
-        {{0.0 if d['num'] == 0 else round(d['score']/float(d['num']), 2) }}
+        {{round(float(c.get('stars', 0)), 2)}}
                                     </div>
                                 </div>
                                 <div class="row">

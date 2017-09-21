@@ -47,7 +47,12 @@ class IndexHandler(tornado.web.RequestHandler):
                 self.write('请登录企业APP')
                 self.finish()
             else:
-                self.render('index.html', mobile=mobile)
+                r = yield tornado.gen.Task(self._query_user, mobile)
+                if not r or r['mobile'] != mobile:
+                    self.write('请登录企业APP')
+                    self.finish()
+                else:
+                    self.render('index.html', mobile=mobile)
         else:
             atk    = yield tornado.gen.Task(self._access)
             if not atk:
@@ -67,6 +72,10 @@ class IndexHandler(tornado.web.RequestHandler):
                         log.Print(str(info))
                         yield tornado.gen.Task(self._write_user_cache, info)
                         self.render('index.html', mobile=info.get('mobile', ''))
+    @tornado.gen.coroutine
+    def _query_user(self, mobile):
+        r = query_user_by_mobile(mobile)
+        return r
     @tornado.gen.coroutine
     def _write_user_cache(self, u):
         mobile = u.get('mobile', '')
@@ -91,6 +100,8 @@ class DishModule(tornado.web.UIModule):
         return self.render_string(target, arr=arr, mobile=mobile, expire=expire, conf=conf)
 
 class MenuHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
     @tornado.web.authenticated
     def get(self):
         day         = self.get_argument('day', None)
@@ -101,7 +112,7 @@ class MenuHandler(BaseHandler):
         if not day:
             day     = now
         expire      = True if day + conf.timeoffset  < now + offset else False
-        arr         = query_dish_by_day(day)
+        arr         = yield tornado.gen.Task(self._get_dish_by_day, day)
         breakfast   = []
         lunch       = []
         dinner      = []
@@ -121,6 +132,10 @@ class MenuHandler(BaseHandler):
             R = self.render_string('menu_modules/tab.html',breakfast=breakfast, lunch=lunch, dinner=dinner, mobile=mobile, expire=expire, conf=conf)
             self.write(R)
             self.finish()
+    @tornado.gen.coroutine
+    def _get_dish_by_day(self, day):
+        r = query_dish_by_day(day)
+        return r
 
 class AddHandler(BaseHandler):
     @tornado.web.authenticated
@@ -223,7 +238,7 @@ class DishReserveHandler(BaseHandler):
         did             = self.get_argument('id', None)
         day             = self.get_argument('day', '')
         if not did:
-            pass
+            self.finish()
         else:
             t           = time.localtime()
             now         = time.strftime("%Y-%m-%d", t)
@@ -380,19 +395,24 @@ class ReserveHandler(BaseHandler):
     def get(self):
         day  = self.get_argument('day', None)
         data = self.get_argument('data', None)
+        canorder = True
+        T   = time.time()
+        T   = T + 24*3600
+        t   = time.localtime(T)
+        now = time.strftime('%Y-%m-%d %H:%M:%S', t)
         if not day:
-            t   = time.localtime()
-            now = time.strftime('%Y-%m-%d', t)
-            day = now 
+            day = time.strftime('%Y-%m-%d', t)
         d    = yield tornado.gen.Task(self._query_reserve, 'day', day)
         print(d)
+        if now > day + ' ' + conf.orderfood_offset:
+            canorder = False
         if data:
             r = self.render_string('reserve/data.html', D=d)
             R = {'data':r, 'len':len(d)}
             self.write(R)
             self.finish()
         else:
-            self.render('reserve/reserve.html', D=d, day=day)
+            self.render('reserve/reserve.html', D=d, day=day, canorder=canorder)
 
     @tornado.gen.coroutine
     def _query_reserve(self, t, p):

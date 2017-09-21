@@ -41,10 +41,9 @@ class Wxconf():
         self.canteen_admin_mobile = p.get('role', 'canteen_admin_mobile')
         self.office_admin_mobile  = p.get('role', 'office_admin_mobile')
 
-        self.fetch_time           = p.get('canteen', 'fetch_time')
-
         self.timeoffset           = p.get('offset', 'timeoffset')
         self.getfood_offset       = p.get('offset', 'getfood_offset')
+        self.orderfood_offset     = p.get('offset', 'orderfood_offset')
 
 
         self.corpid               = p.get('wx', 'corpid')
