@@ -25,7 +25,7 @@ from data import query_all_users, delete_dish_by_id, update_dish
 from data import query_reserve, query_dish_by_ids, query_user_by_mobile, query_user_by_mobiles
 from data import write_order, query_order_by_mobile, delete_order
 from data import query_order_left, query_order_middle, query_order_right
-from data import orderconfirm
+from data import orderconfirm, check_and_notify
 
 define("port", default=8000, help="run on the given port", type=int)
 
@@ -662,6 +662,23 @@ class OrderConfirmHandler(BaseHandler):
 class MsgHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.engine
+    def get(self):
+        mobile = self.get_argument('mobile', None)
+        cnt    = self.get_argument('content', None)
+        if not mobile or not cnt:
+            self.finish()
+        else:
+            u      = yield tornado.gen.Task(self._get_user, mobile)
+            if not u:
+                self.finish()
+            else:
+                atk    = yield tornado.gen.Task(self._access)
+                r      = yield tornado.gen.Task(self._send, atk, u['userid'], conf.agentid, cnt)
+                self.write(str(r))
+                self.finish()
+
+    @tornado.web.asynchronous
+    @tornado.gen.engine
     @tornado.web.authenticated
     def post(self):
         mobile = self.get_argument('mobile', None)
@@ -730,4 +747,5 @@ if __name__ == "__main__":
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)
+    tornado.ioloop.PeriodicCallback(check_and_notify, conf.notify_interval).start()
     tornado.ioloop.IOLoop.instance().start()

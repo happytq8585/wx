@@ -41,6 +41,9 @@ wxapi = WxAPI()
 
 if __name__ == '__main__':
 #   res = wxapi.access_token()
-    atk = 'HLz8MIrI9ClphUP0KNONARnu5NzRVxZGRGz0g3oMRT0h0H2p4wWqSfsx1D6qSqzu6xZ5Ia8dFXj2JsM_2OMkNBpBMTQwn2vflqTgsmY74WXrsFTT5vfPy7nYGZV9GgXBK9jsp8YHUEAax67_jMoqtOhPnzmQzvvGhVq1lojsxgLYi4Z0ECBMNR0tgO2LCrZqML9PyeG9GLpUMYisoHPqDC5f-Q6zDtr5vdvXS0yjEwnrLUmICt2Ztq3jliN5Yuz6K_4Lw8QvD02v69zzsuCwW6OMxMVxFXzBpxCzFWHtSCM'
+    atk = 'bDDS-eWlbTcsDgQiXav2M3iTcUYt1HMCqUWvlmWpX_BaBL_6lIp6Eqe3H-uGGRbWCcqGaZt6B_52U02n6zrXW9Hz4KXuWShpv0aecAwi8f1pfYrsy--2OYxjeGEiWyXhJ8PYV7BJBgg-eqg9vPoc6y_T_YRFbvTfsCdNkvU1wrYoqVP3r05mZxN9Z0jAOkpyo1Io2hg1fU7UdbgJuoX-POHA-immuss46n9YO7afN_IJ7JR6ReHM9N9fir7QoeCTwOYFSwVgb4R7sc161nW3XQmYEqaUSaDi9Y5j4wSN--0'
+    code = 'BuCvi7f8pJbiE1rOekiJSDRhFI6mPphLIFZp6Nb1X6U'
+    user = wxapi.userinfo(atk, code)
+    print(user)
 #   wxapi.msg(atk, 'TanQiang', conf.agentid, 'hello tanqiang')
-    wxapi.msg(atk, 'ZhengErYang', 1000002, '您的包子已领取！')
+#   wxapi.msg(atk, 'ZhengErYang', 1000002, '您的包子已领取！')

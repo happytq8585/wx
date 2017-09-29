@@ -68,7 +68,7 @@ $('.form_datetime').datetimepicker({
     autoclose: 1,
 }).on('changeDate', function() {
     $(".tijiao").css({'display':'none'});
-    $(".yuding").show();
+//    $(".yuding").show();
     var y = $(".datetimepicker-years").find(".active").text();
     var m = $(".datetimepicker-months").find(".active").text();
     m     = parseInt(m);
@@ -78,11 +78,13 @@ $('.form_datetime').datetimepicker({
     d     = d < 10 ? '0' + d : '' + d;
     day   = y + '-' + m + '-' + d;
     now   = get_now(0);
+/*
     if (day <= now) {
         $('.yuding').css({'display':'none'});
     } else {
         $('.yuding').css({'display':'block'});
     }
+*/
     $('.tjsu').css({'display':'none'});
     $('.zongjia').css({'display':'none'});
     $.ajax({
@@ -192,20 +194,20 @@ $(function() {
 function check() {
     var now = get_now(0);
     var day = $('.input-txt').val();
-    if (day <= now) {
-        $('.yuding').css({'display':'none'});
-    } else {
+    if (day > now) {
         now1 = get_now(1);
         if (now1 < now + ' 18:30:00') {
-            $('.yuding').css({'display':'block'});
+            $('.yuding').css({'disabled':''});
         } else {
             now = get_now(2);
             if (now < day) {
-                $('.yuding').css({'display':'block'});
+                $('.yuding').css({'display':''});
             } else {
-                $('.yuding').css({'display':'none'});
+                $('.yuding').css({'disabled':'disabled'});
             }
         }
+    } else {
+        $('.yuding').css({'disabled':'disabled'});
     }
 }
-check();
+//check();

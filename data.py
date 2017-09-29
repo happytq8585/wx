@@ -106,6 +106,36 @@ def orderconfirm(orderid):
     r = orderconfirm_db(orderid)
     return r
 
+def query_today_order():
+    r      =  query_today_order_db()
+    return r
+
+from tornado.httpclient import AsyncHTTPClient
+import sys, urllib
+def notify(mobile, cnt):
+    def response(res):
+        pass
+    url = "http://localhost:8000/msgsend?mobile=%s&content=%s"%(mobile, cnt)
+    http_client = AsyncHTTPClient()
+    http_client.fetch(url, response)
+
+def check_and_notify():
+    t     = time.localtime()
+    h     = int(time.strftime("%H", t))
+    m     = int(time.strftime("%M", t))
+    if m == 0:
+        return 0
+    if h == conf.notify_hour and m <= conf.notify_min:
+        ids, O, mobile = query_order_left_db()
+        if len(O) == 0:
+            return 0
+        for o in O:
+            oid    = o['oid']
+            mobile = o['mobile']
+            cnt    = conf.notify_cnt % str(oid)
+            notify(mobile, cnt)
+    else:
+        pass
 
 if __name__ == "__main__":
     pass

@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import ConfigParser
 
 class Wxconf():
@@ -44,6 +45,10 @@ class Wxconf():
         self.timeoffset           = p.get('offset', 'timeoffset')
         self.getfood_offset       = p.get('offset', 'getfood_offset')
         self.orderfood_offset     = p.get('offset', 'orderfood_offset')
+        self.notify_interval      = p.getint('offset', 'notify_interval')
+        self.notify_hour          = p.getint('offset', 'notify_hour')
+        self.notify_min           = p.getint('offset', 'notify_min')
+        self.notify_cnt           = str(p.get('offset', 'notify_cnt'))
 
 
         self.corpid               = p.get('wx', 'corpid')
@@ -104,4 +109,4 @@ class Wxconf():
         print(self.other_role)
 conf    = Wxconf('./conf.txt')
 if __name__ == "__main__":
-    conf.display()
+    print(conf.notify_cnt)
