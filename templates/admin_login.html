@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录PC界面</title>
+    <link rel="stylesheet" href="css/pc/bootstrap.min.css">
+    <link rel="stylesheet" href="css/pc/default.css">
+    <link rel="stylesheet" href="css/pc/Login.css">
+</head>
+<body>
+    <div class="Login">
+        <p class="Login-name">食堂登录</p>
+        <div class="Login-center">
+            <img src="images/back.jpg" alt="">
+            <form action="/admin" method="POST">
+                {% raw xsrf_form_html() %}
+            <div class="Login-box">
+                <p>登录</p>
+                <span class="Login-word"></span>
+                <div>
+                    <input type="number" name="username" placeholder="手机:">
+                </div>
+                <div>
+                    <input type="password" name="password" placeholder="密码:">
+                </div>
+                <div>
+                    <p class="Login-btn"><input type="submit" name="submit">登录</input></p>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="js/pc/jquery.min.js"></script>
+<script src="js/pc/bootstrap.min.js"></script>
+
+</html>
