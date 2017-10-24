@@ -43,7 +43,7 @@
     </div>
 
 
-{% if mobile == conf.canteen_admin_mobile %}
+{% if mobile in conf.canteen_admin_mobile.split(',') %}
     <div class="page-header">
         <div class="pull-right"><button class="btn btn-primary plus-dish" type="button"> <span class="glyphicon glyphicon-plus"></span></button></div>
     </div>

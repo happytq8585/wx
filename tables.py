@@ -3,6 +3,7 @@
 import time
 
 from sqlalchemy import Column, String, Integer, Date, TIMESTAMP, create_engine
+from sqlalchemy.sql import and_, or_, not_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -44,6 +45,14 @@ class User(Base):
     telephone         = Column(String(32))
     #avatar
     avatar            = Column(String(256))
+
+class PCUser(Base):
+    __tablename__ = 'pcuser'
+    id          = Column(Integer, primary_key=True)
+    name        = Column(String(16))
+    mobile      = Column(String(16))
+    gender      = Column(String(2))
+    password    = Column(String(16))
 
 class Dish(Base):
 # 表的名字:
@@ -143,6 +152,11 @@ db_url = 'mysql+mysqlconnector://' + str(conf.db_user) + ':ygb1canteen2017@local
 engine = create_engine(db_url, encoding=conf.db_encode)
 # 创建DBSession类型:
 DBSession = sessionmaker(bind=engine)
+
+def check_pc_user(mobile, passwd):
+    S      = DBSession()
+    r      = S.query(PCUser).filter(PCUser.mobile == mobile).filter(PCUser.password == passwd).first()
+    return False if not r else True
 
 def write_user_db(name, mobile, gender, userid, telephone, avatar):
     S      = DBSession()
@@ -264,6 +278,8 @@ def write_order_db(user, data, dishes, day):
     t           = time.localtime()
     now         = time.strftime('%Y%m%d-%H%M%S', t)
     now1        = time.strftime('%Y-%m-%d %H:%M:%S', t)
+    if now1 > day:
+        return False
     name        = user['name']
     mobile      = user['mobile']
     S = DBSession()
@@ -278,7 +294,7 @@ def write_order_db(user, data, dishes, day):
         S.add(o)
     r = S.commit()
     S.close()
-    return r
+    return True
 
 #return: [ {'oid':oid,'list':[dish, dish,...]}, ... ]
 def query_order_by_mobile_db(mobile):
@@ -314,7 +330,7 @@ def query_order_left_db():
     begin      = now + ' 00:00:00'
     end        = now + ' 23:59:59'
     S = DBSession()
-    r = S.query(Order).filter(Order.time1 > begin).filter(Order.time1 < end).order_by(Order.time).all()
+    r = S.query(Order).filter(and_(Order.time1 > begin, Order.time1 < end, Order.confirm == 0)).order_by(Order.time).all()
     if not r:
         return [], [], []
     ids    = [e.dish_id for e in r]
@@ -337,7 +353,7 @@ def query_order_right_db():
     now        = time.strftime('%Y-%m-%d', t)
     begin      = now + ' 00:00:00'
     S = DBSession()
-    r = S.query(Order).filter(Order.time1 < begin).order_by(Order.time).all()
+    r = S.query(Order).filter(or_(Order.time1 < begin, Order.confirm == 1)).order_by(Order.time).all()
     if not r:
         return [], [], []
     ids    = [e.dish_id for e in r]

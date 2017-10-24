@@ -9,7 +9,18 @@ create table if not exists wxuser
  avatar varchar(256)         /*头像url*/
 ) engine=InnoDB, charset=utf8;
 
+create table if not exists pcuser
+(
+ id int unsigned primary key auto_increment,
+ name varchar(64) not null,  /*企业微信号的name*/
+ mobile varchar(32) not null,/*移动电话,不填就无法预订*/
+ gender varchar(2) not null, /*性别0=female 1=male*/
+ password varchar(16) not null
+) engine=InnoDB, charset=utf8;
 
+insert into pcuser(id, name, mobile, gender, password) values(1, 'zhutao', '18980673386', '1', 'zlb123');
+insert into pcuser(id, name, mobile, gender, password) values(2, 'zhutao', '13880063118', '1', 'zlb123');
+insert into pcuser(id, name, mobile, gender, password) values(3, 'zhuli', '15928105790', '1', 'zl123');
 /*菜的数据库表*/
 create table if not exists dish
 (

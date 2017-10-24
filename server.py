@@ -27,6 +27,8 @@ from data import write_order, query_order_by_mobile, delete_order
 from data import query_order_left, query_order_middle, query_order_right
 from data import orderconfirm, check_and_notify
 
+from tables import check_pc_user
+
 define("port", default=8000, help="run on the given port", type=int)
 
 
@@ -79,7 +81,7 @@ class IndexHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def _write_user_cache(self, u):
         mobile = u.get('mobile', '')
-        self.set_secure_cookie('mobile', mobile)
+        self.set_secure_cookie('mobile', mobile, expires_days=None)
         write_user(mobile, u)
 
     @tornado.gen.coroutine
@@ -93,6 +95,29 @@ class IndexHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def _userinfo(self, atk, uid):
         return wxapi.userinfo(atk, uid)
+
+class AdminHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('admin_login.html')
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    def post(self):
+        mobile  = self.get_argument('username', None)
+        passwd  = self.get_argument('password', None)
+        if not mobile or not passwd:
+            self.finish()
+        else:
+            r = yield tornado.gen.Task(self.__check_user, mobile, passwd)
+            if r:
+                self.set_secure_cookie('mobile', mobile, expires_days=None)
+                self.render('index.html', mobile=mobile)
+            else:
+                self.write('username or password error!')
+                self.finish()
+    @tornado.gen.coroutine
+    def __check_user(self, mobile, passwd):
+        r = check_pc_user(mobile, passwd)
+        return r
 
 class DishModule(tornado.web.UIModule):
     def render(self, arr, mobile, expire, conf):
@@ -408,7 +433,7 @@ class ReserveHandler(BaseHandler):
             canorder = False
         if data:
             r = self.render_string('reserve/data.html', D=d)
-            R = {'data':r, 'len':len(d)}
+            R = {'data':r, 'len':len(d), 'canorder':canorder}
             self.write(R)
             self.finish()
         else:
@@ -442,6 +467,10 @@ class ReserveHandler(BaseHandler):
             else:
                 dishes = yield tornado.gen.Task(self._query_dishes, ids)
                 r      = yield tornado.gen.Task(self._write_order, u, data, dishes, day)
+                if not r:
+                    self.write('-1')
+                else:
+                    self.write('0')
                 self.finish()
 
     @tornado.gen.coroutine
@@ -474,7 +503,7 @@ class OrderHandler(BaseHandler):
 
             u           = yield tornado.gen.Task(self._get_user, mobile)
             name        = u['name']
-            if mobile != conf.canteen_admin_mobile:
+            if mobile not in conf.canteen_admin_mobile.split(','):
                 dids, O     = yield tornado.gen.Task(self._get_order, mobile)
                 D           = {}
                 if len(dids):
@@ -728,6 +757,7 @@ if __name__ == "__main__":
                (r"/img/(.*)", StaticFileHandler, {"path": "static/img"}), 
                (r"/images/(.*)", StaticFileHandler, {"path": "static/images"}), 
                (r'/', IndexHandler),
+               (r'/admin', AdminHandler),
                (r'/menu', MenuHandler),
                (r'/add', AddHandler),
                (r'/up', AddHandler),

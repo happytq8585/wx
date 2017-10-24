@@ -27,7 +27,7 @@
             </div>
         </a>
         {% if not expire %}
-            {% if mobile == conf.canteen_admin_mobile %}
+            {% if mobile in conf.canteen_admin_mobile.split(',') %}
         <div class="col-xs-5 col-sm-5 col-md-5 menu-edit">
             <div class="operate">
                 <div class="col-xs-24 col-sm-24 col-md-24 dele pull-right">
