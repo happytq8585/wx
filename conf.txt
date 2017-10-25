@@ -50,11 +50,20 @@ timeoffset=11:30:00
 orderfood_offset=18:30:00
 #下单默认第二天取单时间设置
 getfood_offset=18:00:00
-notify_interval=6000
+notify_interval=600000
 #17点30分之前每隔10分钟通知一次：10 20 30
-notify_hour=9
+notify_hour=17
 notify_min=30
 notify_cnt=You_have_order_number_%s_to_fetch
+
+[message]
+toparty=2|3|4|5|6|7|8|9|10|11|12|13|14|15
+history_limit=30
+
+[edit]
+breakfast_edit=07:00:00
+lunch_edit=11:30:00
+supper_edit=17:30:00
 
 [wx]
 #corpid=wwfaf45bf68f147fe1

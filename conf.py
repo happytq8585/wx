@@ -63,6 +63,13 @@ class Wxconf():
         self.logloc               = p.get('log', 'location')
         self.interval_unit        = p.get('log', 'interval_unit')
         self.interval             = p.getint('log', 'interval')
+
+        self.toparty              = p.get('message', 'toparty')
+        self.history_limit        = p.getint('message', 'history_limit')
+
+        self.breakfast_edit       = p.get('edit', 'breakfast_edit')
+        self.lunch_edit           = p.get('edit', 'lunch_edit')
+        self.supper_edit          = p.get('edit', 'supper_edit')
     def canteen(self):
         r = {} 
         r['breakfast']            = self.breakfast

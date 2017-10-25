@@ -434,6 +434,7 @@ class ReserveHandler(BaseHandler):
         if data:
             r = self.render_string('reserve/data.html', D=d)
             R = {'data':r, 'len':len(d), 'canorder':canorder}
+            print(canorder)
             self.write(R)
             self.finish()
         else:
@@ -549,13 +550,19 @@ class OrderHandler(BaseHandler):
                             self.write(R)
                             self.finish()
                         elif loc == 1:
-                            ids, O = yield tornado.gen.Task(self._get_middle)
+                            ids, O, orders = yield tornado.gen.Task(self._get_middle)
                             dishes = yield tornado.gen.Task(self._get_dish, ids)
                             D = {}
                             for e in dishes:
                                 D[e['id']] = e
                             T = self._get_tormorrow()
-                            R = self.render_string('order/statistic.html', O=O, D=D, tormorrow=T)
+
+                            mobile = [e for e in orders]
+                            users  = yield tornado.gen.Task(self._get_users, mobile)
+                            U = {}
+                            for e in users:
+                                U[e['mobile']] = e.get('name', e['mobile'])
+                            R = self.render_string('order/statistic.html', O=O, D=D, tormorrow=T, orders=orders, U=U)
                             self.write(R)
                             self.finish()
                         elif loc == 2:
@@ -596,8 +603,8 @@ class OrderHandler(BaseHandler):
         return r
     @tornado.gen.coroutine
     def _get_middle(self):
-        ids, o = query_order_middle()
-        return ids, o
+        ids, o, orders = query_order_middle()
+        return ids, o, orders
 
     def _get_sum(self, O, D):
         for o in O:

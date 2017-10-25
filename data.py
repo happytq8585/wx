@@ -96,8 +96,8 @@ def query_order_left():
     return query_order_left_db()
 
 def query_order_middle():
-    a, b = query_order_middle_db()
-    return a, b
+    a, b, o = query_order_middle_db()
+    return a, b, o
 
 def query_order_right():
     return query_order_right_db()
@@ -137,5 +137,26 @@ def check_and_notify():
     else:
         pass
 
+'''
+now='2017-10-25'
+'''
+def get_next_week(now):
+    import datetime
+    from datetime import timedelta
+    arr = now.split('-')
+    arr = [int(e) for e in arr]
+    d = datetime.datetime(arr[0], arr[1], arr[2])
+    n = d.weekday()
+
+    #n = 1 if n == 0 else 7-n
+    aDay = timedelta(days=6-n)
+    d = d + aDay
+    res = []
+    for i in xrange(7):
+        aDay = timedelta(days=1+i)
+        t = d + aDay
+        res.append(t.strftime("%Y-%m-%d"))
+    return res
 if __name__ == "__main__":
-    pass
+    r = get_next_week('2017-10-30')
+    print(r)

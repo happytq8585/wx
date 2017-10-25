@@ -353,7 +353,7 @@ def query_order_right_db():
     now        = time.strftime('%Y-%m-%d', t)
     begin      = now + ' 00:00:00'
     S = DBSession()
-    r = S.query(Order).filter(or_(Order.time1 < begin, Order.confirm == 1)).order_by(Order.time).all()
+    r = S.query(Order).filter(and_(Order.time1 < begin, Order.confirm == 0)).order_by(Order.time).limit(conf.history_limit).all()
     if not r:
         return [], [], []
     ids    = [e.dish_id for e in r]
@@ -379,10 +379,10 @@ def query_order_middle_db():
     begin      = now + ' 00:00:00'
     end        = now + ' 23:59:59'
     S          = DBSession()
-    r          = S.query(Order).filter(Order.time1 >= begin).filter(Order.time1 <= end).all()
+    r          = S.query(Order).filter(and_(Order.time1 >= begin,Order.time1 <= end, Order.confirm == 0)).all()
     S.close()
     if not r:
-        return [], {}
+        return [], {}, []
     d          = {}
     ids        = []
     for e in r:
@@ -395,7 +395,14 @@ def query_order_middle_db():
         n = n + d[e]
         ids.append(e)
     d['sum'] = n
-    return ids, d
+
+    mobile = {}
+    for e in r:
+        if not mobile.get(e.mobile):
+            mobile[e.mobile] = [e.dic_return()]
+        else:
+            mobile[e.mobile].append(e.dic_return())
+    return ids, d, mobile
 
 
 def orderconfirm_db(oid):
@@ -407,6 +414,24 @@ def orderconfirm_db(oid):
     S.close()
     return True
 
+#only success if day_des is empty
+def copy_dish_a_day(day_src, day_des):
+    S       = DBSession()
+    r       = S.query(Dish).filter(and_(Dish.time == day_des, or_(Dish.kind == 0x0000, Dish.kind == 0x0010))).all()
+    if r:
+        S.close()
+        return False
+    r       = S.query(Dish).filter(and_(Dish.time == day_src, or_(Dish.kind == 0x0000, Dish.kind == 0x0010))).all()
+    if not r:
+        S.close()
+        return True
+    for e in r:
+        e.time = day_des
+        S.add(e)
+    S.commit()
+    S.close()
+    return True
+
 if __name__ == "__main__":
-    ids, o, mobile = query_order_left_db()
-    print(o)
+    r = copy_dish_a_day('2017-10-20', '2017-11-1')
+    print(r)

@@ -1,45 +1,124 @@
 
-                <div class="from-order ">
-                    <div class="order-head">
-                        <div class="row">
-                            <div class="col-xs-24 col-sm-24 col-md-24">
-                                <div class="t-date" id="t-date"> {{tormorrow}}</div>
-                            </div>
-                        </div>
+<div class="from-order ">
+    <div class="order-head">
+        <div class="row">
+            <div class="col-xs-24 col-sm-24 col-md-24">
+                <div class="t-date" id="t-date"> {{tormorrow}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="order-bottom">
+        {% for id in O %}
+        {% if id != 'sum' %}
+        <div class="row dish">
+            <div class="col-xs-12 col-sm-12 col-md-12 orimg">
+                <img src="{{D[id]['pic_loc']}}" alt="">
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="row aatatis">
+                    <div class="col-xs-11 col-sm-11 col-md-11">
+                        <span class="title pull-right">菜名</span>
                     </div>
-                    <div class="order-bottom">
-                        {% for id in O %}
-                        {% if id != 'sum' %}
-                        <div class="row dish">
-                            <div class="col-xs-12 col-sm-12 col-md-12 orimg">
-                                <img src="{{D[id]['pic_loc']}}" alt="">
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="row aatatis">
-                                    <div class="col-xs-11 col-sm-11 col-md-11">
-                                        <span class="title pull-right">菜名</span>
-                                    </div>
-                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left pull-left">
-                                        {{D[id]['name']}}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="row aatatis">
-                                    <div class="col-xs-11 col-sm-11 col-md-11">
-                                        <span class="title pull-right">总计</span>
-                                    </div>
-                                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
-                                        <span class="aatatis-num pull-left grade">{{O[id]}}<span>{{D[id]['unit']}}</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% end %}
-                        {% end %}
-
-
+                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                        <span class="aatatis-num pull-left pull-left">
+                        {{D[id]['name']}}
+                        </span>
                     </div>
                 </div>
+                <div class="row aatatis">
+                    <div class="col-xs-11 col-sm-11 col-md-11">
+                        <span class="title pull-right">总计</span>
+                    </div>
+                    <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-12 col-sm-12 col-md-12">
+                        <span class="aatatis-num pull-left grade">{{O[id]}}<span>{{D[id]['unit']}}</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% end %}
+        {% end %}
 
 
+    </div>
+</div>
+
+
+                    <!--   新加的开始 -->
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        <!--删掉   <div class="from-order ">    之前为新加的-->
+                                        <div class="order-head">
+                                            <div class="row">
+                                                <div class="col-xs-24 col-sm-24 col-md-24">
+                                                    <div class="un"> 详情</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--  之后为新加的 -->
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+
+                                    <!-- 之前为新加的 -->
+                                    <div class="order-bottom">
+                                    
+                                    {% for o in orders %}
+
+                                        <div class="row dish">
+                                            <div class="">
+                                                <div class="col-xs-23 col-sm-23 col-md-23 orimg staticbox">
+                                                    <div class="col-xs-8 col-sm-8 col-md-8">
+                                                        <span class="username">&nbsp;{{U[o]}}</span>
+                                                    </div>
+                                                    <div class="col-xs-16 col-sm-16 col-md-16">
+                                                        <div class="col-xs-24 col-sm-24 col-md-24 pull-right">
+                                                            下单：{{orders[o][0]['time']}}
+                                                        </div>
+                                                        <div class="col-xs-24 col-sm-24 col-md-24 pull-right">
+                                                            取单：{{orders[o][0]['time1']}}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xs-23 col-sm-23 col-md-23">
+                                                    
+                                                   {% for e in orders[o] %}
+                                                    <div class="row foodstatic">
+                                                        <div class="col-xs-14 col-sm-14 col-md-14">
+                                                            <span class="title pull-left">
+                                                        {{ D[e['dish_id']]['name'] }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-4 col-sm-4 col-md-4">
+                                                            <span class="amount pull-right">
+                                                            {{ e['num'] }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-offset-xs-1 col-offset-sm-1 col-offset-md-1 col-xs-4 col-sm-4 col-md-4">
+                                                            <span class="danwei pull-left">
+                                                            {{ D[e['dish_id']]['unit'] }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    {% end %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    {% end %}
+                                    </div>
+                                    <!-- 因为上面删除了一个div，所以这里删掉了一个</div> -->
+                                    <!--  之后为新加的<html> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
