@@ -408,5 +408,5 @@ def orderconfirm_db(oid):
     return True
 
 if __name__ == "__main__":
-    ids, o = query_order_left_db()
+    ids, o, mobile = query_order_left_db()
     print(o)

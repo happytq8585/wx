@@ -606,7 +606,7 @@ class OrderHandler(BaseHandler):
                 n = e['num']
                 p = D[e['dish_id']]['price']
                 s = s + n*p
-            s = round(s/100.0, 1)
+            s = round(s/100.0, 2)
             o['sum'] = s
 
     @tornado.gen.coroutine
@@ -701,6 +701,7 @@ class MsgHandler(BaseHandler):
             if not u:
                 self.finish()
             else:
+                cnt    = '您的订单号' + cnt + '今天该取啦'
                 atk    = yield tornado.gen.Task(self._access)
                 r      = yield tornado.gen.Task(self._send, atk, u['userid'], conf.agentid, cnt)
                 self.write(str(r))

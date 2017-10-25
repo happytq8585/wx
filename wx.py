@@ -28,7 +28,7 @@ class WxAPI():
     def msg(self, access_token, uid, aid, content):
         cmd   = conf.msg % (access_token)
         print(cmd)
-        data  = {'touser': uid, 'toparty': '测试119', 'totag':'', 'msgtype':'text', 'agentid':aid, 'text':{'content': content}}
+        data  = {'touser': uid, 'toparty': '@all', 'totag':'', 'msgtype':'text', 'agentid':aid, 'text':{'content': content}}
 
         #data  = urllib.urlencode(data)
         data = json.dumps(data)

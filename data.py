@@ -132,7 +132,7 @@ def check_and_notify():
         for o in O:
             oid    = o['oid']
             mobile = o['mobile']
-            cnt    = conf.notify_cnt % str(oid)
+            cnt    = str(oid)
             notify(mobile, cnt)
     else:
         pass

@@ -50,9 +50,9 @@ timeoffset=11:30:00
 orderfood_offset=18:30:00
 #下单默认第二天取单时间设置
 getfood_offset=18:00:00
-notify_interval=600000
+notify_interval=6000
 #17点30分之前每隔10分钟通知一次：10 20 30
-notify_hour=17
+notify_hour=9
 notify_min=30
 notify_cnt=You_have_order_number_%s_to_fetch
 
