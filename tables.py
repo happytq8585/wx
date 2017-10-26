@@ -427,6 +427,8 @@ def copy_dish_a_day(day_src, day_des):
         return True
     for e in r:
         e.time = day_des
+        e.score = 0
+        e.num = 0
         S.add(e)
     S.commit()
     S.close()

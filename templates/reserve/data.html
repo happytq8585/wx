@@ -3,7 +3,7 @@
     <div id="" class="tab-content ">
         <div class="reserve" id="reserve">
             {% for d in D %}
-            <div class="from-order">
+            <div class="from-order" id="{{d['id']}}">
                 <div class="row re-ly">
                     <!-- 修改了class里面的内容 -->
                     <a  class="col-xs-12 col-sm-12 col-md-12" href="/dish_reserve?id={{d['id']}}&day={{d['time']}}">
@@ -58,6 +58,24 @@
                             </div>
                         </div>
                     </div>
+
+{% if mobile in conf.canteen_admin_mobile.split(',') %}
+<div class="col-xs-24 col-sm-24 col-md-24 ">
+<div class="operate">
+<div class="col-xs-12 col-sm-12 col-md-12 dele pull-right">
+<button type="button" class="close cd" data-dismiss="modal" aria-label="Close" onclick="delete_dish({{d['id']}})"><span aria-hidden="true">×</span>
+</button></div>
+<div class="col-xs-12 col-sm-12 col-md-12 edit pull-right">
+<a href="/edit?id={{d['id']}}">
+<input type="submit" class="btn btn-primary btn-md pull-right" href="/edit?id={{d['id']}})" value="编辑">
+</a>
+</div>
+</div>
+</div>
+{% end %}
+
+
+
                 </div>
             </div>
             {% end %}

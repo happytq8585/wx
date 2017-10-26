@@ -58,7 +58,7 @@ notify_cnt=You_have_order_number_%s_to_fetch
 
 [message]
 toparty=2|3|4|5|6|7|8|9|10|11|12|13|14|15
-history_limit=30
+history_limit=200
 
 [edit]
 breakfast_edit=07:00:00

@@ -140,9 +140,9 @@ def check_and_notify():
 '''
 now='2017-10-25'
 '''
+import datetime
+from datetime import timedelta
 def get_next_week(now):
-    import datetime
-    from datetime import timedelta
     arr = now.split('-')
     arr = [int(e) for e in arr]
     d = datetime.datetime(arr[0], arr[1], arr[2])
@@ -157,6 +157,35 @@ def get_next_week(now):
         t = d + aDay
         res.append(t.strftime("%Y-%m-%d"))
     return res
+def get_current_week(now):
+    arr = now.split('-')
+    arr = [int(e) for e in arr]
+    d = datetime.datetime(arr[0], arr[1], arr[2])
+    n = d.weekday()
+    aDay = timedelta(days=-n)
+    d = d + aDay
+    res = []
+    for i in xrange(7):
+        aDay = timedelta(days=i)
+        t = d + aDay
+        res.append(t.strftime("%Y-%m-%d"))
+    return res
+
+from tables import copy_dish_a_day
+def copy_a_week(src, des):
+    a = get_current_week(src)
+    b = get_current_week(des)
+    flag = True
+    if a == b:
+        return False
+    for i in xrange(len(a)):
+        dsrc = a[i]
+        ddes = b[i]
+        r = copy_dish_a_day(dsrc, ddes)
+        if r == False:
+            flag = r
+    return flag
+
 if __name__ == "__main__":
-    r = get_next_week('2017-10-30')
+    r = get_current_week('2017-11-06')
     print(r)

@@ -45,7 +45,16 @@
 
 {% if mobile in conf.canteen_admin_mobile.split(',') %}
     <div class="page-header">
-        <div class="pull-right"><button class="btn btn-primary plus-dish" type="button"> <span class="glyphicon glyphicon-plus"></span></button></div>
+        <div class="pull-left">
+            <a href="/copy_menu">
+                <button class="btn btn-primary copy-dish" type="button">
+                    拷贝
+                </button>
+            </a>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-primary plus-dish" type="button"> <span class="glyphicon glyphicon-plus"></span></button>
+        </div>
     </div>
 {% end %}
     <div class="from-group">

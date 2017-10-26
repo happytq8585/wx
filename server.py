@@ -420,25 +420,29 @@ class ReserveHandler(BaseHandler):
     def get(self):
         day  = self.get_argument('day', None)
         data = self.get_argument('data', None)
-        canorder = True
-        T   = time.time()
-        T   = T + 24*3600
-        t   = time.localtime(T)
-        now = time.strftime('%Y-%m-%d %H:%M:%S', t)
-        if not day:
-            day = time.strftime('%Y-%m-%d', t)
-        d    = yield tornado.gen.Task(self._query_reserve, 'day', day)
-        print(d)
-        if now > day + ' ' + conf.orderfood_offset:
-            canorder = False
-        if data:
-            r = self.render_string('reserve/data.html', D=d)
-            R = {'data':r, 'len':len(d), 'canorder':canorder}
-            print(canorder)
-            self.write(R)
+        mobile = self.get_secure_cookie('mobile')
+        if not mobile:
             self.finish()
         else:
-            self.render('reserve/reserve.html', D=d, day=day, canorder=canorder)
+            canorder = True
+            T   = time.time()
+            T   = T + 24*3600
+            t   = time.localtime(T)
+            now = time.strftime('%Y-%m-%d %H:%M:%S', t)
+            if not day:
+                day = time.strftime('%Y-%m-%d', t)
+            d    = yield tornado.gen.Task(self._query_reserve, 'day', day)
+            print(d)
+            if now > day + ' ' + conf.orderfood_offset:
+                canorder = False
+            if data:
+                r = self.render_string('reserve/data.html', D=d, mobile=mobile, conf=conf)
+                R = {'data':r, 'len':len(d), 'canorder':canorder}
+                print(canorder)
+                self.write(R)
+                self.finish()
+            else:
+                self.render('reserve/reserve.html', D=d, day=day, canorder=canorder, mobile=mobile, conf=conf)
 
     @tornado.gen.coroutine
     def _query_reserve(self, t, p):
@@ -744,6 +748,28 @@ class MsgHandler(BaseHandler):
     def _send(self, atk, uid, agentid, cnt):
         return wxapi.msg(atk, uid, agentid, cnt)
 
+from data import copy_a_week
+class CopyMenuHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def get(self):
+        self.render('menu_modules/copy_menu.html')
+    @tornado.web.asynchronous
+    @tornado.gen.engine
+    @tornado.web.authenticated
+    def post(self):
+        src = self.get_argument('src', None)
+        des = self.get_argument('des', None)
+        if src and des:
+            r = copy_a_week(src, des)
+            if r:
+                self.write('0')
+            else:
+                self.write('-1')
+        else:
+            self.write('-1')
+        self.finish()
 class ConstructHandler(BaseHandler):
     pass
 
@@ -781,6 +807,7 @@ if __name__ == "__main__":
                (r'/msgsend', MsgHandler),
                (r'/orderconfirm', OrderConfirmHandler),
                (r'/notice',  ConstructHandler),
+               (r'/copy_menu', CopyMenuHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application)
