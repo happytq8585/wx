@@ -94,10 +94,12 @@ $('.form_datetime').datetimepicker({
         success: function(para) {
             var len = para['len'];
             var data = para['data'];
+            var canorder = para['canorder'];
             $('#datalist').replaceWith(data);
             $('.plus').bind('on', plus);
-            if (len > 0) {
+            if (len > 0 && canorder == true) {
                 $('.re-older').removeAttr('disabled');
+                $('.yuding').css({'display':'block'});
             } else {
                 $('.re-older').attr('disabled', 'disabled');
             }
@@ -180,6 +182,11 @@ $(function() {
             'type': 'POST',
             'data': {'_xsrf':xsrf, 'data':data, 'day':day},
             success: function(para) {
+                if (para == '-1') {
+                    alert('下单失败');
+                } else if (para == '0') {
+                    alert('下单成功');
+                }
             },
             error: function(para) {
             }
@@ -209,5 +216,19 @@ function check() {
     } else {
         $('.yuding').css({'disabled':'disabled'});
     }
+}
+function delete_dish(did) {
+    var xsrf = get_cookie_by_name("_xsrf");
+    $.ajax({
+        'url': '/delete',
+        'type': 'POST',
+        'data': {'_xsrf': xsrf, 'id': did},
+        success: function(para) {
+            //alert('删除成功');
+            $('#' + did).remove();
+        },
+        error: function(para) {
+        }
+    });
 }
 //check();

@@ -1,19 +1,259 @@
-.menu-edit{
-    display:none;
+/*
+ * 皮肤
+ */
+
+
+/*
+ *@皮肤变量less文件
+ **/
+
+
+/*
+ * bootstrap补充，修正bootstrap的bug
+ */
+
+
+/*
+ * 修正bootstrap
+ */
+
+
+/*菜谱详情*/
+
+.body {
+    font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #f1f2f4;
 }
-.zongjia{
-    display:none;
+
+.plus-dish {
+    font-size: 2rem;
+    color: #44afd1;
+    position: absolute;
+    top: 30px;
+    right: 30px;
 }
-.tijiao{
-    display:none;
+
+.from-group {
+    margin-top: 30px;
 }
-.tjsu{
-    display:none;
+
+.from-group .txtara {
+    width: 100%;
 }
-.tjsu{
-    margin-left:7rem;
+
+.from-group .tab-content .from-order {
+    background: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid #eeeeee;
 }
-.operate .row {height:3rem;}
-.operate .row .minus{width:2rem;height:2rem;background:#44afd1;font-size:1.2rem;line-height:2rem;border:1px solid #44afd1;color:#fff;}
-.operate .row .plus{width:2rem;height:2rem;background:#44afd1;font-size:1.2rem;line-height:2rem;border:1px solid #44afd1;color:#fff;}
-.operate .row .num{width:2rem;height:2rem;background:#ffffff;font-size:1.2rem;line-height:2rem;border:1px solid #ddd;color:#333;}
+
+.from-group .tab-content .from-order .row .menu-img {
+    width: 11.2rem;
+    height: auto;
+}
+
+.from-group .tab-content .from-order .row .menu-img img {
+    width: 10.2rem;
+    height: auto;
+    margin-left: 5px;
+}
+
+.from-group .tab-content .from-order .row .menu-txt .dishes {
+    font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+    line-height: 2.42857143;
+    color: #333;
+    margin-left: 10px;
+}
+
+.from-group .tab-content .from-order .row .menu-txt .dishes .grade {
+    font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+    color: #e02433;
+}
+
+.from-group .tab-content .user-info {
+    background: #fff;
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    border: 1px solid #eeeeee;
+}
+
+.from-group .tab-content .user-info .row .menu-img {
+    width: 3rem;
+    height: auto;
+}
+
+.from-group .tab-content .user-info .row .menu-img .username {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.from-group .tab-content .user-info .row .menu-txt .dishes {
+    font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+    line-height: 2.42857143;
+    color: #333;
+}
+
+.from-group .tab-content .user-info .row .menu-txt .dishes .grade {
+    font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+    line-height: 2.42857143;
+    color: #e02433;
+}
+
+.from-group .row .container-fluid {
+    position: relative;
+}
+
+.from-group .row .container-fluid .menu-datetime .input-txt {
+    width: 100%;
+    height: 2rem;
+    border: 1px solid #eeeeee;
+    text-indent: 10px;
+    background: #fff;
+    margin-bottom: 10px;
+    color: #333;
+    line-height: 2rem;
+}
+
+.from-group .row .container-fluid .menu-datetime .add-on {
+    position: absolute;
+    right: 15px;
+    top: 2px;
+}
+
+.from-group .btn-eva {
+    margin-top: 20px;
+}
+
+.dw {
+    font-size: 1rem;
+    color: #333;
+    line-height: 2.5rem;
+}
+
+.grade {
+    font-size: 1.7rem;
+    color: #e02433;
+    line-height: 2.5rem;
+}
+
+.lyd {
+    width: 100%;
+    height: 3rem;
+}
+
+.menu-edit .operate {
+    font-family: "Helvetica Neue", Microsoft YaHei, Arial, sans-serif;
+    font-size: 1.3rem;
+    color: #333;
+    position: relative;
+}
+
+.menu-edit .operate .dele {
+    width: 12rem;
+    font-size: 1.2rem;
+    line-height: 4rem;
+}
+
+.menu-edit .operate .edit {
+    width: 7rem;
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
+
+.menu-edit .operate .edit .grade {
+    font-size: 1.7rem;
+    color: #e02433;
+}
+
+.menu-edit .operate .pls {
+    width: 12rem;
+    height: 3rem;
+    line-height: 3.5rem;
+}
+
+.menu-edit .operate .pls a {
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 2.6rem;
+}
+
+.menu-edit .operate .plsinp {
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+}
+
+.menu-edit .operate .plsinp .counter {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid #ddd;
+}
+
+.container a {
+    width: 300px;
+}
+
+.container .text-center {
+    font-size: 1.6rem;
+}
+
+.menu-edit {
+    display: none;
+}
+
+.zongjia {
+    display: none;
+}
+
+.tijiao {
+    display: none;
+}
+
+.tjsu {
+    display: none;
+}
+
+.tjsu {
+    margin-left: 7rem;
+}
+
+.operate .row {
+    height: 3rem;
+}
+
+.operate .row .minus {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #44afd1;
+    font-size: 1.4rem;
+    line-height: 3rem;
+    border: 1px solid #44afd1;
+    color: #fff;
+}
+
+.operate .row .plus {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #44afd1;
+    font-size: 1.4rem;
+    line-height: 3rem;
+    border: 1px solid #44afd1;
+    color: #fff;
+}
+
+.operate .row .num {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #ffffff;
+    font-size: 1.2rem;
+    line-height: 3rem;
+    border: 1px solid #ddd;
+    color: #333;
+}

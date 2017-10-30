@@ -34,7 +34,8 @@ order_list=订单列表
 member_management=人员列表
 
 [role]
-canteen_admin_mobile=13880063118,18980673386,15928105790
+#canteen_admin_mobile=13880063118,18980673386,15928105790
+canteen_admin_mobile=17313615918
 office_admin_mobile=17313615918
 
 [canteen]

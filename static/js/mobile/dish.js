@@ -49,7 +49,7 @@ function delete_dish(did) {
         'data': {'_xsrf': xsrf, 'id': did},
         success: function(para) {
             //alert('删除成功');
-            window.location.reload();
+            $('#' + did).remove();
         },
         error: function(para) {
         }

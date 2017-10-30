@@ -28,6 +28,11 @@
                                     <!--  修改了class里面的内容 -->
                                     <div class="col-xs-23 col-sm-23 col-md-23 ">{{d['name']}}</div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-23 col-sm-23 col-md-23 dele pull-left">
+                                        <div class=" value text-left">￥<span class="price">{{round(d['price']/100.0, 2)}}</span>元/{{d['unit']}}</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </a>

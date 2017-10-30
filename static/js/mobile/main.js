@@ -31,6 +31,7 @@ $('.form_datetime').datetimepicker({
         $('.plus-dish').css({'display':'block'});
     }
     var url = '/menu?day=' + day;
+    $('#copyhref').attr('href', '/copy_menu?day='+day);
     $.ajax({
         'url': '/menu',
         'type': 'GET',
