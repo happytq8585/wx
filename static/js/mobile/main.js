@@ -2,8 +2,9 @@ function get_now() {
     var day = new Date();
     var y   = day.getFullYear();
     var m   = day.getMonth() + 1;
-    m       = m < 10 ? '0' + m : m
+    m       = m < 10 ? '0' + m : m;
     var d   = day.getDate();
+    d       = d < 10 ? '0' + d : d;
     return y + '-' + m + '-' + d;
 }
 /*
