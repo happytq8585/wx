@@ -39,6 +39,9 @@ $('.form_datetime').datetimepicker({
         'data': {'day':day, 'data':1},
         success: function(para) {
             $('#tabData').replaceWith(para);
+            $('.menu-tabb').addClass('active');
+            $('.menu-tabl').removeClass('active');
+            $('.menu-tabd').removeClass('active');
         },
         error: function(para) {
         }
