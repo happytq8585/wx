@@ -434,6 +434,47 @@ def copy_dish_a_day(day_src, day_des):
     S.close()
     return True
 
+def copy_a_day(src, des):
+    S = DBSession()
+    r = S.query(Dish).filter(and_(Dish.time == src, Dish.kind == 0x0000)).all()
+    if not r:
+        S.close()
+        return True
+    for e in r:
+        o = Dish(0, e.name, e.pic_loc, des, e.material, e.kind, e.price, e.unit, 0, 0)
+        S.add(o)
+    S.commit()
+    S.close()
+    return True
+def copy_a_breakfast(src, des):
+    S = DBSession()
+    r = S.query(Dish).filter(and_(Dish.time == src, Dish.kind == 0x0010)).all()
+    if not r:
+        S.close()
+        return True
+    for e in r:
+        o = Dish(0, e.name, e.pic_loc, des, e.material, e.kind, e.price, e.unit, 0, 0)
+        S.add(o)
+    S.commit()
+    S.close()
+    return True
 if __name__ == "__main__":
-    r = copy_dish_a_day('2017-10-20', '2017-11-1')
-    print(r)
+    copy_a_breakfast('2017-11-24', '2017-12-01')
+'''
+    src = ['2017-11-27', '2017-11-28', '2017-11-29','2017-11-30', '2017-12-01']
+    des = [
+            ['2017-12-04', '2017-12-05', '2017-12-06', '2017-12-07', '2017-12-08'],
+            ['2017-12-11', '2017-12-12', '2017-12-13', '2017-12-14', '2017-12-15'],
+            ['2017-12-18', '2017-12-19', '2017-12-20', '2017-12-21', '2017-12-22'],
+            ['2017-12-25', '2017-12-26', '2017-12-27', '2017-12-28', '2017-12-29'],
+
+            ['2018-01-01', '2018-01-02', '2018-01-03', '2018-01-04', '2018-01-05'],
+            ['2018-01-08', '2018-01-09', '2018-01-10', '2018-01-11', '2018-01-12'],
+            ['2018-01-15', '2018-01-16', '2018-01-17', '2018-01-18', '2018-01-19'],
+            ['2018-01-22', '2018-01-23', '2018-01-24', '2018-01-25', '2018-01-26'],
+            ['2018-01-29', '2018-01-30', '2018-01-31', '2018-02-01', '2018-02-02']
+          ]
+    for e in des:
+        for i in xrange(len(e)):
+            copy_a_day(src[i], e[i])
+'''
